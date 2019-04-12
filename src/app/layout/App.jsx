@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Search from "../../features/Search/Search";
+
+import { Route } from "react-router-dom";
+import ListingDashboard from "../../features/listing/ListingDashboard/ListingDashboard";
+import ListingForm from "../../features/listing/ListingForm/ListingForm";
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Navbar />
-        <Search />
+      <div className=" container">
+        <Route path="/" exact component={ListingDashboard} />
+        <Route path="/createListing" component={ListingForm} />
       </div>
     );
   }

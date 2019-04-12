@@ -1,0 +1,34 @@
+.listing {
+  border: 1px solid grey;
+  margin-bottom: 10px;
+}
+
+.btn-swap {
+  border-radius: 23px;
+  width: 75%;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.text-location-date {
+  font-size: 10px;
+}
+
+@media (max-width: 768px) {
+  .display-none {
+    display: none !important;
+  }
+  .listing-title {
+    font-size: 12px !important;
+  }
+}
+
+.listing-img {
+  width: 250px;
+  height: 200px;
+  object-fit: scale-down;
+}
+
+.listing-title {
+  font-size: 14px;
+}
