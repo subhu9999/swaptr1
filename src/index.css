@@ -13,3 +13,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.btn-primary {
+  background: #2a65ea !important;
+}
+
+.btn-primary:hover {
+  background: #3b5998 !important;
+}

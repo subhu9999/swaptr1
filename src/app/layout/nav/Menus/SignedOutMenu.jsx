@@ -1,17 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const SignedOutMenu = () => {
+const SignedOutMenu = ({ signIn }) => {
   return (
     <div className="collapse navbar-collapse justify-content-between" id="nav">
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <a
-            className="nav-link text-light text-uppercase font-weight-bold px-3"
-            href="/"
+          <button
+            onClick={signIn}
+            className="btn nav-link text-light bg-dark text-uppercase font-weight-bold px-3"
           >
             Login
-          </a>
+          </button>
         </li>
         <li className="nav-item bg-light">
           <NavLink

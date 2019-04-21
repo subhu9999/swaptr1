@@ -1,9 +1,10 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "./SignedInMenu.css";
 
-const SignedInMenu = () => {
+const SignedInMenu = ({ signOut }) => {
   const num = 4;
+
   return (
     <div className="collapse navbar-collapse justify-content-between" id="nav">
       <ul className="navbar-nav ml-auto hide-visibility-sm">
@@ -47,15 +48,15 @@ const SignedInMenu = () => {
               </a>
             </li>
             <li>
-              <a href="a" className="dropdown-item">
+              <Link to="/settings" className="dropdown-item">
                 <i className="fa fa-sliders fa-lg" /> Settings
-              </a>
+              </Link>
             </li>
             <li className="divider dropdown-divider" />
             <li>
-              <a href="a" className="dropdown-item">
+              <button onClick={signOut} className="dropdown-item">
                 <i className="fas fa-sign-out-alt" /> Logout
-              </a>
+              </button>
             </li>
           </ul>
         </li>
@@ -86,8 +87,10 @@ const SignedInMenu = () => {
 
         <li className="divider dropdown-divider" />
         <li className="nav-item dropdown mt-2">
-          <i className="fas fa-camera fa-lg" />
-          <span style={{ marginLeft: "20px" }}>Post Free Ad</span>
+          <Link to="/createListing" className="nav-link btn text-light">
+            <i className="fas fa-camera fa-lg" />
+            <span style={{ marginLeft: "20px" }}>Post Free Ad</span>
+          </Link>
         </li>
         <li className="nav-item dropdown mt-2">
           <i className="fas fa-cubes fa-lg" />
@@ -116,14 +119,14 @@ const SignedInMenu = () => {
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link btn text-light">
+          <Link to="/settings" className="nav-link btn text-light">
             <i className="fa fa-sliders fa-lg" />
             <span style={{ marginLeft: "7px" }}>Settings</span>
-          </button>
+          </Link>
         </li>
         <li className="divider dropdown-divider" />
         <li className="nav-item">
-          <button className="btn nav-link text-light">
+          <button onClick={signOut} className="btn nav-link text-light">
             <i className="fas fa-sign-out-alt fa-lg" /> Logout
           </button>
         </li>
