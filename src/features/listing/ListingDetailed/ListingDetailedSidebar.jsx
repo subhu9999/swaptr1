@@ -9,7 +9,7 @@ export default function ListingDetailedSidebar({ listing }) {
           <a href="/" className="text-dark">
             <img
               className="img-fluid profile-pic float-left mr-2"
-              src={listing.user.profilePic}
+              src={listing.user.profilePic || "/assets/default-user.png"}
               alt="user_pic"
             />
             <span className=" font-weight-bold ">{listing.user.name}</span>

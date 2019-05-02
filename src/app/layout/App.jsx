@@ -14,6 +14,7 @@ class App extends Component {
         <Route path="/createListing" component={ListingForm} />
         <Route path="/settings" component={SettingsDashboard} />
         <Route path="/listing/:id" component={ListingDetailedPage} />
+        <Route path="/manage/:id" component={ListingForm} />
       </div>
     );
   }

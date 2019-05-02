@@ -21,3 +21,7 @@ code {
 .btn-primary:hover {
   background: #3b5998 !important;
 }
+
+.text-swaptr {
+  color: #2a65ea;
+}

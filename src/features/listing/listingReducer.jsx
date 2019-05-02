@@ -8,6 +8,7 @@ import {
 const initialState = [
   {
     id: "1",
+    category: "Men",
     title: "Supreme Shoes",
     date: "MAR 12",
     listingMainPhoto:
@@ -177,8 +178,7 @@ const initialState = [
     date: "MAY 2",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis tenetur quaerat reprehenderit laboriosam, ipsa molestias? Nostrum voluptatum excepturi deserunt minima!",
-    listingMainPhoto:
-      "https://apollo-singapore.akamaized.net/v1/files/enhblvpzwwcp3-IN/image;s=300x600;q=60",
+    listingMainPhoto: "/assets/swaptr-listing.jpg",
     city: "Kolkata,India",
     user: {
       name: "Jessica Rein",
@@ -204,7 +204,7 @@ export const updateListing = (state, payload) => {
   return [
     //remove all the listing whose id is not equal to payload.listing.id
     ...state.filter(listing => listing.id !== payload.listing.id),
-    Object.assign({}, payload.event)
+    Object.assign({}, payload.listing)
   ];
 };
 

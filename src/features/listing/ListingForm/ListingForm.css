@@ -1,6 +1,7 @@
 .listing-form-label {
   position: relative;
   display: inline-block;
+  width: 90%;
 }
 
 .listing-form-span {
@@ -17,14 +18,17 @@
 
 .listing-form-input {
   padding: 10px;
-  width: 600px;
-  border: none;
-  border-bottom: 2px solid grey;
+  /* 600 */
+  width: 100%;
+  /* border: none; */
+  border: 2px solid grey;
   background-color: #ebeeef;
+  margin-bottom: 4px;
+  border-radius: 0%;
 }
 
 .listing-form-input:focus {
-  border-bottom: 2px solid royalblue !important;
+  border: 2px solid royalblue !important;
   box-shadow: none;
   background-color: #ebeeef;
 }
@@ -32,14 +36,45 @@
 @media (max-width: 768px) {
   .listing-form-input {
     padding: 10px;
-    width: 350px;
+    /* width: 350px; */
+    width: 100%;
   }
+  .listing-form-label {
+    width: 100%;
+  }
+
+  .listing-form-select {
+    width: 100% !important;
+  }
+}
+
+.listing-form-select {
+  width: 90%;
+  border: 2px solid grey;
+  background-color: #ebeeef;
+  margin-bottom: 4px;
+  border-radius: 0%;
+}
+
+.listing-form-select:focus {
+  border: 2px solid royalblue !important;
+  box-shadow: none;
+  background-color: #ebeeef;
 }
 
 input:focus + span,
 input:not(:placeholder-shown) + span {
   opacity: 1;
-  color: royalblue;
+  /* color: #2a65ea; */
+
+  font-weight: bold;
+  transform: scale(0.75) translateY(-100%) translateX(-20px);
+}
+
+textarea:focus + span,
+textarea:not(:placeholder-shown) + span {
+  opacity: 1;
+
   font-weight: bold;
   transform: scale(0.75) translateY(-100%) translateX(-20px);
 }
@@ -48,7 +83,86 @@ input:not(:placeholder-shown) + span {
 input:focus + span,
 input:not(:-ms-input-placeholder) + span {
   opacity: 1;
-  color: royalblue;
+  color: #2a65ea;
   font-weight: bold;
   transform: scale(0.75) translateY(-100%) translateX(-30px);
 }
+
+.listing-form-profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.character-length {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+/* toggle  */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  transform: translateY(60%);
+  margin-left: 30px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2a65ea;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2a65ea;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* end of toggle */

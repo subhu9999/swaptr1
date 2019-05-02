@@ -24,7 +24,7 @@ export default function Search() {
                 borderBottomRightRadius: "15%"
               }}
             >
-              <i className="fa fa-map-marker fa-2x text-danger" />
+              <i className="fa fa-map-marker-alt fa-2x text-danger" />
             </div>
           </div>
         </form>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class ListingDetailedBody extends Component {
   render() {
@@ -9,7 +10,13 @@ class ListingDetailedBody extends Component {
         <div className="card">
           <div className="card-header font-weight-bold">
             {listing.title}
-
+            <Link
+              to={`/manage/${listing.id}`}
+              className=" ml-1 border-0 text-underline"
+              href="/"
+            >
+              (Click To Edit)
+            </Link>
             <div className="dropdown float-right mt-1">
               <i
                 className="fas fa-share-alt fa-lg  "

@@ -28,21 +28,21 @@ const ListingDetailedPhotos = ({ listing }) => (
         <div className="carousel-item active">
           <img
             className="d-block w-100 listing-detailed-img"
-            src={listing.listingMainPhoto}
+            src={listing.listingMainPhoto || "/assets/swaptr-listing.jpg"}
             alt="First slide"
           />
         </div>
         <div className="carousel-item">
           <img
             className="d-block w-100 listing-detailed-img"
-            src={listing.listingMainPhoto}
+            src={listing.listingMainPhoto || "/assets/swaptr-listing.jpg"}
             alt="Second slide"
           />
         </div>
         <div className="carousel-item">
           <img
             className="d-block w-100 listing-detailed-img"
-            src={listing.listingMainPhoto}
+            src={listing.listingMainPhoto || "/assets/swaptr-listing.jpg"}
             alt="Third slide"
           />
         </div>
