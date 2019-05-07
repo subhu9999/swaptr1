@@ -4,26 +4,35 @@ import Search from "../../../../features/search/Search";
 import { withRouter } from "react-router-dom";
 import SignedOutMenu from "../Menus/SignedOutMenu";
 import SignedInMenu from "../Menus/SignedInMenu";
+import { connect } from "react-redux";
+import { openModal } from "../../../../features/modals/modalActions";
+import { logout } from "../../../../features/auth/authActions";
+
+const actions = {
+  openModal,
+  logout
+};
+
+const mapState = state => ({
+  auth: state.auth
+});
 
 class Navbar extends Component {
-  state = {
-    authenticated: false
+  handleSignIn = () => {
+    this.props.openModal("LoginModal");
   };
 
-  handleSignIn = () => {
-    this.setState({
-      authenticated: true
-    });
+  handleRegister = () => {
+    this.props.openModal("RegisterModal");
   };
 
   handleSignOut = () => {
-    this.setState({
-      authenticated: false
-    });
+    this.props.logout();
     this.props.history.push("/");
   };
   render() {
-    const { authenticated } = this.state;
+    const { auth } = this.props;
+    const authenticated = auth.authenticated;
     return (
       <nav className="navbar navbar-expand-md navbar-light nav-background fixed-top ">
         <button
@@ -41,7 +50,10 @@ class Navbar extends Component {
 
         <Search />
         {authenticated ? (
-          <SignedInMenu signOut={this.handleSignOut} />
+          <SignedInMenu
+            currentUser={auth.currentUser}
+            signOut={this.handleSignOut}
+          />
         ) : (
           <SignedOutMenu signIn={this.handleSignIn} />
         )}
@@ -50,4 +62,9 @@ class Navbar extends Component {
   }
 }
 
-export default withRouter(Navbar);
+export default withRouter(
+  connect(
+    mapState,
+    actions
+  )(Navbar)
+);

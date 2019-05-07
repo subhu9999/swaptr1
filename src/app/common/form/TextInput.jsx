@@ -1,5 +1,4 @@
 import React from "react";
-import { Field } from "redux-form";
 
 const TextInput = ({
   input,
@@ -9,10 +8,25 @@ const TextInput = ({
   meta: { touched, error }
 }) => {
   return (
-    <label className="listing-form-label ">
-      <Field {...input} placeholder={placeholder} type={type} />
-      {touched && error && <label>{error}</label>}
-    </label>
+    <div className="form-group ml-md-4">
+      <label className="listing-form-label ">
+        <input
+          {...input}
+          placeholder=" "
+          type="text"
+          className={
+            "form-control listing-form-input" +
+            (touched && error
+              ? "form-control listing-form-input border-danger"
+              : "")
+          }
+          spellCheck="false"
+          maxLength={70}
+        />
+        <span className="listing-form-span text-muted">{placeholder}</span>
+      </label>
+      {touched && error && <label className="text-danger ">{error}</label>}
+    </div>
   );
 };
 

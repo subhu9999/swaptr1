@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./SignedInMenu.css";
 
-const SignedInMenu = ({ signOut }) => {
+const SignedInMenu = ({ signOut, currentUser }) => {
   const num = 4;
 
   return (
@@ -34,7 +34,7 @@ const SignedInMenu = ({ signOut }) => {
           </button>
           <ul className="dropdown-menu">
             <li className="dropdown-item">
-              Hi, <span className="font-weight-bold">Subhu</span>
+              Hi, <span className="font-weight-bold">{currentUser}</span>
             </li>
             <li className="divider dropdown-divider" />
             <li>
@@ -81,7 +81,7 @@ const SignedInMenu = ({ signOut }) => {
             alt="Avatar"
           />{" "}
           <span className="text-light">
-            Hi, <span className="font-weight-bold">Mariyln</span>
+            Hi, <span className="font-weight-bold">{currentUser}</span>
           </span>
         </li>
 

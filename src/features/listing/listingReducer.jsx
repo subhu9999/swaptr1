@@ -133,7 +133,7 @@ const initialState = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis tenetur quaerat reprehenderit laboriosam, ipsa molestias? Nostrum voluptatum excepturi deserunt minima!",
     listingMainPhoto:
-      "https://apollo-singapore.akamaized.net/v1/files/vp78hjz15u1a-IN/image",
+      "https://images.unsplash.com/photo-1534601135412-16737e74d914?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
     city: "Kolkata,India",
     user: {
       name: "Nicky Fury",

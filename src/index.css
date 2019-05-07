@@ -25,3 +25,7 @@ code {
 .text-swaptr {
   color: #2a65ea;
 }
+
+.modal-background {
+  background-color: rgba(113, 124, 129, 0.7);
+}
