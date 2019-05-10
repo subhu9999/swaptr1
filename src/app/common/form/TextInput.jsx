@@ -13,7 +13,7 @@ const TextInput = ({
         <input
           {...input}
           placeholder=" "
-          type="text"
+          type={type}
           className={
             "form-control listing-form-input" +
             (touched && error

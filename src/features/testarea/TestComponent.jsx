@@ -2,13 +2,23 @@ import React, { Component } from "react";
 import Script from "react-load-script";
 import Navbar from "../../app/layout/nav/Navbar/Navbar";
 import "./TestComponent.css";
-import Autocomplete from "./Autocomplete";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from "react-places-autocomplete";
 
 import { connect } from "react-redux";
 
+const LOCATION_API_KEY = process.env.REACT_APP_LOCATION_API_KEY;
+
+const scriptUrl =
+  "https://maps.googleapis.com/maps/api/js?key=" +
+  LOCATION_API_KEY +
+  "&libraries=places";
 const actions = {};
 class TestComponent extends Component {
   state = {
+    address: "",
     scriptLoaded: false
   };
 
@@ -18,49 +28,35 @@ class TestComponent extends Component {
     });
   };
 
-  // handleFormSubmit = event => {
-  //   event.preventDefault();
+  handleFormSubmit = event => {
+    event.preventDefault();
 
-  //   geocodeByAddress(this.state.address)
-  //     .then(results => getLatLng(results[0]))
-  //     .then(latLng => console.log("Success", latLng))
-  //     .catch(error => console.error("Error", error));
-  // };
+    geocodeByAddress(this.state.address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => console.log("Success", latLng))
+      .catch(error => console.error("Error", error));
+  };
+
+  onChange = address => this.setState({ address });
   render() {
-    // const inputProps = {
-    //   value: this.state.address,
-    //   onChange: this.onChange
-    // };
+    const inputProps = {
+      value: this.state.address,
+      onChange: this.onChange
+    };
     return (
       <div>
-        <Script
-          url="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.1.2/mapbox-gl-geocoder.min.js"
-          onLoad={this.handleScriptLoad}
-        />
+        {/* hide api  */}
+        <Script url={scriptUrl} onLoad={this.handleScriptLoad} />
 
         <Navbar />
         <div className="" style={{ marginTop: "100px" }}>
           Test component
-          {/* <form onSubmit={this.handleFormSubmit}>
-            {this.state.scriptLoaded && <div id="map" />}
+          <form onSubmit={this.handleFormSubmit}>
+            {this.state.scriptLoaded && (
+              <PlacesAutocomplete inputProps={inputProps} />
+            )}
             <button type="submit">Submit</button>
-          </form> */}
-          <h1>React Autocomplete Demo</h1>
-          <h2>Start typing and experience the autocomplete wizardry!</h2>
-          <Autocomplete
-            suggestions={[
-              "Alligator",
-              "Bask",
-              "Crocodilian",
-              "Death Roll",
-              "Eggs",
-              "Jaws",
-              "Reptile",
-              "Solitary",
-              "Tail",
-              "Wetlands"
-            ]}
-          />
+          </form>
         </div>
       </div>
     );
