@@ -17,6 +17,7 @@ class ListingDetailedBody extends Component {
             >
               (Click To Edit)
             </Link>
+
             <div className="dropdown float-right mt-1">
               <i
                 className="fas fa-share-alt fa-lg  "

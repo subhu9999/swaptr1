@@ -6,6 +6,7 @@ import ListingDetailedPhotos from "./ListingDetailedPhotos.jsx";
 import ListingDetailedSidebar from "./ListingDetailedSidebar";
 import ListingDetailedLocation from "./ListingDetailedLocation";
 import ListingDetailedBody from "./ListingDetailedBody";
+import { openModal } from "../../modals/modalActions";
 
 const mapState = (state, ownProps) => {
   const listingId = ownProps.match.params.id;
@@ -17,13 +18,18 @@ const mapState = (state, ownProps) => {
   }
 
   return {
-    listing
+    listing,
+    auth: state.auth
   };
+};
+
+const actions = {
+  openModal
 };
 
 class ListingDetailedPage extends Component {
   render() {
-    const { listing } = this.props;
+    const { listing, auth, openModal } = this.props;
 
     return (
       <div>
@@ -34,7 +40,11 @@ class ListingDetailedPage extends Component {
             <ListingDetailedBody listing={listing} />
           </div>
           <div className="col-md-4 col-xs-12">
-            <ListingDetailedSidebar listing={listing} />
+            <ListingDetailedSidebar
+              listing={listing}
+              auth={auth}
+              openModal={openModal}
+            />
             <ListingDetailedLocation listing={listing} />
             {/* To Do : add Nearby Location ads Recommendations */}
           </div>
@@ -44,4 +54,7 @@ class ListingDetailedPage extends Component {
   }
 }
 
-export default connect(mapState)(ListingDetailedPage);
+export default connect(
+  mapState,
+  actions
+)(ListingDetailedPage);

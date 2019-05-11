@@ -10,6 +10,7 @@ import {
   asyncActionFinish
 } from "../async/asyncActions";
 import { fetchSampleData } from "../../app/data/mockApi";
+import { toastr } from "react-redux-toastr";
 
 export const fetchListings = listings => {
   return {
@@ -19,19 +20,39 @@ export const fetchListings = listings => {
 };
 
 export const createListing = listing => {
-  return {
-    type: CREATE_LISTING,
-    payload: {
-      listing
+  return async dispatch => {
+    try {
+      dispatch({
+        type: CREATE_LISTING,
+        payload: {
+          listing
+        }
+      });
+      toastr.success(
+        "Success!",
+        "your listing is created & will be active soon !"
+      );
+    } catch (error) {
+      toastr.error("Oops", "Something went wrong");
     }
   };
 };
 
 export const updateListing = listing => {
-  return {
-    type: UPDATE_LISTING,
-    payload: {
-      listing
+  return async dispatch => {
+    try {
+      dispatch({
+        type: UPDATE_LISTING,
+        payload: {
+          listing
+        }
+      });
+      toastr.success(
+        "Success!",
+        "your listing is updated & will be active soon !"
+      );
+    } catch (error) {
+      toastr.error("Oops", "Something went wrong");
     }
   };
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import "./Listing.css";
 import { Link } from "react-router-dom";
+import format from "date-fns/format";
 
 const Listing = ({ listing }) => {
   var title = "";
@@ -21,12 +22,12 @@ const Listing = ({ listing }) => {
           <h6 className="ml-1 listing-title">{title}</h6>
 
           <div className="ml-1 text-secondary text-uppercase text-location-date">
-            Mumbai,Maharastra
+            {listing.city}
             <span
               className="text-muted mr-1 display-none"
               style={{ float: "right" }}
             >
-              MAR 19
+              {format(listing.date, "MMM DD")}
             </span>
           </div>
         </Link>
