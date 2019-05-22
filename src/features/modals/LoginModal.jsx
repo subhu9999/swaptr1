@@ -1,61 +1,57 @@
 import React, { Component } from "react";
-import LoginForm from "../auth/Login/LoginForm";
-// import { connect } from "react-redux";
-// import { closeModal, openModal } from "./modalActions";
+import { closeModal, openModal } from "./modalActions";
+import { connect } from "react-redux";
+import { Modal, Button } from "react-bootstrap";
+import LoginForm from "../../features/auth/Login/LoginForm";
 
-// const actions = {
-//   closeModal,
-//   openModal
-// };
+const actions = {
+  closeModal,
+  openModal
+};
 
 class LoginModal extends Component {
+  openRegister = () => {
+    this.props.closeModal();
+    this.props.openModal("RegisterModal");
+  };
+  openForgotPassword = () => {
+    this.props.closeModal();
+    this.props.openModal("ForgotPasswordModal");
+  };
   render() {
+    const { closeModal } = this.props;
     return (
-      <div
-        className="modal fade modal-background"
-        id="loginModal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="loginModalTitle"
-        aria-hidden="true"
-        data-backdrop="false"
+      <Modal
+        show={true}
+        onHide={closeModal}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="loginModalTitle">
-                Login To Swaptr
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <LoginForm />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-                onClick={this.props.closeModal}
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Login to swaptr
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <LoginForm closeModal={closeModal} />
+        </Modal.Body>
+        <Modal.Footer className="justify-content-center">
+          <Button onClick={() => this.openRegister()}>
+            Register if you are New User
+          </Button>
+        </Modal.Footer>
+        <Modal.Footer className="justify-content-right">
+          <Button onClick={() => this.openForgotPassword()} variant="link">
+            forgot password
+          </Button>
+        </Modal.Footer>
+      </Modal>
     );
   }
 }
 
-export default LoginModal;
+export default connect(
+  null,
+  actions
+)(LoginModal);

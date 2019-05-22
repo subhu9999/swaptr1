@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import LoginModal from "../../../features/modals/LoginModal";
 
 class ListingDetailedSidebar extends Component {
   render() {
-    const { listing, auth } = this.props;
+    const { listing, auth, openModal } = this.props;
 
     return (
       <div>
@@ -27,13 +26,22 @@ class ListingDetailedSidebar extends Component {
               <span className="fa fa-star" />
             </a>
           </div>
-          <div className="card-footer text-muted">
-            <a
-              href="/"
-              className="btn btn-primary text-uppercase font-weight-bold d-block mb-2 rounded-0"
-            >
-              Chat With Seller
-            </a>
+          <div className="card-footer text-muted ">
+            {auth.authenticated ? (
+              <a
+                href="/"
+                className="btn btn-primary text-uppercase font-weight-bold d-block mb-2 rounded-0"
+              >
+                Chat With Seller
+              </a>
+            ) : (
+              <button
+                className="btn btn-primary text-uppercase font-weight-bold btn-block mb-2 rounded-0"
+                onClick={() => openModal("LoginModal")}
+              >
+                Chat With Seller
+              </button>
+            )}
             <div className="container row justify-content-center">
               <i className="fas fa-mobile-alt fa-lg mr-2 h4 mt-3" />
 
@@ -45,13 +53,11 @@ class ListingDetailedSidebar extends Component {
                 <span className="font-weight-bold h4 mr-2 mt-2">
                   *** **** ***
                   <button
-                    className="btn"
-                    data-toggle="modal"
-                    data-target="#loginModal"
+                    className="btn btn-link"
+                    onClick={() => openModal("LoginModal")}
                   >
-                    <u className="text-secondary">Show Number</u>
+                    <u className="text-primary">Show Number</u>
                   </button>
-                  <LoginModal />
                 </span>
               )}
             </div>

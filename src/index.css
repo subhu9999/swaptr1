@@ -26,6 +26,8 @@ code {
   color: #2a65ea;
 }
 
-.modal-background {
-  background-color: rgba(113, 124, 129, 0.7);
+@media (max-width: 450px) {
+  .hide-sm {
+    display: none;
+  }
 }

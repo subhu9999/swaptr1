@@ -2,20 +2,19 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
 import { connect } from "react-redux";
-import { login } from "../authActions";
+import { forgotPassword } from "../authActions";
 import { combineValidators, isRequired } from "revalidate";
 
 const actions = {
-  login
+  forgotPassword
 };
 
 const validate = combineValidators({
-  email: isRequired({ message: "Email is a must" }),
-  password: isRequired({ message: "Password is required" })
+  email: isRequired({ message: "Email is a must" })
 });
 
-const LoginForm = ({
-  login,
+const ForgotPassword = ({
+  forgotPassword,
   handleSubmit,
   error,
   invalid,
@@ -23,7 +22,10 @@ const LoginForm = ({
   pristine
 }) => {
   return (
-    <form className="listing-form  text-center" onSubmit={handleSubmit(login)}>
+    <form
+      className="listing-form  text-center"
+      onSubmit={handleSubmit(forgotPassword)}
+    >
       <Field
         name="email"
         type="text"
@@ -31,19 +33,13 @@ const LoginForm = ({
         placeholder="Email"
       />
 
-      <Field
-        name="password"
-        type="password"
-        component={TextInput}
-        placeholder="Password"
-      />
       {error && <p className="lead text-danger">{error}</p>}
       <button
         disabled={invalid || submitting || pristine}
         className="btn btn-primary "
         type="submit"
       >
-        Login
+        Send Verfication Link
       </button>
     </form>
   );
@@ -53,7 +49,7 @@ export default connect(
   null,
   actions
 )(
-  reduxForm({ form: "loginForm", enableReinitialize: true, validate })(
-    LoginForm
+  reduxForm({ form: "ForgotPasswordForm", enableReinitialize: true, validate })(
+    ForgotPassword
   )
 );

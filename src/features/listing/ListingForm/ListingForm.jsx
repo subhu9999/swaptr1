@@ -46,7 +46,8 @@ const validate = combineValidators({
       message: "Title needs to be atleast 8 characters"
     })
   )(),
-  city: isRequired({ message: "Location is important" })
+  city: isRequired({ message: "Location is important" }),
+  userName: isRequired({ message: "Lets us confirm your name !" })
 });
 
 class ListingForm extends Component {
@@ -78,6 +79,7 @@ class ListingForm extends Component {
   // while updating update date also
   render() {
     const { invalid, submitting, pristine } = this.props;
+
     return (
       <div>
         <NavbarAlt />
@@ -95,7 +97,16 @@ class ListingForm extends Component {
 
               <Field name="category" type="text" component={SelectInput} />
 
-              <Field name="city" type="text" component={LocationInput} />
+              <Field
+                name="city"
+                type="text"
+                component={LocationInput}
+                options={{
+                  types: ["(regions)"],
+                  componentRestrictions: { country: "in" }
+                }}
+                placeholder=""
+              />
               <Field
                 name="description"
                 type="text"
@@ -107,8 +118,7 @@ class ListingForm extends Component {
                   Contact Details
                 </div>
                 <div className="card-body ">
-                  <NameInput />
-
+                  <Field name="userName" type="text" component={NameInput} />
                   {this.state.showNumber && <PhoneInput />}
                   <ShowNumberToggle
                     defaultChecked={this.state.showNumber}

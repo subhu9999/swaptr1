@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./SignedInMenu.css";
 
-const SignedInMenu = ({ signOut, currentUser }) => {
+const SignedInMenu = ({ signOut, auth }) => {
   const num = 4;
 
   return (
@@ -34,7 +34,7 @@ const SignedInMenu = ({ signOut, currentUser }) => {
           </button>
           <ul className="dropdown-menu">
             <li className="dropdown-item">
-              Hi, <span className="font-weight-bold">{currentUser}</span>
+              Hi, <span className="font-weight-bold">{auth.email}</span>
             </li>
             <li className="divider dropdown-divider" />
             <li>
@@ -81,45 +81,55 @@ const SignedInMenu = ({ signOut, currentUser }) => {
             alt="Avatar"
           />{" "}
           <span className="text-light">
-            Hi, <span className="font-weight-bold">{currentUser}</span>
+            Hi, <span className="font-weight-bold">{auth.email}</span>
           </span>
         </li>
 
         <li className="divider dropdown-divider" />
-        <li className="nav-item dropdown mt-2">
-          <Link to="/createListing" className="nav-link btn text-light">
+        <li className="nav-item dropdown ">
+          <Link to="/createListing" className=" btn text-light">
             <i className="fas fa-camera fa-lg" />
-            <span style={{ marginLeft: "20px" }}>Post Free Ad</span>
+            <span style={{ marginLeft: "10px" }}>Post Free Ad</span>
           </Link>
         </li>
-        <li className="nav-item dropdown mt-2">
-          <i className="fas fa-cubes fa-lg" />
-          <span style={{ marginLeft: "20px" }}>My Ads</span>
+        <li className="nav-item dropdown ">
+          <Link to="/myAds" className=" btn text-light">
+            <i className="fas fa-cubes fa-lg" />
+            <span style={{ marginLeft: "10px" }}>My Ads</span>
+          </Link>
         </li>
-        <li className="nav-item">
-          <button className="nav-link btn messages text-light">
+        <li className="nav-item dropdown mt-0">
+          <Link
+            to="/chats"
+            className=" btn text-light btn messages text-light mt-0"
+          >
             <i className="far fa-comment-alt fa-lg" />
             {num > 1 && <span className="badge ">{num}</span>}
 
             <span style={{ marginLeft: "7px" }}>Chats</span>
-          </button>
+          </Link>
         </li>
-        <li className="nav-item">
-          <button className="nav-link btn messages text-light">
+        <li className="nav-item dropdown mt-0">
+          <Link
+            to="/notifications"
+            className="mt-0 btn text-light btn messages text-light"
+          >
             <i className="fas fa-bell fa-lg" />
             <span className="badge">3</span>
 
             <span style={{ marginLeft: "7px" }}>Notifications</span>
-          </button>
+          </Link>
         </li>
-        <li className="nav-item">
-          <button className="nav-link btn text-light">
-            <i className="far fa-id-card fa-lg" />
-            <span style={{ marginLeft: "7px" }}>Edit Profile</span>
-          </button>
+        <li className="nav-item dropdown">
+          <Link to="/editProfile" className=" btn text-light">
+            <button className="nav-link btn text-light">
+              <i className="far fa-id-card fa-lg" />
+              <span style={{ marginLeft: "7px" }}>Edit Profile</span>
+            </button>
+          </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/settings" className="nav-link btn text-light">
+        <li className="nav-item dropdown">
+          <Link to="/settings" className=" btn text-light">
             <i className="fa fa-sliders fa-lg" />
             <span style={{ marginLeft: "7px" }}>Settings</span>
           </Link>

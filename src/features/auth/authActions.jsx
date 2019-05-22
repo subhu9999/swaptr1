@@ -1,16 +1,104 @@
-import { LOGIN_USER, SIGN_OUT_USER } from "./authConstants";
+import { SubmissionError } from "redux-form";
+import { closeModal, openModal } from "../modals/modalActions";
+// import { history } from "../../index";
 
 export const login = creds => {
-  return {
-    type: LOGIN_USER,
-    payload: {
-      creds
+  return async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    try {
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(creds.email, creds.password);
+    } catch (error) {
+      // console.log(error);
+      throw new SubmissionError({
+        // _error: error.message
+
+        _error: "Please Check Your Email & Password !"
+      });
     }
+    // dispatch({ type: LOGIN_USER, payload: { creds } });
+    dispatch(closeModal());
+    // history.push("/createListing");
   };
 };
 
-export const logout = () => {
-  return {
-    type: SIGN_OUT_USER
-  };
+export const registerUser = user => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  // console.log(user);
+  try {
+    //create the user in auth
+    await firebase
+      .auth()
+      .createUserWithEmailAndPassword(user.email, user.password);
+
+    //get current user
+    let currentUser;
+    await firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        currentUser = user;
+      } else {
+        // No user is signed in.
+      }
+    });
+    //update the auth profile
+    // let currentUser = await firebase.auth().currentUser;
+    // await createdUser.updateProfile({
+    // displayName: "name"
+    // });
+    await currentUser.updateProfile({
+      displayName: user.displayName
+    });
+    // create a new profile in firestore
+    let newUser = {
+      displayName: user.displayName,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      phoneNumber: user.phoneNumber
+    };
+    await firestore.set(`users/${currentUser.uid}`, { ...newUser });
+    dispatch(closeModal());
+  } catch (error) {
+    console.log(error);
+    throw new SubmissionError({
+      _error: error.message
+
+      // _error: "Please Check Your Email & Password !"
+    });
+  }
+};
+
+export const forgotPassword = user => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+
+  // var auth = firebase.auth();
+  // var emailAddress = "user@example.com";
+
+  // auth.sendPasswordResetEmail(emailAddress).then(function() {
+  //   // Email sent.
+  // }).catch(function(error) {
+  //   // An error happened.
+  // });
+
+  try {
+    await firebase.auth().sendPasswordResetEmail(user.email);
+  } catch (error) {
+    // console.log(error);
+    throw new SubmissionError({
+      _error: error.message
+
+      // _error: "Please Check Your Email & Password !"
+    });
+  }
+  dispatch(closeModal());
+  dispatch(openModal("ResetLinkSuccessModal", { email: user.email }));
 };

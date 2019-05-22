@@ -32,3 +32,16 @@
 .listing-title {
   font-size: 14px;
 }
+
+.listing-ad-background {
+  background-color: #2a65ea;
+  border: none;
+}
+
+.listing-ad-btn {
+  border: 2px solid #eee;
+}
+
+.listing-ad-btn:hover {
+  border: 2px solid #eee;
+}

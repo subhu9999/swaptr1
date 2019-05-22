@@ -8,6 +8,8 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 import { connect } from "react-redux";
+import { openModal } from "../modals/modalActions";
+import { Button } from "react-bootstrap";
 
 const LOCATION_API_KEY = process.env.REACT_APP_LOCATION_API_KEY;
 
@@ -15,7 +17,11 @@ const scriptUrl =
   "https://maps.googleapis.com/maps/api/js?key=" +
   LOCATION_API_KEY +
   "&libraries=places";
-const actions = {};
+
+const actions = {
+  openModal
+};
+
 class TestComponent extends Component {
   state = {
     address: "",
@@ -39,14 +45,14 @@ class TestComponent extends Component {
 
   onChange = address => this.setState({ address });
   render() {
+    const { openModal } = this.props;
     const inputProps = {
       value: this.state.address,
       onChange: this.onChange
     };
     return (
       <div>
-        {/* hide api  */}
-        <Script url={scriptUrl} onLoad={this.handleScriptLoad} />
+        <Script url={scriptUrl} onLoad={this.handleScriptLoaded} />
 
         <Navbar />
         <div className="" style={{ marginTop: "100px" }}>
@@ -58,6 +64,12 @@ class TestComponent extends Component {
             <button type="submit">Submit</button>
           </form>
         </div>
+        <Button
+          variant="info"
+          onClick={() => openModal("TestModal", { data: 44 })}
+        >
+          modal
+        </Button>
       </div>
     );
   }

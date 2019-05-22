@@ -27,7 +27,7 @@ const Listing = ({ listing }) => {
               className="text-muted mr-1 display-none"
               style={{ float: "right" }}
             >
-              {format(listing.date, "MMM DD")}
+              {format(listing.date.toDate(), "MMM DD")}
             </span>
           </div>
         </Link>

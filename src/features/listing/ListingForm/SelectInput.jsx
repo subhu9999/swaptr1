@@ -43,7 +43,7 @@ const SelectInput = ({ input, type, meta: { touched, error } }) => {
         onChange={e => input.onChange(e.target.value)}
       >
         <option value="" hidden>
-          Select Category
+          Select Category*
         </option>
 
         {options.map(option => {

@@ -1,51 +1,37 @@
 import React from "react";
 import { closeModal } from "./modalActions";
 import { connect } from "react-redux";
+import { Modal, Button } from "react-bootstrap";
 
 const actions = {
   closeModal
 };
-const TestModal = () => {
+const TestModal = ({ closeModal }) => {
   return (
-    <div
-      className="modal fade"
-      id="MainModal"
-      tabIndex="-1"
-      role="dialog"
-      aria-labelledby="MainModalTitle"
-      aria-hidden="true"
+    <Modal
+      show={true}
+      onHide={closeModal}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
     >
-      <div className="modal-dialog modal-dialog-centered" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title" id="MainModalTitle">
-              Modal title
-            </h5>
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body">...</div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" className="btn btn-primary">
-              Save changes
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading awesome
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h4>Centered Modal</h4>
+        <p>
+          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+          consectetur ac, vestibulum at eros.
+        </p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={closeModal}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

@@ -6,15 +6,14 @@ import SignedOutMenu from "../Menus/SignedOutMenu";
 import SignedInMenu from "../Menus/SignedInMenu";
 import { connect } from "react-redux";
 import { openModal } from "../../../../features/modals/modalActions";
-import { logout } from "../../../../features/auth/authActions";
+import { withFirebase } from "react-redux-firebase";
 
 const actions = {
-  openModal,
-  logout
+  openModal
 };
 
 const mapState = state => ({
-  auth: state.auth
+  auth: state.firebase.auth
 });
 
 class Navbar extends Component {
@@ -27,12 +26,12 @@ class Navbar extends Component {
   };
 
   handleSignOut = () => {
-    this.props.logout();
+    this.props.firebase.logout();
     this.props.history.push("/");
   };
   render() {
     const { auth } = this.props;
-    const authenticated = auth.authenticated;
+    const authenticated = auth.isLoaded && !auth.isEmpty;
     return (
       <nav className="navbar navbar-expand-md navbar-light nav-background fixed-top ">
         <button
@@ -50,12 +49,12 @@ class Navbar extends Component {
 
         <Search />
         {authenticated ? (
-          <SignedInMenu
-            currentUser={auth.currentUser}
-            signOut={this.handleSignOut}
-          />
+          <SignedInMenu auth={auth} signOut={this.handleSignOut} />
         ) : (
-          <SignedOutMenu signIn={this.handleSignIn} />
+          <SignedOutMenu
+            signIn={this.handleSignIn}
+            register={this.handleRegister}
+          />
         )}
       </nav>
     );
@@ -63,8 +62,10 @@ class Navbar extends Component {
 }
 
 export default withRouter(
-  connect(
-    mapState,
-    actions
-  )(Navbar)
+  withFirebase(
+    connect(
+      mapState,
+      actions
+    )(Navbar)
+  )
 );
