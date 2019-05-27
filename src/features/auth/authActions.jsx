@@ -1,6 +1,7 @@
-import { SubmissionError } from "redux-form";
+import { SubmissionError, reset } from "redux-form";
 import { closeModal, openModal } from "../modals/modalActions";
 // import { history } from "../../index";
+import { toastr } from "react-redux-toastr";
 
 export const login = creds => {
   return async (dispatch, getState, { getFirebase }) => {
@@ -101,4 +102,59 @@ export const forgotPassword = user => async (
   }
   dispatch(closeModal());
   dispatch(openModal("ResetLinkSuccessModal", { email: user.email }));
+};
+
+export const socialLogin = selectedProvider => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const firebase = getFirebase();
+  const firestore = getFirestore();
+  try {
+    dispatch(closeModal());
+    let user = await firebase.login({
+      provider: selectedProvider,
+      type: "popup"
+    });
+    if (user.additionalUserInfo.isNewUser) {
+      await firestore.set(`users/${user.user.uid}`, {
+        displayName: user.profile.displayName,
+        photoURL: user.profile.avatarUrl,
+        createdAt: firestore.FieldValue.serverTimestamp()
+      });
+      //TODO: ask phone number
+      dispatch(openModal("PhoneNumberModal"));
+    }
+    // console.log(user);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updatePassword = creds => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  const firebase = getFirebase();
+  //get current user
+  let currentUser;
+  await firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      currentUser = user;
+    } else {
+      // No user is signed in.
+    }
+  });
+  try {
+    await currentUser.updatePassword(creds.newPassword1);
+    await dispatch(reset("account"));
+    toastr.success("Success", "your password has been updated");
+  } catch (error) {
+    throw new SubmissionError({
+      _error: error.message
+    });
+  }
 };

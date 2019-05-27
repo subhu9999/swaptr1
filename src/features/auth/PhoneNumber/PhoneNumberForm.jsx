@@ -2,18 +2,17 @@ import React from "react";
 import TextInput from "../../../app/common/form/TextInput";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { registerUser } from "../authActions";
+import { updateProfile } from "../../user/userActions";
 import {
   composeValidators,
   combineValidators,
   isRequired,
-  hasLengthGreaterThan,
   hasLengthLessThan,
   isNumeric
 } from "revalidate";
 
 const actions = {
-  registerUser
+  updateProfile
 };
 
 const validate = combineValidators({
@@ -23,33 +22,22 @@ const validate = combineValidators({
       message: "Please enter a valid number"
     }),
     isNumeric({ message: "Please enter a valid number" })
-  )(),
-  displayName: isRequired({ message: "Name is required" }),
-  email: isRequired({ message: "Email is a must" }),
-  password: composeValidators(
-    isRequired({ message: "Password is required" }),
-    hasLengthGreaterThan(6)({
-      message: "password must be greater than 6 letters"
-    })
   )()
 });
 
-const RegisterForm = ({
+const PhoneNumberForm = ({
   handleSubmit,
-  registerUser,
   invalid,
   submitting,
   pristine,
-  error
+  error,
+  updateProfile
 }) => {
   return (
-    <form className="listing-form border" onSubmit={handleSubmit(registerUser)}>
-      <Field
-        name="displayName"
-        type="text"
-        component={TextInput}
-        placeholder="Your Name"
-      />
+    <form
+      className="listing-form border"
+      onSubmit={handleSubmit(updateProfile)}
+    >
       <Field
         name="phoneNumber"
         type="text"
@@ -57,25 +45,12 @@ const RegisterForm = ({
         placeholder="Contact Number"
       />
 
-      <Field
-        name="email"
-        type="text"
-        component={TextInput}
-        placeholder="Email"
-      />
-
-      <Field
-        name="password"
-        type="password"
-        component={TextInput}
-        placeholder="Password"
-      />
       {error && <p className="lead text-danger">{error}</p>}
       <button
         disabled={invalid || submitting || pristine}
         className="btn btn-block btn-large btn-info rounded-0"
       >
-        Register
+        verify phone number
       </button>
     </form>
   );
@@ -85,7 +60,7 @@ export default connect(
   null,
   actions
 )(
-  reduxForm({ form: "registerForm", enableReinitialize: true, validate })(
-    RegisterForm
+  reduxForm({ form: "phoneNumberForm", enableReinitialize: true, validate })(
+    PhoneNumberForm
   )
 );

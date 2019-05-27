@@ -5,13 +5,17 @@ import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import ResetLinkSuccessModal from "./ResetLinkSuccessModal";
+import EmailModal from "./EmailModal";
+import PhoneNumberModal from "./PhoneNumberModal";
 
 const modalLookup = {
   TestModal,
   LoginModal,
   RegisterModal,
   ForgotPasswordModal,
-  ResetLinkSuccessModal
+  ResetLinkSuccessModal,
+  EmailModal,
+  PhoneNumberModal
 };
 const mapState = state => ({
   currentModal: state.modals

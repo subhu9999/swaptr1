@@ -19,23 +19,30 @@ export const history = createBrowserHistory();
 const store = configureStore();
 // store.dispatch(loadListings());
 
-ReactDOM.render(
-  <Provider store={store}>
-    {/* <BrowserRouter> */}
-    <Router history={history}>
-      <ScrollToTop>
-        <ReduxToastr
-          position="bottom-right"
-          transitionIn="bounceIn"
-          transitionOut="fadeOut"
-        />
-        <App />
-      </ScrollToTop>
-    </Router>
-    {/* </BrowserRouter> */}
-  </Provider>,
-  document.getElementById("root")
-);
+let render = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      {/* <BrowserRouter> */}
+      <Router history={history}>
+        <ScrollToTop>
+          <ReduxToastr
+            position="bottom-right"
+            transitionIn="bounceIn"
+            transitionOut="fadeOut"
+          />
+          <App />
+        </ScrollToTop>
+      </Router>
+      {/* </BrowserRouter> */}
+    </Provider>,
+    document.getElementById("root")
+  );
+};
+
+//to render components only after auth is ready
+store.firebaseAuthIsReady.then(() => {
+  render();
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

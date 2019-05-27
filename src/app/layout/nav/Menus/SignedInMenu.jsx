@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./SignedInMenu.css";
 
-const SignedInMenu = ({ signOut, auth }) => {
+const SignedInMenu = ({ signOut, profile }) => {
   const num = 4;
 
   return (
@@ -21,20 +21,21 @@ const SignedInMenu = ({ signOut, auth }) => {
           </button>
         </li>
 
-        <li className="nav-item dropdown">
+        <li className="nav-item dropdown ">
           <button
             data-toggle="dropdown"
             className="btn nav-link dropdown-toggle user-action text-light"
           >
             <img
-              src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg"
-              className="rounded-circle avatar"
+              src={profile.photoURL || "/assets/default-user.png"}
+              className="rounded-circle img-profile"
               alt="Avatar"
             />{" "}
           </button>
-          <ul className="dropdown-menu">
+          <ul className="dropdown-menu dropdown-menu-right">
             <li className="dropdown-item">
-              Hi, <span className="font-weight-bold">{auth.email}</span>
+              Hi,{" "}
+              <span className="font-weight-bold ">{profile.displayName}</span>
             </li>
             <li className="divider dropdown-divider" />
             <li>
@@ -76,12 +77,12 @@ const SignedInMenu = ({ signOut, auth }) => {
       <ul className="navbar-nav ml-auto hide-visibility-lg text-light">
         <li className="nav-item dropdown mt-2">
           <img
-            src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg"
-            className="rounded-circle avatar"
+            src={profile.photoURL || "/assets/default-user.png"}
+            className="rounded-circle img-profile"
             alt="Avatar"
           />{" "}
           <span className="text-light">
-            Hi, <span className="font-weight-bold">{auth.email}</span>
+            Hi, <span className="font-weight-bold">{profile.displayName}</span>
           </span>
         </li>
 

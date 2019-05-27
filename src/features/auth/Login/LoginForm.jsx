@@ -20,7 +20,8 @@ const LoginForm = ({
   error,
   invalid,
   submitting,
-  pristine
+  pristine,
+  socialLogin
 }) => {
   return (
     <form className="listing-form  text-center" onSubmit={handleSubmit(login)}>
@@ -40,7 +41,7 @@ const LoginForm = ({
       {error && <p className="lead text-danger">{error}</p>}
       <button
         disabled={invalid || submitting || pristine}
-        className="btn btn-primary "
+        className="btn btn-primary btn-block rounded-0"
         type="submit"
       >
         Login

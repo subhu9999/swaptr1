@@ -2,12 +2,12 @@ import React from "react";
 import { closeModal } from "./modalActions";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
-import RegisterForm from "../auth/Register/RegisterForm";
+import PhoneNumberForm from "../auth/PhoneNumber/PhoneNumberForm";
 
 const actions = {
   closeModal
 };
-const RegisterModal = ({ closeModal }) => {
+const PhoneNumberModal = ({ closeModal }) => {
   return (
     <Modal
       show={true}
@@ -17,10 +17,12 @@ const RegisterModal = ({ closeModal }) => {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">Sign up</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">
+          we need your phone number to verify account
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <RegisterForm />
+        <PhoneNumberForm />
       </Modal.Body>
       <Modal.Footer>
         {/* <Button onClick={closeModal}>Close</Button> */}
@@ -32,4 +34,4 @@ const RegisterModal = ({ closeModal }) => {
 export default connect(
   null,
   actions
-)(RegisterModal);
+)(PhoneNumberModal);

@@ -12,6 +12,7 @@ const TextInput = ({
       <label className="listing-form-label ">
         <input
           {...input}
+          width={width}
           placeholder=" "
           type={type}
           className={

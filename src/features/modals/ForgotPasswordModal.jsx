@@ -16,7 +16,7 @@ class ForgotPasswordModal extends Component {
       <Modal
         show={true}
         onHide={closeModal}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >

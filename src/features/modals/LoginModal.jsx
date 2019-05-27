@@ -1,30 +1,29 @@
 import React, { Component } from "react";
 import { closeModal, openModal } from "./modalActions";
 import { connect } from "react-redux";
-import { Modal, Button } from "react-bootstrap";
-import LoginForm from "../../features/auth/Login/LoginForm";
+import { Modal } from "react-bootstrap";
+import SocialLogin from "../../features/auth/SocialLogin/SocialLogin";
+import { socialLogin } from "../auth/authActions";
 
 const actions = {
   closeModal,
-  openModal
+  openModal,
+  socialLogin
 };
 
 class LoginModal extends Component {
-  openRegister = () => {
+  openEmail = () => {
     this.props.closeModal();
-    this.props.openModal("RegisterModal");
+    this.props.openModal("EmailModal");
   };
-  openForgotPassword = () => {
-    this.props.closeModal();
-    this.props.openModal("ForgotPasswordModal");
-  };
+
   render() {
-    const { closeModal } = this.props;
+    const { closeModal, socialLogin } = this.props;
     return (
       <Modal
         show={true}
         onHide={closeModal}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -33,19 +32,19 @@ class LoginModal extends Component {
             Login to swaptr
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <LoginForm closeModal={closeModal} />
+        <Modal.Body className="justify-content-center">
+          <SocialLogin socialLogin={socialLogin} />
+
+          <button
+            className="btn btn-block btn-info rounded-0 mt-2 "
+            onClick={() => this.openEmail()}
+          >
+            <i className="fas fa-envelope fa-lg mr-2" />
+            <span className="text-uppercase  font-weight-bold">
+              CONTINUE WITH EMAIL
+            </span>
+          </button>
         </Modal.Body>
-        <Modal.Footer className="justify-content-center">
-          <Button onClick={() => this.openRegister()}>
-            Register if you are New User
-          </Button>
-        </Modal.Footer>
-        <Modal.Footer className="justify-content-right">
-          <Button onClick={() => this.openForgotPassword()} variant="link">
-            forgot password
-          </Button>
-        </Modal.Footer>
       </Modal>
     );
   }
