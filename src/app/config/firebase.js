@@ -4,6 +4,7 @@ import * as firebase from "firebase/app";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 const firebaseConfig = {
   // TODO : //hide api
@@ -19,5 +20,6 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
+firebase.storage();
 
 export default firebase;

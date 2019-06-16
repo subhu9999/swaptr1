@@ -8,7 +8,7 @@ const AdTitleInput = ({
   meta: { touched, error }
 }) => {
   return (
-    <div className="form-group ml-md-4">
+    <div className="form-group ml-md-4 mt-md-4 mt-4">
       <label className="character-length float-right mr-md-4 mr-1 text-muted lead font-weight-bold">
         {/* {listing.title.length} / 70 */}
       </label>

@@ -19,7 +19,21 @@ import NameInput from "./NameInput";
 import PhoneInput from "./PhoneInput";
 import ShowNumberToggle from "./ShowNumberToggle";
 import SelectInput from "./SelectInput";
+import { openModal } from "../../modals/modalActions";
+import Dropzone from "react-dropzone";
+import { toastr } from "react-redux-toastr";
+// import { uploadTest, uploadImages } from "../../user/userActions";
+import axios from "axios";
+import imageCompression from "browser-image-compression";
+import { Container, Row, Col } from "react-bootstrap";
+import {
+  asyncActionStart,
+  asyncActionError,
+  asyncActionFinish
+} from "../../async/asyncActions";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
+const REACT_APP_CLOUDINARY_API_KEY = process.env.REACT_APP_CLOUDINARY_API_KEY;
 const mapState = (state, ownProps) => {
   const listingId = ownProps.match.params.id;
 
@@ -30,13 +44,18 @@ const mapState = (state, ownProps) => {
   }
 
   return {
-    initialValues: listing
+    initialValues: listing,
+    async: state.async
   };
 };
 
 const actions = {
   createListing,
-  updateListing
+  updateListing,
+  openModal,
+  asyncActionError,
+  asyncActionFinish,
+  asyncActionStart
 };
 
 const validate = combineValidators({
@@ -50,16 +69,26 @@ const validate = combineValidators({
   userName: isRequired({ message: "Lets us confirm your name !" })
 });
 
+//TODO: delete image files when browser is closed
 class ListingForm extends Component {
   state = {
-    showNumber: true
+    showNumber: true,
+    maxImages: 10,
+    images: []
   };
 
   onFormSubmit = values => {
+    if (this.state.images.length <= 0) {
+      toastr.error("No Images", "please add some images !");
+      return;
+    }
     if (this.props.initialValues.id) {
       this.props.updateListing(values);
       this.props.history.goBack();
     } else {
+      // const images = this.state.images;
+      // const imagesURL = images.map(image => image.fileURL);
+      // console.log(imagesURL);
       const newListing = {
         ...values,
         id: cuid(),
@@ -76,23 +105,211 @@ class ListingForm extends Component {
     });
   };
 
+  goHome = async () => {
+    if (this.state.images.length > 0) {
+      //delete images if cancel clicked
+      let deleteTokens;
+      deleteTokens = this.state.images.map(image => image.deleteToken);
+      this.props.openModal("CancelListingModal", deleteTokens);
+      // console.log(deleteTokens);
+    } else {
+      this.props.history.push("/");
+    }
+  };
+
+  deleteSelection = deleteToken => {
+    // toastr.success("deleted", "1 photo deleted !");
+    // console.log(deleteToken);
+    //delete selected image from files
+    // Initial FormData
+    const formData = new FormData();
+    formData.append("upload_preset", "v8yxkbjj"); // Replace the preset name with your own
+    formData.append("api_key", REACT_APP_CLOUDINARY_API_KEY); // Replace API key with your own Cloudinary key
+    formData.append("token", deleteToken);
+    // formData.append("q_auto", "c_scale", "w_300");
+
+    // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+    return axios
+      .post(
+        "https://api.cloudinary.com/v1_1/dayoe8mly/delete_by_token",
+        formData,
+        {
+          headers: { "X-Requested-With": "XMLHttpRequest" }
+        }
+      )
+
+      .then(response => {
+        // console.log(response);
+        //remove the deleted image from images array using token
+        const prevImages = this.state.images;
+        const newImages = prevImages.filter(
+          prevImage => prevImage.deleteToken !== deleteToken
+        );
+
+        this.setState({
+          images: newImages
+        });
+      });
+  };
+
+  uploadToServer = async compressedFile => {
+    // Push all the axios request promise into a single array
+
+    // Initial FormData
+    const formData = new FormData();
+    formData.append("file", compressedFile);
+    formData.append("tags", `codeinfuse, medium, gist`);
+    formData.append("upload_preset", "v8yxkbjj"); // Replace the preset name with your own
+    formData.append("api_key", REACT_APP_CLOUDINARY_API_KEY); // Replace API key with your own Cloudinary key
+    formData.append("timestamp", (Date.now() / 1000) | 0);
+    // formData.append("q_auto", "c_scale", "w_300");
+
+    // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+
+    return axios
+      .post(
+        "https://api.cloudinary.com/v1_1/dayoe8mly/image/upload",
+        formData,
+        {
+          headers: { "X-Requested-With": "XMLHttpRequest" }
+        }
+      )
+
+      .then(response => {
+        const data = response.data;
+        const fileURL = data.secure_url; // You should store this URL for future references in your app
+        // console.log(data);
+        const imageData = {
+          publicID: data.public_id,
+          fileURL: fileURL,
+          deleteToken: data.delete_token
+        };
+        // console.log(data);
+        this.setState(prevState => ({
+          images: [...prevState.images, imageData]
+        }));
+      });
+
+    // Once all the files are uploaded
+    // axios.all(uploaders).then(res => {
+    //   // ... perform after upload is successful operation
+    //   // console.log("uploaders");
+    //   // console.log(uploaders);
+    // });
+  };
+
+  handleDrop = async rawFiles => {
+    //check current rawFiles Length and total rawFiles length
+    //check remaining files length
+    const remainingImages = this.state.maxImages - this.state.images.length;
+    if (
+      rawFiles.length > this.state.maxImages ||
+      remainingImages < 0 ||
+      rawFiles.length > remainingImages
+    ) {
+      toastr.error("Error", "Only 10 Images Allowed !");
+      return;
+    }
+
+    rawFiles.forEach(async rawFile => {
+      var options = {
+        maxSizeMB: 0.3,
+        maxWidthOrHeight: 700,
+        useWebWorker: true
+      };
+      try {
+        this.props.asyncActionStart();
+        const compressedFile = await imageCompression(rawFile, options);
+
+        await this.uploadToServer(compressedFile); // write your own logic
+        this.props.asyncActionFinish();
+      } catch (error) {
+        this.props.asyncActionError();
+        console.log(error);
+      }
+    });
+  };
+
   // while updating update date also
   render() {
     const { invalid, submitting, pristine } = this.props;
-
+    const { images } = this.state;
+    const { loading } = this.props.async;
+    // const loading = true;
     return (
       <div>
-        <NavbarAlt />
+        <NavbarAlt goHome={this.goHome} />
         <Banner />
-        <div className="row">
-          <div className="col-md-2" />
+
+        <Container>
+          <h3 className="display-4 text-center mb-4">Post Your Ad</h3>
+
+          {/* //add photos */}
+          <p className="lead">Add Photos (Max 10 photos)</p>
+
+          <Row className="justify-content-md-left">
+            <Col md="8" className="mb-4">
+              {loading ? (
+                <div className="dropzone-loading">
+                  <LoadingComponent />
+                </div>
+              ) : (
+                <Dropzone
+                  onDrop={files => this.handleDrop(files)}
+                  multiple={true}
+                  accept="image/jpeg"
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <section>
+                      <div {...getRootProps()} className="dropzone text-center">
+                        <input {...getInputProps()} />
+
+                        <i className=" fas fa-camera fa-3x m-2" />
+                        <br />
+                        <span className="m-2">Upload Photos</span>
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              )}
+            </Col>
+            {/* //blank to fill space after upload div */}
+            <Col md="4" />
+            <Col md="8">
+              <Row>
+                {images &&
+                  images.length > 0 &&
+                  images.map(image => (
+                    <div
+                      className="col-6 col-md-3 margin-custom"
+                      key={image.fileURL + cuid()}
+                    >
+                      <img
+                        alt=""
+                        src={image.fileURL}
+                        className="img-fluid img-listing-form"
+                      />
+                      <button
+                        onClick={this.deleteSelection.bind(
+                          this,
+                          image.deleteToken
+                        )}
+                        className="btn btn-danger btn-photo-delete"
+                      >
+                        x
+                      </button>
+                    </div>
+                  ))}
+              </Row>
+            </Col>
+          </Row>
+          {/* //end of add photos */}
+
           <div className="col-12 col-md-8 ">
             <form
               className="listing-form border "
               onSubmit={this.props.handleSubmit(this.onFormSubmit)}
             >
-              <h3 className="display-4 text-center mb-4">Post Your Ad</h3>
-
               <Field name="title" type="text" component={AdTitleInput} />
 
               <Field name="category" type="text" component={SelectInput} />
@@ -139,7 +356,7 @@ class ListingForm extends Component {
               </div>
             </form>
           </div>
-        </div>
+        </Container>
       </div>
     );
   }
