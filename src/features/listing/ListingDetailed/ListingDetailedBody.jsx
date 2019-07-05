@@ -3,20 +3,24 @@ import { Link } from "react-router-dom";
 
 class ListingDetailedBody extends Component {
   render() {
-    const { listing } = this.props;
+    const { listing, auth } = this.props;
 
     return (
       <div>
         <div className="card">
           <div className="card-header font-weight-bold">
             {listing.title}
-            <Link
-              to={`/manage/${listing.id}`}
-              className=" ml-1 border-0 text-underline"
-              href="/"
-            >
-              (Click To Edit)
-            </Link>
+            {auth.uid === listing.sellerUid ? (
+              <Link
+                to={`/manage/${listing.id}`}
+                className=" ml-1 border-0 text-underline"
+                href="/"
+              >
+                (Click To Edit)
+              </Link>
+            ) : (
+              ""
+            )}
 
             <div className="dropdown float-right mt-1">
               <i

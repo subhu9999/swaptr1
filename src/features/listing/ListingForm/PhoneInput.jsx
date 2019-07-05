@@ -6,7 +6,7 @@ export default function PhoneInput() {
     <div className="form-group ">
       <label className="listing-form-label w-50 mt-2 ml-md-1">
         <Field
-          name="phoneNumber"
+          name="sellerPhoneNumber"
           placeholder=" "
           component="input"
           type="text"

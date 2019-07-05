@@ -32,6 +32,7 @@ const SelectInput = ({ input, type, meta: { touched, error } }) => {
   return (
     <div className="form-group ml-md-4 ">
       <select
+        {...input}
         required
         className={
           "form-control listing-form-select custom-select mb-3" +
@@ -39,12 +40,14 @@ const SelectInput = ({ input, type, meta: { touched, error } }) => {
             ? "form-control listing-form-select custom-select mb-3 border-danger"
             : "")
         }
-        defaultValue={input.value || null}
         onChange={e => input.onChange(e.target.value)}
       >
         <option value="" hidden>
           Select Category*
         </option>
+        {/* <option value={input.value} key={input.value}>
+          {input.value}
+        </option> */}
 
         {options.map(option => {
           return (

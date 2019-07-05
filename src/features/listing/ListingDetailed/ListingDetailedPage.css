@@ -11,11 +11,12 @@
 
 .listing-detailed-img-holder {
   border: 1px solid rgb(190, 190, 190) !important;
+  /* border-bottom: none !important; */
 }
 
 .listing-detailed-thumbnails {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   object-fit: scale-down;
 }
 
@@ -40,7 +41,7 @@
 }
 
 .profile-pic {
-  object-fit: scale-down;
+  object-fit: cover;
   border: 2px solid #000000;
   border-radius: 50%;
   width: 80px;

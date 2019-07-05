@@ -21,6 +21,7 @@ class EmailModal extends Component {
   };
 
   render() {
+    const { closeModal } = this.props;
     return (
       <Modal
         show={true}

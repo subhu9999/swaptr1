@@ -9,7 +9,15 @@ import {
   isRequired,
   hasLengthGreaterThan
 } from "revalidate";
-import { createListing, updateListing } from "../listingActions";
+import {
+  createListing,
+  updateListing,
+  fetchListing,
+  uploadImages,
+  deleteImage,
+  loadImages,
+  resetListing
+} from "../listingActions";
 import cuid from "cuid";
 import AdTitleInput from "./AdTitleInput";
 import LocationInput from "./LocationInput";
@@ -32,30 +40,31 @@ import {
   asyncActionFinish
 } from "../../async/asyncActions";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { withFirestore } from "react-redux-firebase";
 
-const REACT_APP_CLOUDINARY_API_KEY = process.env.REACT_APP_CLOUDINARY_API_KEY;
-const mapState = (state, ownProps) => {
-  const listingId = ownProps.match.params.id;
-
+// const REACT_APP_CLOUDINARY_API_KEY = process.env.REACT_APP_CLOUDINARY_API_KEY;
+const mapState = state => {
   let listing = {};
-
-  if (listingId && state.listings.length > 0) {
-    listing = state.listings.filter(listing => listing.id === listingId)[0];
-  }
 
   return {
     initialValues: listing,
-    async: state.async
+    async: state.async,
+    images: state.listings
   };
 };
 
 const actions = {
   createListing,
   updateListing,
+  fetchListing,
+  uploadImages,
+  deleteImage,
   openModal,
   asyncActionError,
   asyncActionFinish,
-  asyncActionStart
+  asyncActionStart,
+  loadImages,
+  resetListing
 };
 
 const validate = combineValidators({
@@ -66,37 +75,86 @@ const validate = combineValidators({
     })
   )(),
   city: isRequired({ message: "Location is important" }),
-  userName: isRequired({ message: "Lets us confirm your name !" })
+  sellerUserName: isRequired({ message: "Lets us confirm your name !" })
 });
 
 //TODO: delete image files when browser is closed
 class ListingForm extends Component {
   state = {
     showNumber: true,
-    maxImages: 10,
-    images: []
+    maxImages: 10
+    // images: []
   };
 
+  async componentDidMount() {
+    //extract current listing data for edit
+
+    const { firestore, match, history } = this.props;
+    if (match.params.id !== undefined) {
+      let listing = await firestore.get(`listings/${match.params.id}`);
+      if (!listing.exists) {
+        history.push("/");
+        toastr.error("Sorry", "No listing found");
+      }
+      let listingData = listing.data();
+
+      //initializing redux form
+      // console.log(listingData)
+      this.props.initialize(listingData);
+
+      //get images from listing
+      if (listing.exists) {
+        // populate to listingProps
+        let listingImages = listingData.images;
+        this.props.loadImages(listingImages);
+      }
+    }
+  }
+
   onFormSubmit = values => {
-    if (this.state.images.length <= 0) {
+    if (this.props.images.length <= 0) {
       toastr.error("No Images", "please add some images !");
       return;
     }
-    if (this.props.initialValues.id) {
-      this.props.updateListing(values);
+    // console.log(this.props.match.params.id);
+    // if (this.props.initialValues.id) {
+    let listingId = this.props.match.params.id;
+    if (listingId) {
+      const images = this.props.images;
+      const imagesData = images.map(image => {
+        return {
+          imageURL: image.imageURL,
+          imageName: image.imageName
+        };
+      });
+      const updatedListing = {
+        ...values,
+        images: imagesData,
+        showNumber: this.state.showNumber
+      };
+      this.props.updateListing(updatedListing, listingId);
+      // console.log("updating...");
       this.props.history.goBack();
     } else {
-      // const images = this.state.images;
-      // const imagesURL = images.map(image => image.fileURL);
-      // console.log(imagesURL);
+      const images = this.props.images;
+      const imagesData = images.map(image => {
+        return {
+          imageURL: image.imageURL,
+          imageName: image.imageName
+        };
+      });
+      // console.log(imagesData);
       const newListing = {
         ...values,
-        id: cuid(),
-        listingMainPhoto: "/assets/swaptr-listing.jpg"
+        images: imagesData,
+        showNumber: this.state.showNumber
       };
       this.props.createListing(newListing);
+      // console.log(newListing);
+
       this.props.history.push("/");
     }
+    this.props.resetListing();
   };
 
   toggleShowNumber = () => {
@@ -106,102 +164,116 @@ class ListingForm extends Component {
   };
 
   goHome = async () => {
-    if (this.state.images.length > 0) {
+    if (this.props.images.length > 0) {
       //delete images if cancel clicked
-      let deleteTokens;
-      deleteTokens = this.state.images.map(image => image.deleteToken);
-      this.props.openModal("CancelListingModal", deleteTokens);
-      // console.log(deleteTokens);
+      let deleteTokenImages;
+      deleteTokenImages = this.props.images.filter(image => image.deleteToken);
+      // send only images which have deleteToken
+      // console.log(deleteTokenImages);
+      this.props.openModal("CancelListingModal", deleteTokenImages);
     } else {
       this.props.history.push("/");
     }
   };
 
-  deleteSelection = deleteToken => {
-    // toastr.success("deleted", "1 photo deleted !");
-    // console.log(deleteToken);
-    //delete selected image from files
-    // Initial FormData
-    const formData = new FormData();
-    formData.append("upload_preset", "v8yxkbjj"); // Replace the preset name with your own
-    formData.append("api_key", REACT_APP_CLOUDINARY_API_KEY); // Replace API key with your own Cloudinary key
-    formData.append("token", deleteToken);
-    // formData.append("q_auto", "c_scale", "w_300");
+  // deleteSelection = deleteToken => {
+  //   // toastr.success("deleted", "1 photo deleted !");
+  //   // console.log(deleteToken);
+  //   //delete selected image from files
+  //   // Initial FormData
+  //   const formData = new FormData();
+  //   formData.append("upload_preset", "v8yxkbjj"); // Replace the preset name with your own
+  //   formData.append("api_key", REACT_APP_CLOUDINARY_API_KEY); // Replace API key with your own Cloudinary key
+  //   formData.append("token", deleteToken);
+  //   // formData.append("q_auto", "c_scale", "w_300");
 
-    // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-    return axios
-      .post(
-        "https://api.cloudinary.com/v1_1/dayoe8mly/delete_by_token",
-        formData,
-        {
-          headers: { "X-Requested-With": "XMLHttpRequest" }
-        }
-      )
+  //   // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+  //   return axios
+  //     .post(
+  //       "https://api.cloudinary.com/v1_1/dayoe8mly/delete_by_token",
+  //       formData,
+  //       {
+  //         headers: { "X-Requested-With": "XMLHttpRequest" }
+  //       }
+  //     )
 
-      .then(response => {
-        // console.log(response);
-        //remove the deleted image from images array using token
-        const prevImages = this.state.images;
-        const newImages = prevImages.filter(
-          prevImage => prevImage.deleteToken !== deleteToken
-        );
+  //     .then(response => {
+  //       // console.log(response);
+  //       //remove the deleted image from images array using token
+  //       const prevImages = this.state.images;
+  //       const newImages = prevImages.filter(
+  //         prevImage => prevImage.deleteToken !== deleteToken
+  //       );
 
-        this.setState({
-          images: newImages
-        });
-      });
+  //       this.setState({
+  //         images: newImages
+  //       });
+  //     });
+  // };
+
+  deleteSelection = image => {
+    try {
+      this.props.deleteImage(image);
+    } catch (error) {
+      toastr.error("Oops", error.message);
+    }
   };
 
-  uploadToServer = async compressedFile => {
-    // Push all the axios request promise into a single array
+  // uploadToServer = async compressedFile => {
+  //   // Push all the axios request promise into a single array
 
-    // Initial FormData
-    const formData = new FormData();
-    formData.append("file", compressedFile);
-    formData.append("tags", `codeinfuse, medium, gist`);
-    formData.append("upload_preset", "v8yxkbjj"); // Replace the preset name with your own
-    formData.append("api_key", REACT_APP_CLOUDINARY_API_KEY); // Replace API key with your own Cloudinary key
-    formData.append("timestamp", (Date.now() / 1000) | 0);
-    // formData.append("q_auto", "c_scale", "w_300");
+  //   // Initial FormData
+  //   const formData = new FormData();
+  //   formData.append("file", compressedFile);
+  //   formData.append("tags", `codeinfuse, medium, gist`);
+  //   formData.append("upload_preset", "v8yxkbjj"); // Replace the preset name with your own
+  //   formData.append("api_key", REACT_APP_CLOUDINARY_API_KEY); // Replace API key with your own Cloudinary key
+  //   formData.append("timestamp", (Date.now() / 1000) | 0);
+  //   // formData.append("q_auto", "c_scale", "w_300");
 
-    // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+  //   // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
 
-    return axios
-      .post(
-        "https://api.cloudinary.com/v1_1/dayoe8mly/image/upload",
-        formData,
-        {
-          headers: { "X-Requested-With": "XMLHttpRequest" }
-        }
-      )
+  //   return axios
+  //     .post(
+  //       "https://api.cloudinary.com/v1_1/dayoe8mly/image/upload",
+  //       formData,
+  //       {
+  //         headers: { "X-Requested-With": "XMLHttpRequest" }
+  //       }
+  //     )
 
-      .then(response => {
-        const data = response.data;
-        const fileURL = data.secure_url; // You should store this URL for future references in your app
-        // console.log(data);
-        const imageData = {
-          publicID: data.public_id,
-          fileURL: fileURL,
-          deleteToken: data.delete_token
-        };
-        // console.log(data);
-        this.setState(prevState => ({
-          images: [...prevState.images, imageData]
-        }));
-      });
+  //     .then(response => {
+  //       const data = response.data;
+  //       const fileURL = data.secure_url; // You should store this URL for future references in your app
+  //       // console.log(data);
+  //       const imageData = {
+  //         publicID: data.public_id,
+  //         imageURL: fileURL,
+  //         deleteToken: data.delete_token
+  //       };
+  //       // console.log(data);
+  //       this.setState(prevState => ({
+  //         images: [...prevState.images, imageData]
+  //       }));
+  //     });
 
-    // Once all the files are uploaded
-    // axios.all(uploaders).then(res => {
-    //   // ... perform after upload is successful operation
-    //   // console.log("uploaders");
-    //   // console.log(uploaders);
-    // });
+  // Once all the files are uploaded
+  // axios.all(uploaders).then(res => {
+  //   // ... perform after upload is successful operation
+  //   // console.log("uploaders");
+  //   // console.log(uploaders);
+  // });
+  // };
+
+  uploadToFirebase = async compressedFile => {
+    return await this.props.uploadImages(compressedFile);
   };
 
   handleDrop = async rawFiles => {
     //check current rawFiles Length and total rawFiles length
     //check remaining files length
-    const remainingImages = this.state.maxImages - this.state.images.length;
+    this.props.asyncActionStart();
+    const remainingImages = this.state.maxImages - this.props.images.length;
     if (
       rawFiles.length > this.state.maxImages ||
       remainingImages < 0 ||
@@ -210,7 +282,7 @@ class ListingForm extends Component {
       toastr.error("Error", "Only 10 Images Allowed !");
       return;
     }
-
+    // this.props.asyncActionStart();
     rawFiles.forEach(async rawFile => {
       var options = {
         maxSizeMB: 0.3,
@@ -218,22 +290,21 @@ class ListingForm extends Component {
         useWebWorker: true
       };
       try {
-        this.props.asyncActionStart();
         const compressedFile = await imageCompression(rawFile, options);
 
-        await this.uploadToServer(compressedFile); // write your own logic
-        this.props.asyncActionFinish();
+        await this.uploadToFirebase(compressedFile); // write your own logic
       } catch (error) {
         this.props.asyncActionError();
         console.log(error);
       }
     });
+    // this.props.asyncActionFinish();
   };
 
   // while updating update date also
   render() {
     const { invalid, submitting, pristine } = this.props;
-    const { images } = this.state;
+    const { images } = this.props;
     const { loading } = this.props.async;
     // const loading = true;
     return (
@@ -282,18 +353,16 @@ class ListingForm extends Component {
                   images.map(image => (
                     <div
                       className="col-6 col-md-3 margin-custom"
-                      key={image.fileURL + cuid()}
+                      key={image.imageURL}
                     >
                       <img
                         alt=""
-                        src={image.fileURL}
+                        src={image.imageURL}
                         className="img-fluid img-listing-form"
                       />
+
                       <button
-                        onClick={this.deleteSelection.bind(
-                          this,
-                          image.deleteToken
-                        )}
+                        onClick={this.deleteSelection.bind(this, image)}
                         className="btn btn-danger btn-photo-delete"
                       >
                         x
@@ -331,17 +400,27 @@ class ListingForm extends Component {
               />
 
               <div className="card border rounded-0">
-                <div className="card-header h5 text-secondary">
-                  Contact Details
-                </div>
-                <div className="card-body ">
-                  <Field name="userName" type="text" component={NameInput} />
-                  {this.state.showNumber && <PhoneInput />}
-                  <ShowNumberToggle
-                    defaultChecked={this.state.showNumber}
-                    onChange={this.toggleShowNumber}
-                  />
-                </div>
+                {this.props.match.params.id ? (
+                  <div>
+                    <div className="card-header h5 text-secondary">
+                      Contact Details
+                    </div>
+                    <div className="card-body ">
+                      <Field
+                        name="sellerName"
+                        type="text"
+                        component={NameInput}
+                      />
+                      {this.state.showNumber && <PhoneInput />}
+                      <ShowNumberToggle
+                        defaultChecked={this.state.showNumber}
+                        onChange={this.toggleShowNumber}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="card-footer text-muted text-center">
                   <div className="form-group">
                     <button
@@ -362,11 +441,16 @@ class ListingForm extends Component {
   }
 }
 
-export default connect(
-  mapState,
-  actions
-)(
-  reduxForm({ form: "listingForm", enableReinitialize: true, validate })(
-    ListingForm
+export default withFirestore(
+  connect(
+    mapState,
+    actions
+  )(
+    reduxForm({
+      form: "listingForm",
+      enableReinitialize: true,
+      keepDirtyOnReinitialize: true,
+      validate
+    })(ListingForm)
   )
 );

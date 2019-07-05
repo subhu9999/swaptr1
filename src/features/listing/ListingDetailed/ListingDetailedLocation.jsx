@@ -15,12 +15,12 @@ const ListingDetailedLocation = ({ listing }) => {
             Posted On
           </span>
           <span className="text-muted">
-            {format(listing.date, "MMM DD, YYYY")}
+            {format(listing.created, "MMM DD, YYYY")}
           </span>
         </div>
       </div>
       <span className="font-weight-bold">AD ID</span>{" "}
-      <span className="text-uppercase">{listing.id}</span>
+      <span className="text-uppercase text-muted">{listing.id}</span>
       <a href="/" className="text-muted mt-1 float-right">
         <i className="fas fa-exclamation-triangle mr-1 " />
         Report Ad
