@@ -9,16 +9,14 @@ import {
   isRequired,
   hasLengthGreaterThan
 } from "revalidate";
+import { createListing, updateListing } from "../listingActions";
+
 import {
-  createListing,
-  updateListing,
-  fetchListing,
-  uploadImages,
   deleteImage,
   loadImages,
-  resetListing
-} from "../listingActions";
-import cuid from "cuid";
+  resetImages,
+  uploadImages
+} from "./tempImagesActions";
 import AdTitleInput from "./AdTitleInput";
 import LocationInput from "./LocationInput";
 import DescriptionInput from "./DescriptionInput";
@@ -31,7 +29,6 @@ import { openModal } from "../../modals/modalActions";
 import Dropzone from "react-dropzone";
 import { toastr } from "react-redux-toastr";
 // import { uploadTest, uploadImages } from "../../user/userActions";
-import axios from "axios";
 import imageCompression from "browser-image-compression";
 import { Container, Row, Col } from "react-bootstrap";
 import {
@@ -49,14 +46,14 @@ const mapState = state => {
   return {
     initialValues: listing,
     async: state.async,
-    images: state.listings
+    // TODO: add images reducer
+    images: state.tempImages
   };
 };
 
 const actions = {
   createListing,
   updateListing,
-  fetchListing,
   uploadImages,
   deleteImage,
   openModal,
@@ -64,7 +61,7 @@ const actions = {
   asyncActionFinish,
   asyncActionStart,
   loadImages,
-  resetListing
+  resetImages
 };
 
 const validate = combineValidators({
@@ -154,7 +151,7 @@ class ListingForm extends Component {
 
       this.props.history.push("/");
     }
-    this.props.resetListing();
+    this.props.resetImages();
   };
 
   toggleShowNumber = () => {

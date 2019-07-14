@@ -1,0 +1,3 @@
+export const TEMP_LISTING_PHOTOS = "TEMP_LISTING_PHOTOS";
+export const DELETE_IMAGE = "DELETE_IMAGE";
+export const RESET_IMAGES = "RESET_IMAGES";

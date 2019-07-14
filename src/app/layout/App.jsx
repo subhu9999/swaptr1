@@ -7,7 +7,9 @@ import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
 import ListingDetailedPage from "../../features/listing/ListingDetailed/ListingDetailedPage";
 import ModalManager from "../../features/modals/ModalManager";
 import TestComponent from "../../features/testarea/TestComponent";
+import UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage";
 
+// TODO: Cap Firebase Data Query Usage
 class App extends Component {
   render() {
     return (
@@ -20,6 +22,7 @@ class App extends Component {
             <Route path="/settings" component={SettingsDashboard} />
             <Route path="/listing/:id" component={ListingDetailedPage} />
             <Route path="/manage/:id" component={ListingForm} />
+            <Route path="/profile/:id" component={UserDetailedPage} />
             <Route path="/test" component={TestComponent} />
           </Switch>
         </div>

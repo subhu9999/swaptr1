@@ -15,4 +15,8 @@ const LoadingComponent = () => {
   );
 };
 
+// const LoadingComponent = () => {
+//   return <div className="nb-spinner" />;
+// };
+
 export default LoadingComponent;

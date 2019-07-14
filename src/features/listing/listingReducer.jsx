@@ -3,9 +3,7 @@ import {
   CREATE_LISTING,
   UPDATE_LISTING,
   DELETE_LISTING,
-  DELETE_IMAGE,
   FETCH_LISTING,
-  TEMP_LISTING_PHOTOS,
   RESET_LISTING
 } from "./listingConstants";
 
@@ -28,14 +26,14 @@ export const deleteListing = (state, payload) => {
 };
 
 export const fetchListing = (state, payload) => {
-  console.log(payload.listing);
-  return [payload.listing];
+  console.log(payload.listings);
+  return [...payload.listings];
 };
 
-export const setTempListingPhotos = (state, payload) => {
-  // console.log(payload.images);
-  return [...state, payload];
-};
+// export const setTempListingPhotos = (state, payload) => {
+//   // console.log(payload.images);
+//   return [...state, payload];
+// };
 
 export const deleteImage = (state, payload) => {
   return [...state.filter(image => image.imageName !== payload.imageName)];
@@ -50,7 +48,7 @@ export default createReducer(initialState, {
   [UPDATE_LISTING]: updateListing,
   [DELETE_LISTING]: deleteListing,
   [FETCH_LISTING]: fetchListing,
-  [TEMP_LISTING_PHOTOS]: setTempListingPhotos,
-  [DELETE_IMAGE]: deleteImage,
+  // [TEMP_LISTING_PHOTOS]: setTempListingPhotos,
+  // [DELETE_IMAGE]: deleteImage,
   [RESET_LISTING]: resetListing
 });

@@ -14,7 +14,6 @@ class ListingDetailedBody extends Component {
               <Link
                 to={`/manage/${listing.id}`}
                 className=" ml-1 border-0 text-underline"
-                href="/"
               >
                 (Click To Edit)
               </Link>
@@ -52,22 +51,34 @@ class ListingDetailedBody extends Component {
           <div className="card-body ">
             <p>{listing.description}</p>
           </div>
-          <div id="action-buttons" className="w-100 hide-fixed-buttons">
-            <a
-              href="/"
-              className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-50"
-            >
-              <i className="far fa-comment-alt  mr-1" />
-              CHAT
-            </a>
-            <a
-              href="/"
-              className="btn btn-lg btn-primary call-button-fixed font-weight-bold w-50"
-            >
-              <i className="fas fa-phone mr-1 fa-flip-horizontal " />
-              CALL
-            </a>
-          </div>
+          {auth.uid === listing.sellerUid ? (
+            <div id="action-buttons" className="w-100 hide-fixed-buttons">
+              <a
+                href="/"
+                className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-100"
+              >
+                <i className="far fa-comment-alt  mr-1" />
+                Edit Listing
+              </a>
+            </div>
+          ) : (
+            <div id="action-buttons" className="w-100 hide-fixed-buttons">
+              <a
+                href="/"
+                className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-50"
+              >
+                <i className="far fa-comment-alt  mr-1" />
+                CHAT
+              </a>
+              <a
+                href="/"
+                className="btn btn-lg btn-primary call-button-fixed font-weight-bold w-50"
+              >
+                <i className="fas fa-phone mr-1 fa-flip-horizontal " />
+                CALL
+              </a>
+            </div>
+          )}
         </div>
       </div>
     );

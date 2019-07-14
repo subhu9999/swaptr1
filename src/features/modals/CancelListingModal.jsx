@@ -3,7 +3,11 @@ import { closeModal } from "./modalActions";
 import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 // import axios from "axios";
-import { deleteImage, resetListing } from "../listing/listingActions";
+// import { resetListing } from "../listing/listingActions";
+import {
+  deleteImage,
+  resetImages
+} from "../listing/ListingForm/tempImagesActions";
 import { withRouter } from "react-router-dom";
 
 const mapState = state => ({
@@ -13,7 +17,7 @@ const mapState = state => ({
 const actions = {
   closeModal,
   deleteImage,
-  resetListing
+  resetImages
 };
 
 // const REACT_APP_CLOUDINARY_API_KEY = process.env.REACT_APP_CLOUDINARY_API_KEY;
@@ -78,7 +82,7 @@ class cancelListingModal extends Component {
     //check if no
     if (this.props.images[0] === undefined) {
       this.props.closeModal();
-      this.props.resetListing();
+      this.props.resetImages();
       this.props.history.push("/");
 
       return;
@@ -93,7 +97,7 @@ class cancelListingModal extends Component {
       }
     });
     this.props.closeModal();
-    this.props.resetListing();
+    this.props.resetImages();
     this.props.history.push("/");
   };
 

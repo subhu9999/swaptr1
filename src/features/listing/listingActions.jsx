@@ -1,28 +1,17 @@
 import {
   DELETE_LISTING,
-  DELETE_IMAGE,
-  UPDATE_LISTING,
-  FETCH_LISTING,
-  TEMP_LISTING_PHOTOS,
-  RESET_LISTING
+  // RESET_LISTING,
+  FETCH_LISTING
 } from "./listingConstants";
 import {
   asyncActionStart,
   asyncActionError,
   asyncActionFinish
 } from "../async/asyncActions";
-// import {} from "../listing/";
-import { fetchSampleData } from "../../app/data/mockApi";
 import { toastr } from "react-redux-toastr";
 import { createNewListing } from "../../app/common/util/helpers";
-import cuid from "cuid";
-
-export const fetchListing = listing => {
-  return {
-    type: FETCH_LISTING,
-    payload: listing
-  };
-};
+// import cuid from "cuid";
+import firebase from "../../app/config/firebase";
 
 export const createListing = listing => {
   return async (dispatch, getState, { getFirestore, getFirebase }) => {
@@ -80,139 +69,83 @@ export const deleteListing = listingId => {
   };
 };
 
-export const loadListings = () => {
-  return async dispatch => {
-    try {
-      dispatch(asyncActionStart());
-      let listings = await fetchSampleData();
-      // dispatch(fetchListings(listings));
-      dispatch(asyncActionFinish());
-    } catch (error) {
-      console.log(error);
-      dispatch(asyncActionError());
-    }
-  };
-};
+// export const resetListing = () => async (
+//   dispatch,
+//   getState,
+//   { getFirebase, getFirestore }
+// ) => {
+//   dispatch({
+//     type: RESET_LISTING
+//   });
+// };
 
-export const uploadImages = file => async (
-  dispatch,
-  getState,
-  { getFirebase, getFirestore }
-) => {
-  // console.log(file);
-  const firebase = getFirebase();
-  const firestore = getFirestore();
-  const user = firebase.auth().currentUser;
-
-  // Create the file metadata
-  var metadata = {
-    contentType: "image/jpeg"
-  };
-  // console.log(file);
-  // Create a root reference
-  var storageRef = firebase.storage().ref();
-
-  const fileName = file.name + cuid();
-  // Upload file and metadata to the object 'images/mountains.jpg'
-  var uploadTask = storageRef
-    .child(`${user.uid}/listing_images/` + fileName)
-    .put(file, metadata);
-
-  // Listen for state changes, errors, and completion of the upload.
-  uploadTask.on(
-    firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-    function(snapshot) {
-      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-      // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      // console.log("Upload is " + progress + "% done");
-      // switch (snapshot.state) {
-      //   case firebase.storage.TaskState.PAUSED: // or 'paused'
-      //     console.log("Upload is paused");
-      //     break;
-      //   case firebase.storage.TaskState.RUNNING: // or 'running'
-      //     console.log("Upload is running");
-      //     break;
-      //   default:
-      //     console.log("wait");
-      // }
-    },
-    function(error) {
-      // A full list of error codes is available at
-      // https://firebase.google.com/docs/storage/web/handle-errors
-      switch (error.code) {
-        case "storage/unauthorized":
-          // User doesn't have permission to access the object
-          break;
-
-        case "storage/canceled":
-          // User canceled the upload
-          break;
-
-        case "storage/unknown":
-          // Unknown error occurred, inspect error.serverResponse
-          break;
-        default:
-          console.log("wait");
-      }
-    },
-    function() {
-      // Upload completed successfully, now we can get the download URL
-      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-        // console.log("File available at", downloadURL);
-        dispatch({
-          type: TEMP_LISTING_PHOTOS,
-          payload: {
-            imageURL: downloadURL,
-            imageName: fileName,
-            deleteToken: fileName
-          }
-        });
-        dispatch(asyncActionFinish());
-      });
-    }
-  );
-};
-
-export const loadImages = images => async dispatch => {
-  images.forEach(image =>
-    dispatch({
-      type: TEMP_LISTING_PHOTOS,
-      payload: {
-        imageURL: image.imageURL,
-        imageName: image.imageName
-      }
-    })
-  );
-};
-
-export const deleteImage = image => async (
-  dispatch,
-  getState,
-  { getFirebase, getFirestore }
-) => {
-  const firebase = getFirebase();
-  const firestore = getFirestore();
-  const user = firebase.auth().currentUser;
+export const getUserListings = userUid => async (dispatch, getState) => {
+  // let today = new Date(Date.now());
+  const firestore = firebase.firestore();
+  const listingsQuery = firestore
+    .collection("listings")
+    .where("sellerUid", "==", userUid);
   try {
-    await firebase.deleteFile(`${user.uid}/listing_images/${image.imageName}`);
-    // delete image from reducer
+    dispatch(asyncActionStart());
+    let querySnap = await listingsQuery.get();
+    let listings = [];
 
-    dispatch({
-      type: DELETE_IMAGE,
-      payload: { imageName: image.imageName }
-    });
+    for (let i = 0; i < querySnap.docs.length; i++) {
+      let listing = { ...querySnap.docs[i].data(), id: querySnap.docs[i].id };
+      listings.push(listing);
+    }
+    // console.log(listings);
+    dispatch({ type: FETCH_LISTING, payload: { listings } });
+    dispatch(asyncActionFinish());
   } catch (error) {
+    dispatch(asyncActionError());
     console.log(error);
-    throw new Error("Problem deleting the image !");
   }
 };
 
-export const resetListing = () => async (
+export const getListingsForDashboard = lastListing => async (
   dispatch,
-  getState,
-  { getFirebase, getFirestore }
+  getState
 ) => {
-  dispatch({
-    type: RESET_LISTING
-  });
+  const firestore = firebase.firestore();
+  const listingsRef = firestore.collection("listings");
+  try {
+    dispatch(asyncActionStart());
+    let startAfter =
+      lastListing &&
+      (await firestore
+        .collection("listings")
+        .doc(lastListing.id)
+        .get());
+
+    let query;
+
+    lastListing
+      ? (query = listingsRef
+          .orderBy("created", "desc")
+          .startAfter(startAfter)
+          .limit(4))
+      : (query = listingsRef.orderBy("created", "desc").limit(4));
+
+    let querySnap = await query.get();
+
+    //return if no more data found
+    if (querySnap.docChanges().length === 0) {
+      dispatch(asyncActionFinish());
+      return querySnap;
+    }
+    let listings = [];
+
+    for (let i = 0; i < querySnap.docs.length; i++) {
+      let listing = { ...querySnap.docs[i].data(), id: querySnap.docs[i].id };
+      listings.push(listing);
+    }
+    // console.log(listings);
+    dispatch({ type: FETCH_LISTING, payload: { listings } });
+    dispatch(asyncActionFinish());
+    return querySnap;
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError());
+  }
 };

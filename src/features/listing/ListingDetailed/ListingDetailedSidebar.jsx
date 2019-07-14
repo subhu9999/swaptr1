@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class ListingDetailedSidebar extends Component {
   render() {
@@ -9,12 +10,34 @@ class ListingDetailedSidebar extends Component {
     } else {
       phoneNumber = "-----";
     }
+
+    let chatOrEdit;
+    if (auth.uid === listing.sellerUid) {
+      chatOrEdit = (
+        <a
+          href="/"
+          className="btn btn-primary font-weight-bold d-block mb-2 rounded-0"
+        >
+          Edit This Listing
+        </a>
+      );
+    } else {
+      chatOrEdit = (
+        <a
+          href="/"
+          className="btn btn-primary text-uppercase font-weight-bold d-block mb-2 rounded-0"
+        >
+          Chat With Seller
+        </a>
+      );
+    }
+
     return (
       <div>
         <div className="card ">
           <div className="card-header">Seller Details</div>
           <div className="card-body ">
-            <a href="/" className="text-dark">
+            <Link to={`/profile/${listing.sellerUid}`} className="text-dark">
               <img
                 className="img-fluid profile-pic float-left mr-2"
                 src={listing.sellerProfilePic || "/assets/default-user.png"}
@@ -31,7 +54,7 @@ class ListingDetailedSidebar extends Component {
               <span className="fa fa-star checked" />
               <span className="fa fa-star" />
               <span className="fa fa-star" />
-            </a>
+            </Link>
           </div>
           <div className="card-footer text-muted ">
             {auth.isEmpty ? (
@@ -42,12 +65,7 @@ class ListingDetailedSidebar extends Component {
                 Chat With Seller
               </button>
             ) : (
-              <a
-                href="/"
-                className="btn btn-primary text-uppercase font-weight-bold d-block mb-2 rounded-0"
-              >
-                Chat With Seller
-              </a>
+              chatOrEdit
             )}
             <div className="container row justify-content-center">
               <i className="fas fa-mobile-alt fa-lg mr-2 h4 mt-3" />
