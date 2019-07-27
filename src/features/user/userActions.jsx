@@ -1,6 +1,7 @@
 import { toastr } from "react-redux-toastr";
 import { closeModal } from "../modals/modalActions";
 import cuid from "cuid";
+import Listing from "../listing/Listing/Listing";
 
 //TODO: verify phone Number
 export const updateProfile = user => async (
@@ -218,3 +219,88 @@ export const uploadProfileImage = file => async (
 //     }
 //   );
 // };
+
+// export const addUserChat = (listingId, values) => async (
+//   dispatch,
+//   getState,
+//   { getFirebase }
+// ) => {
+//   const firebase = getFirebase();
+//   const profile = getState().firebase.profile;
+//   const user = firebase.auth().currentUser;
+//   let newChat = {
+//     displayName: profile.displayName,
+//     photoURL: profile.photoURL,
+//     uid: user.uid,
+//     // text: values.comment,
+//     date: Date.now(),
+//     seen: false,
+//     listingId: listingId,
+//     listingPhoto: "/assets/swaptr-listing.jpg"
+//   };
+
+//   try {
+//     await firebase.push(`user_chat/${listingId}`, newChat);
+//   } catch (error) {
+//     console.log(error);
+//     toastr.error("Oops", "Please Try Again Later !");
+//   }
+// };
+
+export const addUserChat = (chatDetails, values) => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  const firebase = getFirebase();
+
+  const profile = getState().firebase.profile;
+  const user = firebase.auth().currentUser;
+  let newChat = {
+    ...chatDetails,
+    // text: values.comment,
+    date: Date.now(),
+    seen: false
+  };
+
+  try {
+    await firebase.push(`user_chat/${user.uid}`, newChat);
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Please Try Again Later !");
+  }
+};
+
+export const addChatComment = (chat, values) => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  // console.log(chat);
+  // console.log(values);
+  const firebase = getFirebase();
+
+  const user = firebase.auth().currentUser;
+
+  let comments = [];
+  if (chat.comments) {
+    comments = chat.comments;
+  }
+
+  let newComment = {
+    text: values.comment,
+    date: Date.now(),
+    seen: false,
+    authorId: user.uid
+  };
+  comments.push(newComment);
+  try {
+    await firebase.set(`user_chat/${user.uid}/${chat.id}`, {
+      ...chat,
+      comments: comments
+    });
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Please Try Again Later !");
+  }
+};

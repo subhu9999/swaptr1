@@ -8,7 +8,7 @@ import ListingDetailedPage from "../../features/listing/ListingDetailed/ListingD
 import ModalManager from "../../features/modals/ModalManager";
 import TestComponent from "../../features/testarea/TestComponent";
 import UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage";
-
+import UserChatsPage from "../../features/user/UserChatsPage/UserChatsPage";
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
   render() {
@@ -18,11 +18,18 @@ class App extends Component {
         <div className=" container-fluid">
           <Switch>
             <Route path="/" exact component={ListingDashboard} />
+
             <Route path="/createListing" component={ListingForm} />
+            {/* TODO: Hide Route */}
             <Route path="/settings" component={SettingsDashboard} />
             <Route path="/listing/:id" component={ListingDetailedPage} />
+
             <Route path="/manage/:id" component={ListingForm} />
+
             <Route path="/profile/:id" component={UserDetailedPage} />
+            {/* TODO: Hide Route */}
+            <Route path="/chats/:userId" component={UserChatsPage} />
+            {/* <Route path="/chats/:id/:listingId" component={UserChatsPage} /> */}
             <Route path="/test" component={TestComponent} />
           </Switch>
         </div>

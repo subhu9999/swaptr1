@@ -25,6 +25,9 @@ const SettingsDashboard = ({
   user,
   updateProfile
 }) => {
+  if (!user) {
+    return <Redirect exact from="/settings" to="/" />;
+  }
   return (
     <div className="row settingsDashboard">
       <Navbar />

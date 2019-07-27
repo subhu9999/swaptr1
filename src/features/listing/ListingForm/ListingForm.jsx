@@ -38,6 +38,7 @@ import {
 } from "../../async/asyncActions";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { withFirestore } from "react-redux-firebase";
+import { Redirect } from "react-router";
 
 // const REACT_APP_CLOUDINARY_API_KEY = process.env.REACT_APP_CLOUDINARY_API_KEY;
 const mapState = state => {
@@ -47,7 +48,8 @@ const mapState = state => {
     initialValues: listing,
     async: state.async,
     // TODO: add images reducer
-    images: state.tempImages
+    images: state.tempImages,
+    auth: state.firebase.auth
   };
 };
 
@@ -298,14 +300,21 @@ class ListingForm extends Component {
     // this.props.asyncActionFinish();
   };
 
+  renderRedirect = () => {
+    if (!this.props.auth.uid) {
+      return <Redirect to="/" />;
+    }
+  };
+
   // while updating update date also
   render() {
     const { invalid, submitting, pristine } = this.props;
     const { images } = this.props;
     const { loading } = this.props.async;
-    // const loading = true;
+
     return (
       <div>
+        {this.renderRedirect()}
         <NavbarAlt goHome={this.goHome} />
         <Banner />
 

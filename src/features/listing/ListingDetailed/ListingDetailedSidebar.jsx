@@ -1,34 +1,53 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { addUserChat } from "../../user/userActions";
+import { connect } from "react-redux";
+const actions = {
+  addUserChat
+};
 class ListingDetailedSidebar extends Component {
   render() {
-    const { listing, auth, openModal } = this.props;
+    const { listing, auth, openModal, addUserChat } = this.props;
+    // console.log(auth.uid);
+
     let phoneNumber;
     if (listing.showNumber) {
       phoneNumber = listing.sellerPhoneNumber;
     } else {
       phoneNumber = "-----";
     }
-
+    let listingMainImage;
+    if (listing && listing.images && listing.images[0].imageURL) {
+      listingMainImage = listing.images[0].imageURL;
+    }
+    console.log(listingMainImage);
     let chatOrEdit;
+    let chatDetails = {
+      listingId: listing.id,
+      listingTitle: listing.title,
+      listingPhoto: listingMainImage || "/assets/swaptr-listing.jpg",
+      sellerName: listing.sellerName,
+      sellerPhoneNumber: listing.sellerPhoneNumber,
+      sellerProfilePic: listing.sellerProfilePic
+    };
     if (auth.uid === listing.sellerUid) {
       chatOrEdit = (
-        <a
-          href="/"
+        <Link
+          to={`/manage/${listing.id}`}
           className="btn btn-primary font-weight-bold d-block mb-2 rounded-0"
         >
           Edit This Listing
-        </a>
+        </Link>
       );
     } else {
       chatOrEdit = (
-        <a
-          href="/"
+        <Link
+          to={`/chats/${auth.uid}`}
           className="btn btn-primary text-uppercase font-weight-bold d-block mb-2 rounded-0"
+          onClick={() => addUserChat(chatDetails)}
         >
           Chat With Seller
-        </a>
+        </Link>
       );
     }
 
@@ -93,4 +112,7 @@ class ListingDetailedSidebar extends Component {
     );
   }
 }
-export default ListingDetailedSidebar;
+export default connect(
+  null,
+  actions
+)(ListingDetailedSidebar);

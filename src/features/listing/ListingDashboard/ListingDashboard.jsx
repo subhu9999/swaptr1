@@ -107,7 +107,12 @@ class ListingDashboard extends Component {
   }
 }
 
+// export default connect(
+//   mapState,
+//   actions
+// )(firestoreConnect([{ collection: "listings" }])(ListingDashboard));
+
 export default connect(
   mapState,
   actions
-)(firestoreConnect([{ collection: "listings" }])(ListingDashboard));
+)(ListingDashboard);
