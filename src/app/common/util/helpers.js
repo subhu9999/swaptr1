@@ -13,10 +13,13 @@ export const objectToArrayDesc = object => {
       Object.assign(e[1], { id: e[0] })
     );
   }
-  let desc = objectToArray;
-  desc.sort(function(a, b) {
-    return b.date - a.date;
-  });
+  if (objectToArray) {
+    let desc = objectToArray;
+    desc.sort(function(a, b) {
+      return b.date - a.date;
+    });
+  }
+
   // console.log(desc);
   //object to array in descending order
   return objectToArray;

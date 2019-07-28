@@ -252,6 +252,7 @@ export const addUserChat = (chatDetails, values) => async (
   getState,
   { getFirebase }
 ) => {
+  console.log("addUserChat");
   const firebase = getFirebase();
 
   const profile = getState().firebase.profile;
@@ -271,20 +272,58 @@ export const addUserChat = (chatDetails, values) => async (
   }
 };
 
+export const addUserChatReceiver = (chatDetails, values) => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  console.log("addUserChatReceiver");
+
+  // console.log(chatDetails);
+  //runs only when first time messaged by user
+  const firebase = getFirebase();
+
+  // const profile = getState().firebase.profile;
+  const user = firebase.auth().currentUser;
+  console.log(user.uid);
+  console.log(chatDetails);
+  const receiverId = chatDetails.receiverUid;
+  let newChat = {
+    ...chatDetails,
+    // text: values.comment,
+    date: Date.now(),
+    seen: false,
+    receiverUid: user.uid
+  };
+
+  try {
+    // await firebase.push(`user_chat/${user.uid}`, newChat);
+    await firebase.set(`user_chat/${receiverId}/${chatDetails.id}`, newChat);
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Please Try Again Later !");
+  }
+};
+
 export const addChatComment = (chat, values) => async (
   dispatch,
   getState,
   { getFirebase }
 ) => {
+  console.log("addChatComment");
+
   // console.log(chat);
   // console.log(values);
   const firebase = getFirebase();
 
   const user = firebase.auth().currentUser;
 
+  //if prevoius comments exists then
   let comments = [];
   if (chat.comments) {
     comments = chat.comments;
+  } else {
+    dispatch(addUserChatReceiver(chat, values));
   }
 
   let newComment = {
@@ -294,13 +333,24 @@ export const addChatComment = (chat, values) => async (
     authorId: user.uid
   };
   comments.push(newComment);
+
   try {
+    // update comment in current user
     await firebase.set(`user_chat/${user.uid}/${chat.id}`, {
       ...chat,
       comments: comments
     });
+    // //update comment in rceiver -- use user.uid to change receiverUid everytime
+    await firebase.set(`user_chat/${chat.receiverUid}/${chat.id}`, {
+      ...chat,
+      comments: comments,
+      receiverUid: user.uid
+    });
+    // dispatch(addChatCommentReceiver(chat, values));
   } catch (error) {
     console.log(error);
     toastr.error("Oops", "Please Try Again Later !");
   }
 };
+
+//add sender and receiver details when button is clicked

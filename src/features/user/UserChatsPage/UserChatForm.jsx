@@ -6,8 +6,8 @@ import cuid from "cuid";
 
 class UserChatForm extends Component {
   handleChatSubmit = values => {
-    const { addChatComment, reset, userChat } = this.props;
-    addChatComment(userChat, values);
+    const { addChatComment, reset, userChat, userId } = this.props;
+    addChatComment(userChat, values, userId);
     reset();
   };
   render() {
