@@ -3,14 +3,34 @@ import { Form, Button, Card } from "react-bootstrap";
 import { Field, reduxForm } from "redux-form";
 import TextArea from "./TextArea";
 import cuid from "cuid";
+import { isRequired,combineValidators } from "revalidate";
+
+const validate = combineValidators({
+  
+  comment: isRequired({ message: "type a message" })
+});
 
 class UserChatForm extends Component {
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  };
   handleChatSubmit = values => {
     const { addChatComment, reset, userChat, userId } = this.props;
     addChatComment(userChat, values, userId);
     reset();
   };
+
+  //disable button if no -text
   render() {
+    const { invalid, submitting, pristine } = this.props;
     const { userChat, userId } = this.props;
     return (
       <Form onSubmit={this.props.handleSubmit(this.handleChatSubmit)}>
@@ -40,34 +60,49 @@ class UserChatForm extends Component {
               userChat.comments.map(comment => {
                 if (comment.authorId === userId) {
                   return (
-                    <Card.Text
+                    // <Card.Text
+                    //   key={comment.date + cuid()}
+                    //   className="ml-2 mr-4 left-chat"
+                    // >
+                    //   {comment.text}
+                    // </Card.Text>
+                    <p
                       key={comment.date + cuid()}
-                      className="ml-2 mr-4"
+                      className="ml-2 mr-4 w-50 text-white lead p-2 pl-4 speech-bubble-left"
                     >
                       {comment.text}
-                    </Card.Text>
+                    </p>
                   );
                 }
 
                 return (
                   <Card.Text
                     key={comment.date + cuid()}
-                    className="mr-2 margin-left-chat"
+                    className="margin-left-chat  text-white p-2 lead pr-4 mr-2 speech-bubble-right"
                   >
                     {comment.text}
                   </Card.Text>
                 );
               })}
+            <div
+              style={{ float: "left", clear: "both" }}
+              ref={el => {
+                this.messagesEnd = el;
+              }}
+            />
           </Card.Body>
         </Card>
         <Field name="comment" type="text" component={TextArea} rows={2} />
-        <Button type="submit" className="send-chat-button ">
+        <Button
+          type="submit"
+          className="send-chat-button "
+          disabled={invalid || submitting || pristine}
+        >
           <i className="fas fa-chevron-circle-right" />
         </Button>
-        {/* TODO: // limit text characters 70*/}
       </Form>
     );
   }
 }
 
-export default reduxForm({ form: "userChat" })(UserChatForm);
+export default reduxForm({ form: "userChat", validate })(UserChatForm);

@@ -50,7 +50,11 @@ class Navbar extends Component {
 
         <Search />
         {authenticated ? (
-          <SignedInMenu profile={profile} signOut={this.handleSignOut} />
+          <SignedInMenu
+            auth={auth}
+            profile={profile}
+            signOut={this.handleSignOut}
+          />
         ) : (
           <SignedOutMenu
             signIn={this.handleSignIn}

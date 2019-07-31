@@ -2,17 +2,20 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./SignedInMenu.css";
 
-const SignedInMenu = ({ signOut, profile }) => {
+const SignedInMenu = ({ signOut, profile, auth }) => {
   const num = 4;
 
   return (
     <div className="collapse navbar-collapse justify-content-between" id="nav">
       <ul className="navbar-nav ml-auto hide-visibility-sm">
         <li className="nav-item">
-          <button className="nav-link btn messages text-light mt-2">
+          <Link
+            className="nav-link btn messages text-light mt-2"
+            to={`/chats/${auth.uid}`}
+          >
             <i className="far fa-comment-alt fa-lg" />
             {num > 1 && <span className="badge">{num}</span>}
-          </button>
+          </Link>
         </li>
         <li className="nav-item">
           <button className="nav-link btn messages text-light mt-2">

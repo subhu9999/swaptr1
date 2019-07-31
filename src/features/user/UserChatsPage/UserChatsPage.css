@@ -57,6 +57,55 @@
 
 .margin-left-chat {
   margin-left: 200px;
+  /* margin-right: 0 !important ; */
+}
+
+left-chat {
+  background-color: lightskyblue !important;
+  color: blue;
+}
+
+right-chat {
+  color: red;
+}
+
+.speech-bubble-left {
+  position: relative;
+  background: #00aabb;
+  border-radius: 0.4em;
+}
+
+.speech-bubble-left:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  border-right-color: #00aabb;
+  border-left: 0;
+  margin-top: -12px;
+  margin-left: -10px;
+}
+
+.speech-bubble-right {
+  position: relative;
+  background: #00aabb;
+  border-radius: 0.4em;
+}
+.speech-bubble-right:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  border-left-color: #00aabb;
+  border-right: 0;
+  margin-top: -12px;
+  margin-right: -10px;
 }
 
 .chat-box {
