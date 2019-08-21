@@ -24,15 +24,15 @@
 }
 
 .badge-toggler {
-  background: #f44336;
+  /* background: #f44336; */
   font-size: 11px;
   border-radius: 20px;
   position: absolute;
   min-width: 10px;
   padding: 4px 6px 0;
   min-height: 18px;
-  top: 8px !important;
-  margin-left: -2px;
+  top: 10px !important;
+  margin-left: -4px;
 }
 
 /* end of navbar */

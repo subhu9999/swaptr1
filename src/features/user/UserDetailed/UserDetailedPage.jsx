@@ -8,7 +8,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { userDetailedQuery } from "../userQueries";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import { getUserListings } from "../../listing/listingActions";
+import { getUserListings, resetListing } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
 // import LazyLoad from 'react-lazyload';
 
@@ -35,7 +35,8 @@ const mapState = (state, ownProps) => {
 };
 
 const actions = {
-  getUserListings
+  getUserListings,
+  resetListing
 };
 
 //TODO: change the query doc in firebase
@@ -45,8 +46,25 @@ class UserDetailedPage extends Component {
     userUid = this.props.match.params.id;
     this.props.getUserListings(userUid);
   };
+
+  componentWillUpdate = () => {
+    const { userListings, match } = this.props;
+    // const demoListing = userListings[0];
+    console.log("will update");
+    if (
+      userListings &&
+      userListings[0] &&
+      userListings[0].sellerUid !== match.params.id
+    ) {
+      let userUid;
+      userUid = this.props.match.params.id;
+      this.props.getUserListings(userUid);
+      console.log("get request");
+    }
+  };
+
   render() {
-    const { profile, requesting, userListings, listingLoading } = this.props;
+    const { profile, requesting, listingLoading, userListings } = this.props;
     let loadingComponent;
     const loading = Object.values(requesting).some(a => a === true);
     if (loading) {

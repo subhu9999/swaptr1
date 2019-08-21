@@ -6,15 +6,31 @@ import SignedOutMenu from "../Menus/SignedOutMenu";
 import SignedInMenu from "../Menus/SignedInMenu";
 import { connect } from "react-redux";
 import { openModal } from "../../../../features/modals/modalActions";
-import { withFirebase } from "react-redux-firebase";
-
+import { withFirebase, firebaseConnect, isEmpty } from "react-redux-firebase";
+import { compose } from "redux";
+import {
+  objectToArrayDesc,
+  objectToArraySomeFalse
+} from "../../../common/util/helpers";
+import { setChatSeenTrue } from "../../../../features/user/userActions";
+import { resetListing } from "../../../../features/listing/listingActions";
 const actions = {
-  openModal
+  openModal,
+  setChatSeenTrue,
+  resetListing
 };
 
-const mapState = state => ({
+const mapState = (state, ownProps) => ({
   auth: state.firebase.auth,
-  profile: state.firebase.profile
+  profile: state.firebase.profile,
+  userChat:
+    !isEmpty(state.firebase.data.user_chat) &&
+    objectToArrayDesc(state.firebase.data.user_chat[state.firebase.auth.uid]),
+  someFalse:
+    !isEmpty(state.firebase.data.user_chat) &&
+    objectToArraySomeFalse(
+      state.firebase.data.user_chat[state.firebase.auth.uid]
+    )
 });
 
 class Navbar extends Component {
@@ -31,8 +47,9 @@ class Navbar extends Component {
     this.props.history.push("/");
   };
   render() {
-    const { auth, profile } = this.props;
+    const { auth, profile, userChat, someFalse, setChatSeenTrue } = this.props;
     const authenticated = auth.isLoaded && !auth.isEmpty;
+
     return (
       <nav className="navbar navbar-expand-md navbar-light nav-background fixed-top ">
         <button
@@ -42,7 +59,13 @@ class Navbar extends Component {
           data-target="#nav"
         >
           <span className="navbar-toggler-icon" />
-          <span className="badge-toggler text-light">3</span>
+
+          {someFalse && (
+            // <span className="badge-toggler" />
+            <span className="badge-toggler">
+              <i className="fas fa-circle fa-lg text-danger" />
+            </span>
+          )}
         </button>
         <a href="/" className="navbar-brand">
           <i className="fab fa-sellcast fa-2x text-warning" />
@@ -54,6 +77,10 @@ class Navbar extends Component {
             auth={auth}
             profile={profile}
             signOut={this.handleSignOut}
+            someFalse={someFalse}
+            setChatSeenTrue={setChatSeenTrue}
+            userChat={userChat}
+            resetListing={resetListing}
           />
         ) : (
           <SignedOutMenu
@@ -67,10 +94,21 @@ class Navbar extends Component {
 }
 
 export default withRouter(
-  withFirebase(
+  compose(
+    withFirebase,
     connect(
       mapState,
       actions
-    )(Navbar)
-  )
+    ),
+    firebaseConnect(props => [`user_chat/${props.auth.uid}`])
+  )(Navbar)
 );
+
+// export default withRouter(
+//   withFirebase(
+//     connect(
+//       mapState,
+//       actions
+//     )(Navbar)
+//   )
+// );

@@ -1,7 +1,6 @@
 import { toastr } from "react-redux-toastr";
 import { closeModal } from "../modals/modalActions";
 import cuid from "cuid";
-import Listing from "../listing/Listing/Listing";
 
 //TODO: verify phone Number
 export const updateProfile = user => async (
@@ -220,33 +219,6 @@ export const uploadProfileImage = file => async (
 //   );
 // };
 
-// export const addUserChat = (listingId, values) => async (
-//   dispatch,
-//   getState,
-//   { getFirebase }
-// ) => {
-//   const firebase = getFirebase();
-//   const profile = getState().firebase.profile;
-//   const user = firebase.auth().currentUser;
-//   let newChat = {
-//     displayName: profile.displayName,
-//     photoURL: profile.photoURL,
-//     uid: user.uid,
-//     // text: values.comment,
-//     date: Date.now(),
-//     seen: false,
-//     listingId: listingId,
-//     listingPhoto: "/assets/swaptr-listing.jpg"
-//   };
-
-//   try {
-//     await firebase.push(`user_chat/${listingId}`, newChat);
-//   } catch (error) {
-//     console.log(error);
-//     toastr.error("Oops", "Please Try Again Later !");
-//   }
-// };
-
 export const addUserChat = (chatDetails, values) => async (
   dispatch,
   getState,
@@ -255,13 +227,11 @@ export const addUserChat = (chatDetails, values) => async (
   console.log("addUserChat");
   const firebase = getFirebase();
 
-  const profile = getState().firebase.profile;
   const user = firebase.auth().currentUser;
   let newChat = {
     ...chatDetails,
-    // text: values.comment,
     date: Date.now(),
-    seen: false
+    seen: true
   };
 
   try {
@@ -290,10 +260,12 @@ export const addUserChatReceiver = (chatDetails, values) => async (
   const receiverId = chatDetails.receiverUid;
   let newChat = {
     ...chatDetails,
-    // text: values.comment,
     date: Date.now(),
     seen: false,
-    receiverUid: user.uid
+    receiverUid: user.uid,
+    receiverName: user.displayName,
+    receiverPic: user.photoURL,
+    receiverLastSeen: Date.now()
   };
 
   try {
@@ -329,22 +301,26 @@ export const addChatComment = (chat, values) => async (
   let newComment = {
     text: values.comment,
     date: Date.now(),
-    seen: false,
     authorId: user.uid
   };
   comments.push(newComment);
 
   try {
-    // update comment in current user
+    // update comment  in current user
     await firebase.set(`user_chat/${user.uid}/${chat.id}`, {
       ...chat,
-      comments: comments
+      comments: comments,
+      seen: true
     });
-    // //update comment in rceiver -- use user.uid to change receiverUid everytime
+    // //update chat seen to false & receiver last seen date n comment in rceiver -- use user.uid to change receiverUid everytime
     await firebase.set(`user_chat/${chat.receiverUid}/${chat.id}`, {
       ...chat,
+      seen: false,
       comments: comments,
-      receiverUid: user.uid
+      receiverUid: user.uid,
+      receiverName: user.displayName,
+      receiverPic: user.photoURL,
+      receiverLastSeen: Date.now()
     });
     // dispatch(addChatCommentReceiver(chat, values));
   } catch (error) {
@@ -353,4 +329,49 @@ export const addChatComment = (chat, values) => async (
   }
 };
 
-//add sender and receiver details when button is clicked
+export const setChatSeenTrue = userChat => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  const firebase = getFirebase();
+
+  const user = firebase.auth().currentUser;
+
+  if (userChat) {
+    //set seen true for all chats & last seen
+    userChat.forEach(chat => {
+      let newChat = {
+        ...chat,
+        seen: true
+      };
+
+      try {
+        // update comment in current user
+        firebase.set(`user_chat/${user.uid}/${chat.id}`, newChat);
+      } catch (error) {
+        console.log(error);
+        toastr.error("Oops", "Please Try Again Later !");
+      }
+    });
+    // console.log(userChat);
+  }
+};
+
+export const deleteChat = userChatId => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  const firebase = getFirebase();
+
+  const user = firebase.auth().currentUser;
+  // console.log(userChat);
+  try {
+    // delete chat in current user
+    firebase.set(`user_chat/${user.uid}/${userChatId}`, null);
+  } catch (error) {
+    console.log(error);
+    toastr.error("Oops", "Please Try Again Later !");
+  }
+};

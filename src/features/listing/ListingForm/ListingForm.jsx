@@ -315,7 +315,7 @@ class ListingForm extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <NavbarAlt goHome={this.goHome} />
+        <NavbarAlt goHome={this.goHome} title="Swaptr" />
         <Banner />
 
         <Container>

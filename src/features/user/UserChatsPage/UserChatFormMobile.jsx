@@ -1,0 +1,246 @@
+import React, { Component } from "react";
+import { Form, Button, Card, Row } from "react-bootstrap";
+import { Field, reduxForm } from "redux-form";
+import TextArea from "./TextArea";
+import cuid from "cuid";
+import { isRequired, combineValidators } from "revalidate";
+import { Link } from "react-router-dom";
+import format from "date-fns/format";
+// import NavbarAlt from "../../../app/layout/nav/Navbar/NavbarAlt";
+import Navbar from "../../../app/layout/nav/Navbar/Navbar";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import "./UserChatsPage.css";
+import { objectToArrayDesc } from "../../../app/common/util/helpers";
+import { isEmpty } from "react-redux-firebase";
+import { addChatComment, deleteChat } from "../userActions";
+
+const mapState = state => {
+  return {
+    auth: state.firebase.auth,
+    userChat:
+      !isEmpty(state.firebase.data.user_chat) &&
+      objectToArrayDesc(state.firebase.data.user_chat[state.firebase.auth.uid])
+  };
+};
+
+const actions = {
+  addChatComment,
+  deleteChat
+};
+const validate = combineValidators({
+  comment: isRequired({ message: "type a message" })
+});
+
+class userChatFormMobile extends Component {
+  componentDidMount = async () => {
+    this.scrollToBottom();
+  };
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  };
+  handleChatSubmit = values => {
+    const { addChatComment, reset, userChat, match } = this.props;
+    let chat = "";
+    if (userChat) {
+      let filteredChat = userChat.filter(
+        chat => chat.id === match.params.chatId
+      );
+      chat = filteredChat[0];
+      // console.log(chat);
+      addChatComment(chat, values);
+    }
+
+    reset();
+  };
+
+  handleDeleteChat = chatId => {
+    const { deleteChat, auth } = this.props;
+    deleteChat(chatId);
+    this.props.history.push(`/chats/${auth.uid}`);
+  };
+
+  goHome = () => {
+    const { auth } = this.props;
+    this.props.history.push(`/chats/${auth.uid}`);
+  };
+
+  render() {
+    const { invalid, submitting, pristine } = this.props;
+    const { auth, match } = this.props;
+    const { handleDeleteChat } = this;
+    const { userChat } = this.props;
+    // console.log(userChat);
+    let chat = "";
+    if (userChat) {
+      let filteredChat = userChat.filter(
+        chat => chat.id === match.params.chatId
+      );
+      chat = filteredChat[0];
+      // console.log(chat);
+    }
+
+    return (
+      <div>
+        <Navbar />
+        <div className="chat-form-mobile">
+          <button
+            onClick={this.goHome}
+            className="btn btn-link btn-block text-white font-weight-bold bg-secondary rounded-0"
+          >
+            <i className="fas fa-arrow-left mr-2" />
+
+            <span className=" ml-1">Chats</span>
+          </button>
+        </div>
+        <Form onSubmit={this.props.handleSubmit(this.handleChatSubmit)}>
+          <Card>
+            <Card.Header>
+              <Link to={`/profile/${chat.receiverUid}`}>
+                <img
+                  className="img-fluid user-chat-pic float-left mr-2"
+                  src={chat.receiverPic || "/assets/default-user.png"}
+                  alt="user_pic"
+                />
+                <Card.Title>{chat.receiverName}</Card.Title>
+              </Link>
+
+              {chat.receiverLastSeen ? (
+                <Card.Subtitle className="text-muted">
+                  last seen on {format(chat.receiverLastSeen, `MMM DD`)} at{" "}
+                  {format(chat.receiverLastSeen, `HH:mm`)}
+                  <div className="dropdown float-right">
+                    <button
+                      className="btn"
+                      type="button"
+                      id="dropdownChatOptions"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i className="fas fa-ellipsis-v" />
+                    </button>
+                    <div
+                      className=" dropdown-menu dropdown-menu-right"
+                      aria-labelledby="dropdownChatOptions"
+                    >
+                      <button
+                        className=" dropdown-item"
+                        onClick={() => handleDeleteChat(chat.id)}
+                      >
+                        Delete Chat
+                      </button>
+                    </div>
+                  </div>
+                </Card.Subtitle>
+              ) : (
+                <Card.Subtitle className="text-muted">
+                  <div className="dropdown float-right">
+                    <button
+                      className="btn"
+                      type="button"
+                      id="dropdownChatOptions"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i className="fas fa-ellipsis-v" />
+                    </button>
+                    <div
+                      className="dropdown-menu dropdown-menu-right"
+                      aria-labelledby="dropdownChatOptions"
+                    >
+                      <button
+                        className="dropdown-item"
+                        onClick={() => handleDeleteChat(chat.id)}
+                      >
+                        Delete Chat
+                      </button>
+                    </div>
+                  </div>
+                </Card.Subtitle>
+              )}
+            </Card.Header>
+
+            <Card.Body className="overflow-auto mb-4 chat-box">
+              <Link to={`/listing/${chat.listingId}`}>
+                <img
+                  className="img-fluid user-chat-listing  float-left mr-2"
+                  src={chat.listingPhoto || "/assets/swaptr-listing.jpg"}
+                  alt="listing_pic"
+                />
+
+                <Card.Subtitle className="mb-4 mt-4 text-muted">
+                  {chat.listingTitle}
+                </Card.Subtitle>
+              </Link>
+              {chat &&
+                chat.comments &&
+                chat.comments.map(comment => {
+                  if (comment.authorId === auth.uid) {
+                    return (
+                      <p
+                        key={comment.date + cuid()}
+                        className="margin-left-chat  text-white p-2 lead pr-4 mr-2 speech-bubble-right"
+                      >
+                        {comment.text}
+                        <small className="p-2 float-right text-white">
+                          {comment &&
+                            comment.date &&
+                            format(comment.date, "HH:mm")}
+                        </small>
+                      </p>
+                    );
+                  }
+
+                  return (
+                    <Card.Text
+                      key={comment.date + cuid()}
+                      className="ml-2 mr-4 w-50 text-white lead p-2 pl-4 speech-bubble-left"
+                    >
+                      {comment.text}
+
+                      <small className="p-2 float-right text-white">
+                        {comment &&
+                          comment.date &&
+                          format(comment.date, "HH:mm")}
+                      </small>
+                    </Card.Text>
+                  );
+                })}
+              {/* <div className="mt-1" /> */}
+              <div
+                style={{ float: "left", clear: "both" }}
+                ref={el => {
+                  this.messagesEnd = el;
+                }}
+              />
+            </Card.Body>
+          </Card>
+          <div className="chatFormMobileText">
+            <Field name="comment" type="text" component={TextArea} rows={2} />
+            <button
+              type="submit"
+              className="btn send-chat-button-mobile rounded-0 text-primary"
+              disabled={invalid || submitting || pristine}
+            >
+              <i className="fas fa-chevron-circle-right fa-2x " />
+            </button>
+          </div>
+        </Form>
+      </div>
+    );
+  }
+}
+export default compose(
+  connect(
+    mapState,
+    actions
+  ),
+  reduxForm({ form: "userChatFormMobile", validate })
+)(userChatFormMobile);

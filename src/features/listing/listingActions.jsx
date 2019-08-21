@@ -1,6 +1,6 @@
 import {
   DELETE_LISTING,
-  // RESET_LISTING,
+  RESET_LISTING,
   FETCH_LISTING
 } from "./listingConstants";
 import {
@@ -69,15 +69,15 @@ export const deleteListing = listingId => {
   };
 };
 
-// export const resetListing = () => async (
-//   dispatch,
-//   getState,
-//   { getFirebase, getFirestore }
-// ) => {
-//   dispatch({
-//     type: RESET_LISTING
-//   });
-// };
+export const resetListing = () => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  dispatch({
+    type: RESET_LISTING
+  });
+};
 
 export const getUserListings = userUid => async (dispatch, getState) => {
   // let today = new Date(Date.now());
@@ -97,6 +97,7 @@ export const getUserListings = userUid => async (dispatch, getState) => {
     // console.log(listings);
     dispatch({ type: FETCH_LISTING, payload: { listings } });
     dispatch(asyncActionFinish());
+    return listings;
   } catch (error) {
     dispatch(asyncActionError());
     console.log(error);

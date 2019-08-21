@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import Navbar from "../../../app/layout/nav/Navbar/Navbar";
 import { Card, Row, Col } from "react-bootstrap";
 import "./UserChatsPage.css";
-import { withFirestore, firebaseConnect, isEmpty } from "react-redux-firebase";
+import { withFirestore, isEmpty } from "react-redux-firebase";
 import { compose } from "redux";
-import { addChatComment } from "../../user/userActions";
+import { addChatComment, deleteChat } from "../../user/userActions";
 import { connect } from "react-redux";
 import UserChatForm from "./UserChatForm";
 import { objectToArrayDesc } from "../../../app/common/util/helpers";
-import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+import { NavLink, Link, Switch, Route, Redirect } from "react-router-dom";
 
 const mapState = (state, ownProps) => {
   return {
@@ -21,24 +21,42 @@ const mapState = (state, ownProps) => {
   };
 };
 const actions = {
-  addChatComment
+  addChatComment,
+  deleteChat
 };
 class UserChatsPage extends Component {
   render() {
-    const { addChatComment, userChat, auth } = this.props;
+    const { addChatComment, userChat, auth, deleteChat } = this.props;
     const { userId } = this.props.match.params;
-    // const pushSample = () => firebase.push("todos", "sampleTodo");
-    if (userChat) {
+    let emptyChat = "";
+    if (userChat === undefined) {
       console.log(userChat);
+      emptyChat = (
+        <div className="m-2 font-weight-bold lead">
+          <Card.Body>
+            <Card.Title>No chats available</Card.Title>
+            <Card.Text className="hide-sm">
+              Post your free ad in less than a minute to receive messages
+            </Card.Text>
+            <NavLink
+              to="/createListing"
+              className="btn btn-primary listing-ad-btn mb-3 rounded-0"
+            >
+              <span className="font-weight-bold">Post Ad</span>
+            </NavLink>
+          </Card.Body>
+        </div>
+      );
     }
-
     return (
       <div>
         <Navbar />
         <Row className="user-chat-margin no-gutters">
-          <Col>
+          <Col className="hide-visibility-sm">
             <Card.Header className="font-weight-bold border">INBOX</Card.Header>
+
             <Card className="overflow-auto mb-4 chat-box-nav-links">
+              {emptyChat}
               {userChat &&
                 userChat.map(chat => (
                   <NavLink
@@ -50,20 +68,19 @@ class UserChatsPage extends Component {
                     <Card.Body className="padding-0 m-0">
                       <img
                         className="img-fluid user-chat-pic float-left mr-2"
-                        src={chat.listingPhoto || "/assets/default-user.png"}
-                        alt="user_pic"
+                        src={chat.listingPhoto || "/assets/swaptr-listing.jpg"}
+                        alt="listing_pic"
                       />
-                      <Card.Title>{chat.sellerName}</Card.Title>
+                      <Card.Title>{chat.receiverName}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
                         Card Subtitle
                       </Card.Subtitle>
-                      {/* <Card.Text>{userChat.text}</Card.Text> */}
                     </Card.Body>
                   </NavLink>
                 ))}
             </Card>
           </Col>
-          <Col className="border">
+          <Col className="border hide-visibility-sm">
             <Switch>
               {userChat && userChat[0] && (
                 <Route
@@ -71,10 +88,10 @@ class UserChatsPage extends Component {
                   path={`/chats/${auth.uid}/${userChat[0].id}`}
                   render={() => (
                     <UserChatForm
-                      chat={userChat[0]}
                       addChatComment={addChatComment}
                       userChat={userChat[0]}
                       userId={userId}
+                      deleteChat={deleteChat}
                     />
                   )}
                 />
@@ -97,10 +114,10 @@ class UserChatsPage extends Component {
                         path={`/chats/${auth.uid}/${chat.id}`}
                         render={() => (
                           <UserChatForm
-                            chat={chat}
                             addChatComment={addChatComment}
                             userChat={chat}
                             userId={userId}
+                            deleteChat={deleteChat}
                           />
                         )}
                       />
@@ -109,8 +126,35 @@ class UserChatsPage extends Component {
                 })}
               }
             </Switch>
+          </Col>
 
-            {/* <UserChatForm addUserChat={addUserChat} listingId={listingId} /> */}
+          {/* //for small screens */}
+          <Col className="hide-visibility-lg chat-navlinks-sm">
+            <Card.Header className="font-weight-bold border">INBOX</Card.Header>
+
+            <Card className="overflow-auto mb-4 chat-box-nav-links">
+              {emptyChat}
+              {userChat &&
+                userChat.map(chat => (
+                  <Link
+                    key={chat.id}
+                    to={`/chats/sm/${chat.id}`}
+                    // activeClassName="user-chat-active"
+                  >
+                    <Card.Body className="padding-0 m-0">
+                      <img
+                        className="img-fluid user-chat-pic float-left mr-2"
+                        src={chat.listingPhoto || "/assets/swaptr-listing.jpg"}
+                        alt="listing_pic"
+                      />
+                      <Card.Title>{chat.receiverName}</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted">
+                        Card Subtitle
+                      </Card.Subtitle>
+                    </Card.Body>
+                  </Link>
+                ))}
+            </Card>
           </Col>
         </Row>
       </div>
@@ -123,11 +167,11 @@ export default compose(
   connect(
     mapState,
     actions
-  ),
+  )
   // withFirebase
-  firebaseConnect(props => [`user_chat/${props.match.params.userId}`])
+  // firebaseConnect(props => [`user_chat/${props.match.params.userId}`])
 )(UserChatsPage);
-
+//firebase cionnect for user chat shifted to navbar
 // export default compose(
 //   withFirestore,
 //   connect(

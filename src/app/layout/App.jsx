@@ -9,6 +9,7 @@ import ModalManager from "../../features/modals/ModalManager";
 import TestComponent from "../../features/testarea/TestComponent";
 import UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage";
 import UserChatsPage from "../../features/user/UserChatsPage/UserChatsPage";
+import UserChatFormMobile from "../../features/user/UserChatsPage/UserChatFormMobile";
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
   render() {
@@ -28,8 +29,10 @@ class App extends Component {
 
             <Route path="/profile/:id" component={UserDetailedPage} />
             {/* TODO: Hide Route */}
+            <Route path="/chats/sm/:chatId" component={UserChatFormMobile} />
+
             <Route path="/chats/:userId" component={UserChatsPage} />
-            {/* <Route path="/chats/:id/:listingId" component={UserChatsPage} /> */}
+                        {/* <Route path="/chats/:id/:listingId" component={UserChatsPage} /> */}
             <Route path="/test" component={TestComponent} />
           </Switch>
         </div>

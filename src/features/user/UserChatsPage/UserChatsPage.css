@@ -13,7 +13,7 @@
   padding: 10px;
   /* padding-right: 70px; */
   /* 600 */
-  width: 70%;
+  width: 80%;
   /* border: none; */
   border: 2px solid grey;
   background-color: #ebeeef;
@@ -117,4 +117,28 @@ right-chat {
 .chat-box-nav-links {
   width: 100%;
   height: 450px;
+}
+
+/* //small screen */
+.chat-navlinks-sm {
+  margin-top: 50px;
+}
+
+.chat-form-mobile {
+  margin-top: 135px;
+}
+
+.chatFormMobileText {
+  position: fixed;
+  bottom: -2px;
+  z-index: 1;
+  left: 0px;
+  width: 100%;
+}
+
+.send-chat-button-mobile {
+  margin-bottom: -2px;
+  /* height: 74px; */
+  margin-top: -58px;
+  margin-left: 1px;
 }

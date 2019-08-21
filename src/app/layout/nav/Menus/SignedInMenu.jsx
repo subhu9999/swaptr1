@@ -2,9 +2,15 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./SignedInMenu.css";
 
-const SignedInMenu = ({ signOut, profile, auth }) => {
-  const num = 4;
-
+const SignedInMenu = ({
+  signOut,
+  profile,
+  auth,
+  someFalse,
+  setChatSeenTrue,
+  userChat,
+  resetListing
+}) => {
   return (
     <div className="collapse navbar-collapse justify-content-between" id="nav">
       <ul className="navbar-nav ml-auto hide-visibility-sm">
@@ -12,9 +18,14 @@ const SignedInMenu = ({ signOut, profile, auth }) => {
           <Link
             className="nav-link btn messages text-light mt-2"
             to={`/chats/${auth.uid}`}
+            onClick={() => setChatSeenTrue(userChat)}
           >
             <i className="far fa-comment-alt fa-lg" />
-            {num > 1 && <span className="badge">{num}</span>}
+            {someFalse && (
+              <span className="badge">
+                <i className="fas fa-circle fa-lg" />
+              </span>
+            )}
           </Link>
         </li>
         <li className="nav-item">
@@ -42,9 +53,13 @@ const SignedInMenu = ({ signOut, profile, auth }) => {
             </li>
             <li className="divider dropdown-divider" />
             <li>
-              <a href="a" className="dropdown-item">
+              <Link
+                to={`/profile/${auth.uid}`}
+                className="dropdown-item"
+                onClick={resetListing}
+              >
                 <i className="fas fa-cubes fa-lg" /> My Ads
-              </a>
+              </Link>
             </li>
             <li>
               <a href="a" className="dropdown-item">
@@ -97,18 +112,23 @@ const SignedInMenu = ({ signOut, profile, auth }) => {
           </Link>
         </li>
         <li className="nav-item dropdown ">
-          <Link to="/myAds" className=" btn text-light">
+          <Link to="/myAds" className=" btn text-light" onClick={resetListing}>
             <i className="fas fa-cubes fa-lg" />
             <span style={{ marginLeft: "10px" }}>My Ads</span>
           </Link>
         </li>
         <li className="nav-item dropdown mt-0">
           <Link
-            to="/chats"
+            to={`/chats/${auth.uid}`}
             className=" btn text-light btn messages text-light mt-0"
+            onClick={() => setChatSeenTrue(userChat)}
           >
             <i className="far fa-comment-alt fa-lg" />
-            {num > 1 && <span className="badge ">{num}</span>}
+            {someFalse && (
+              <span className="badge ">
+                <i className="fas fa-circle fa-lg" />
+              </span>
+            )}
 
             <span style={{ marginLeft: "7px" }}>Chats</span>
           </Link>

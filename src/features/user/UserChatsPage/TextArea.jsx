@@ -15,7 +15,7 @@ const TextArea = ({
       width={width}
       type="text"
       rows={rows}
-      className="ml-4 chat-form-input"
+      className="ml-3 chat-form-input "
       spellCheck="false"
       maxLength={140}
     />

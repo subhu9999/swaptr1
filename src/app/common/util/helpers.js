@@ -25,6 +25,22 @@ export const objectToArrayDesc = object => {
   return objectToArray;
 };
 
+export const objectToArraySomeFalse = object => {
+  let objectToArray = objectToArrayDesc(object);
+
+  let someFalse;
+  //check if atleast one value in array is false
+  function checkSeen(chat) {
+    return chat.seen === false;
+  }
+  if (objectToArray) {
+    someFalse = objectToArray.some(checkSeen);
+  }
+  // console.log(someFalse);
+
+  return someFalse;
+};
+
 export const createNewListing = (user, sellerDetails, listing) => {
   return {
     ...listing,

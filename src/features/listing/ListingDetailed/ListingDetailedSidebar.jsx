@@ -26,9 +26,9 @@ class ListingDetailedSidebar extends Component {
       listingId: listing.id,
       listingTitle: listing.title,
       listingPhoto: listingMainImage || "/assets/swaptr-listing.jpg",
-      sellerName: listing.sellerName,
+      receiverName: listing.sellerName,
       sellerPhoneNumber: listing.sellerPhoneNumber,
-      sellerProfilePic: listing.sellerProfilePic,
+      receiverPic: listing.sellerProfilePic,
       receiverUid: listing.sellerUid
     };
     if (auth.uid === listing.sellerUid) {

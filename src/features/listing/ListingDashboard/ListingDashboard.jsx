@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
+// import { firestoreConnect } from "react-redux-firebase";
 import Listing from "../Listing/Listing";
 import Banner from "../../../app/layout/Banner/Banner";
 import Navbar from "../../../app/layout/nav/Navbar/Navbar";
