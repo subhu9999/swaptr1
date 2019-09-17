@@ -1,6 +1,7 @@
 import React from "react";
 import "./Listing.css";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function ListingAd() {
   return (
@@ -13,9 +14,12 @@ export default function ListingAd() {
             <Card.Text className="hide-sm">
               Post your free ad in less than a minute
             </Card.Text>
-            <Button className="listing-ad-btn mb-3 rounded-0">
-              <span className="font-weight-bold">Go Swaptr</span>
-            </Button>
+            <Link
+              to="/createListing"
+              className="btn listing-ad-btn mb-3 rounded-0"
+            >
+              <span className="font-weight-bold text-white">Go Swaptr</span>
+            </Link>
           </Card.Body>
         </Card>
       </div>

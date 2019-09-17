@@ -2,10 +2,42 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { addUserChat } from "../../user/userActions";
 import { connect } from "react-redux";
+import { deleteListing } from "../listingActions";
+import { deleteImage } from "../../listing/ListingForm/tempImagesActions";
+
 const actions = {
-  addUserChat
+  addUserChat,
+  deleteListing,
+  deleteImage
 };
+
 class ListingDetailedSidebar extends Component {
+  deleteFromFirebase = image => {
+    //delete from firebase
+    // console.log(image);
+    this.props.deleteImage(image);
+  };
+
+  deleteImages = async images => {
+    // const images = this.props.images;
+    // console.log(imageNames);
+    images.forEach(async image => {
+      try {
+        await this.deleteFromFirebase(image); // write your own logic
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
+  handleDeleteListing = async listing => {
+    //delete listing
+    await this.props.deleteListing(listing.id);
+
+    //delete image from storage
+    this.deleteImages(listing.images);
+  };
+
   render() {
     const { listing, auth, openModal, addUserChat } = this.props;
     // console.log(auth.uid);
@@ -33,12 +65,22 @@ class ListingDetailedSidebar extends Component {
     };
     if (auth.uid === listing.sellerUid) {
       chatOrEdit = (
-        <Link
-          to={`/manage/${listing.id}`}
-          className="btn btn-primary font-weight-bold d-block mb-2 rounded-0"
-        >
-          Edit This Listing
-        </Link>
+        <div>
+          <Link
+            to={`/manage/${listing.id}`}
+            className="btn btn-primary font-weight-bold d-block mb-2 rounded-0"
+          >
+            Edit This Listing
+          </Link>
+          <Link
+            to="/"
+            className="btn btn-danger font-weight-bold d-block mb-2 rounded-0"
+            // onClick={() => deleteListing(listing.id)}
+            onClick={() => this.handleDeleteListing(listing)}
+          >
+            Delete Listing
+          </Link>
+        </div>
       );
     } else {
       chatOrEdit = (
@@ -51,7 +93,7 @@ class ListingDetailedSidebar extends Component {
         </Link>
       );
     }
-
+    // console.log(listing);
     return (
       <div>
         <div className="card ">

@@ -14,7 +14,7 @@ const SignedInMenu = ({
   return (
     <div className="collapse navbar-collapse justify-content-between" id="nav">
       <ul className="navbar-nav ml-auto hide-visibility-sm">
-        <li className="nav-item">
+        <li className="nav-item ">
           <Link
             className="nav-link btn messages text-light mt-2"
             to={`/chats/${auth.uid}`}
@@ -52,28 +52,27 @@ const SignedInMenu = ({
               <span className="font-weight-bold ">{profile.displayName}</span>
             </li>
             <li className="divider dropdown-divider" />
-            <li>
+            <li className="">
               <Link
                 to={`/profile/${auth.uid}`}
-                className="dropdown-item"
-                onClick={resetListing}
+                className="dropdown-item signedInList"
               >
-                <i className="fas fa-cubes fa-lg" /> My Ads
+                <i className="fas fa-cubes fa-lg " /> My Ads
               </Link>
             </li>
-            <li>
-              <a href="a" className="dropdown-item">
+            {/* <li>
+              <Link to={`/profile/${auth.uid}`} className="dropdown-item">
                 <i className="far fa-id-card fa-lg" /> Edit Profile
-              </a>
-            </li>
+              </Link>
+            </li> */}
             <li>
-              <Link to="/settings" className="dropdown-item">
+              <Link to="/settings" className="dropdown-item signedInList">
                 <i className="fa fa-sliders fa-lg" /> Settings
               </Link>
             </li>
             <li className="divider dropdown-divider" />
             <li>
-              <button onClick={signOut} className="dropdown-item">
+              <button onClick={signOut} className="dropdown-item signedInList">
                 <i className="fas fa-sign-out-alt" /> Logout
               </button>
             </li>
@@ -144,14 +143,14 @@ const SignedInMenu = ({
             <span style={{ marginLeft: "7px" }}>Notifications</span>
           </Link>
         </li>
-        <li className="nav-item dropdown">
+        {/* <li className="nav-item dropdown">
           <Link to="/editProfile" className=" btn text-light">
             <button className="nav-link btn text-light">
               <i className="far fa-id-card fa-lg" />
               <span style={{ marginLeft: "7px" }}>Edit Profile</span>
             </button>
           </Link>
-        </li>
+        </li> */}
         <li className="nav-item dropdown">
           <Link to="/settings" className=" btn text-light">
             <i className="fa fa-sliders fa-lg" />

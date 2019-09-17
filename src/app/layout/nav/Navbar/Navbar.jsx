@@ -47,7 +47,14 @@ class Navbar extends Component {
     this.props.history.push("/");
   };
   render() {
-    const { auth, profile, userChat, someFalse, setChatSeenTrue } = this.props;
+    const {
+      auth,
+      profile,
+      userChat,
+      someFalse,
+      setChatSeenTrue,
+      cityValue
+    } = this.props;
     const authenticated = auth.isLoaded && !auth.isEmpty;
 
     return (
@@ -71,7 +78,7 @@ class Navbar extends Component {
           <i className="fab fa-sellcast fa-2x text-warning" />
         </a>
 
-        <Search />
+        <Search cityValue={cityValue} />
         {authenticated ? (
           <SignedInMenu
             auth={auth}

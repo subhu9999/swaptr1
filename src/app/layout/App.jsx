@@ -10,6 +10,8 @@ import TestComponent from "../../features/testarea/TestComponent";
 import UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage";
 import UserChatsPage from "../../features/user/UserChatsPage/UserChatsPage";
 import UserChatFormMobile from "../../features/user/UserChatsPage/UserChatFormMobile";
+import SearchResultPage from "../../features/search/SearchResultPage";
+import AlgoliaListings from "../../features/algolia/AlgoliaListings";
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
   render() {
@@ -32,7 +34,14 @@ class App extends Component {
             <Route path="/chats/sm/:chatId" component={UserChatFormMobile} />
 
             <Route path="/chats/:userId" component={UserChatsPage} />
-                        {/* <Route path="/chats/:id/:listingId" component={UserChatsPage} /> */}
+
+            <Route path="/search/:id" component={SearchResultPage} />
+
+            <Route
+              path="/firestoreListingForAlgolia"
+              component={AlgoliaListings}
+            />
+
             <Route path="/test" component={TestComponent} />
           </Switch>
         </div>

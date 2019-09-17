@@ -9,6 +9,7 @@ import ListingAd from "../../listing/Listing/ListingAd";
 import { getListingsForDashboard } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
+import SearchResultPage from "../../search/SearchResultPage";
 
 const mapState = state => ({
   listings: state.listings,
@@ -75,8 +76,9 @@ class ListingDashboard extends Component {
     return (
       <div>
         <Navbar />
+        {/* <Banner /> */}
+        {/* <SearchResultPage /> */}
         <Banner />
-
         <InfiniteScroll
           pageStart={0}
           loadMore={this.getNextListings}

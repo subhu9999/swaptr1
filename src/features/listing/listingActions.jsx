@@ -60,11 +60,31 @@ export const updateListing = (listing, listingId) => {
   };
 };
 
+// export const deleteListing = listingId => {
+//   return {
+//     type: DELETE_LISTING,
+//     payload: {
+//       listingId
+//     }
+//   };
+// };
+
 export const deleteListing = listingId => {
-  return {
-    type: DELETE_LISTING,
-    payload: {
-      listingId
+  return async (dispatch, getState, { getFirestore, getFirebase }) => {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+    const user = firebase.auth().currentUser;
+    const listingsRef = firestore.collection("listings");
+    const userListingsRef = firestore.collection("user_listings");
+
+    try {
+      await listingsRef.doc(listingId).delete();
+      await userListingsRef.doc(`${listingId}_${user.uid}`).delete();
+
+      toastr.success("Success!", "your listing is DELETED !");
+    } catch (error) {
+      console.log(error);
+      toastr.error("Oops", "Something went wrong");
     }
   };
 };
@@ -145,6 +165,87 @@ export const getListingsForDashboard = lastListing => async (
     dispatch({ type: FETCH_LISTING, payload: { listings } });
     dispatch(asyncActionFinish());
     return querySnap;
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError());
+  }
+};
+
+export const getListingsForSearch = (searchQuery, lastListing) => async (
+  dispatch,
+  getState
+) => {
+  console.log(searchQuery);
+  console.log(lastListing);
+  const firestore = firebase.firestore();
+  const listingsRef = firestore.collection("listings");
+  try {
+    dispatch(asyncActionStart());
+    let startAfter =
+      lastListing &&
+      (await firestore
+        .collection("listings")
+        .doc(lastListing.id)
+        .get());
+    let query;
+    lastListing
+      ? (query = listingsRef
+          .orderBy("created", "desc")
+          .startAfter(startAfter)
+          .limit(4))
+      : // : (query = listingsRef.orderBy("created", "desc").limit(4));
+        (query = listingsRef
+          .where("tags", "array-contains", "199")
+          .orderBy("created", "desc")
+          .limit(4));
+
+    let querySnap = await query.get();
+    //return if no more data found
+    if (querySnap.docChanges().length === 0) {
+      dispatch(asyncActionFinish());
+      return querySnap;
+    }
+    let listings = [];
+    for (let i = 0; i < querySnap.docs.length; i++) {
+      let listing = { ...querySnap.docs[i].data(), id: querySnap.docs[i].id };
+      listings.push(listing);
+    }
+    // console.log(listings);
+    dispatch({ type: FETCH_LISTING, payload: { listings } });
+    dispatch(asyncActionFinish());
+    return querySnap;
+  } catch (error) {
+    console.log(error);
+    dispatch(asyncActionError());
+  }
+};
+
+export const getListingsForAlgolia = () => async (dispatch, getState) => {
+  const firestore = firebase.firestore();
+  const listingsRef = firestore.collection("listings");
+  try {
+    dispatch(asyncActionStart());
+
+    let query = listingsRef.orderBy("created", "desc");
+
+    let querySnap = await query.get();
+
+    //return if no more data found
+    if (querySnap.docChanges().length === 0) {
+      dispatch(asyncActionFinish());
+      return querySnap;
+    }
+    let listings = [];
+
+    for (let i = 0; i < querySnap.docs.length; i++) {
+      let listing = { ...querySnap.docs[i].data(), id: querySnap.docs[i].id };
+      listings.push(listing);
+    }
+    // console.log(listings);
+    // dispatch({ type: FETCH_LISTING, payload: { listings } });
+    dispatch(asyncActionFinish());
+    // return querySnap;
+    return listings;
   } catch (error) {
     console.log(error);
     dispatch(asyncActionError());

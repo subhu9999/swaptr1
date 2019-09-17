@@ -20,6 +20,11 @@
   height: 40px;
 }
 
+.signedInList:hover {
+  background-color: #2a65ea;
+  color: white;
+}
+
 @media (max-width: 768px) {
   .hide-visibility-sm {
     display: none;

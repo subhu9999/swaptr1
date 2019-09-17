@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Script from "react-load-script";
 import Navbar from "../../app/layout/nav/Navbar/Navbar";
+import format from "date-fns/format";
+
 import "./TestComponent.css";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -16,7 +18,14 @@ import "cropperjs/dist/cropper.css";
 import { uploadProfileImage } from "../user/userActions";
 import { toastr } from "react-redux-toastr";
 import cuid from "cuid";
-
+import {
+  InstantSearch,
+  SearchBox,
+  Hits,
+  Highlight
+} from "react-instantsearch-dom";
+import { Link } from "react-router-dom";
+import AutoCompleteText from "../search/AutoCompleteText";
 const LOCATION_API_KEY = process.env.REACT_APP_LOCATION_API_KEY;
 
 const scriptUrl =
@@ -30,6 +39,46 @@ const actions = {
   // uploadTest
 };
 
+const Hit = ({ hit }) => (
+  // <Link to={`/listing/${hit.id}`}>
+  //   <div className="hit">
+  //     <div className="hit-image">
+  //       <img src={hit.images[0].imageURL} alt="listing_image"></img>
+  //     </div>
+  //     <div className="hit-content">
+  //       <div className="hit-price">${hit.title}</div>
+  //       <div className="hit-name">
+  //         <Highlight attribute="description" hit={hit} />
+  //       </div>
+  //     </div>
+  //   </div>
+  // </Link>
+  <Link to={`/listing/${hit.id}`}>
+    <img
+      src={hit.images[0].imageURL || `/assets/swaptr-listing.jpg`}
+      alt="img"
+      className="hit-image"
+    />
+    <h6 className="ml-1 listing-title">{hit.title}</h6>
+
+    <div className="ml-1 text-secondary text-uppercase text-location-date">
+      {hit.city}
+      <span className="text-muted mr-1 display-none" style={{ float: "right" }}>
+        {format(hit.created, "MMM DD")}
+      </span>
+    </div>
+  </Link>
+);
+
+const Sidebar = () => <div id="left-column"></div>;
+
+const Content = () => (
+  <div id="right-column" className="">
+    <div className="mt-4 ">
+      <Hits hitComponent={Hit}></Hits>
+    </div>
+  </div>
+);
 class TestComponent extends Component {
   state = {
     address: "",
@@ -138,6 +187,7 @@ class TestComponent extends Component {
   };
 
   onChange = address => this.setState({ address });
+
   render() {
     const { openModal } = this.props;
     const { tempImages } = this.state;
@@ -152,6 +202,7 @@ class TestComponent extends Component {
 
         <Navbar />
         <div className="" style={{ marginTop: "100px" }}>
+          <AutoCompleteText />
           Test component
           <form onSubmit={this.handleFormSubmit}>
             {this.state.scriptLoaded && (
@@ -160,6 +211,7 @@ class TestComponent extends Component {
             <button type="submit">Submit</button>
           </form>
         </div>
+
         <Button
           variant="info"
           onClick={() => openModal("TestModal", { data: 44 })}
