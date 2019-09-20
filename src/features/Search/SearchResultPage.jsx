@@ -20,7 +20,8 @@ import {
   connectHits,
   Stats,
   Pagination,
-  connectCurrentRefinements
+  connectCurrentRefinements,
+  connectStateResults
 } from "react-instantsearch-dom";
 
 import { Link } from "react-router-dom";
@@ -36,7 +37,7 @@ const actions = {
   getListingsForSearch
 };
 
-const Hits = ({ hits }) => (
+const Hits = ({ hits, searchResults }) => (
   <div className="row">
     {hits.map(hit => (
       <Listing key={hit.objectID} listing={hit} />
@@ -46,30 +47,19 @@ const Hits = ({ hits }) => (
 
 const CustomHits = connectHits(Hits);
 
-// const Hit = ({ hit }) => (
-//   <div className="row">
-//     <Link to={`/listing/${hit.id}`} className="col-6">
-//       <img
-//         src={hit.images[0].imageURL || `/assets/swaptr-listing.jpg`}
-//         alt="img"
-//         className="listing-img img-thumbnail"
-//       />
-//       <h6 className="ml-1 listing-title">{hit.title}</h6>
-//       {/* <div className="hit-name ml-1 listing-title">
-//       <Highlight attribute="title" hit={hit} />
-//     </div> */}
-//       <div className="ml-1 text-secondary text-uppercase text-location-date">
-//         {hit.city}
-//         <span
-//           className="text-muted mr-1 display-none"
-//           style={{ float: "right" }}
-//         >
-//           {format(hit.created, "MMM DD")}
-//         </span>
-//       </div>
-//     </Link>
-//   </div>
-// );
+const StateResults = ({ searchResults }) => {
+  const hasResults = searchResults && searchResults.nbHits !== 0;
+  const nbHits = searchResults && searchResults.nbHits;
+
+  return (
+    <div>
+      {/* <div hidden={!hasResults}>There are {nbHits} results</div> */}
+      <div hidden={hasResults}>No Listing Found !</div>
+    </div>
+  );
+};
+
+const CustomStateResults = connectStateResults(StateResults);
 
 const ClearRefinements = ({ items, refine, isMobile, closeNav }) => (
   <button
@@ -95,22 +85,6 @@ const Sidebar = () => (
     <CustomClearRefinements isMobile={false} />
   </div>
 );
-
-// const Content = () => (
-//   <div className="mt-md-4 col-md-9 col-sm-12 search-content">
-//     <Stats />
-//     <CustomHits></CustomHits>
-
-//     <div className="mt-2 mb-xs-1">
-//       <Pagination
-//         showFirst={false}
-//         showPrevious
-//         showNext
-//         totalPages={10}
-//       ></Pagination>
-//     </div>
-//   </div>
-// );
 
 const RefinementList = ({
   items,
@@ -163,7 +137,17 @@ class SearchResultPage extends Component {
     moreListings: false,
     loadingInitial: true,
     loadedListings: [],
-    showFilter: false
+    showFilter: false,
+    searchTerm: ""
+  };
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.setState({
+        searchTerm: nextProps.match.params.id
+      });
+    }
+    // console.log("nextprops", nextProps.match.params.id);
+    // console.log(this.props.match.params.id);
   };
 
   openNav = () => {
@@ -196,7 +180,7 @@ class SearchResultPage extends Component {
     } else {
       loadingComponent = "";
     }
-    // const { id } = this.props.match.params;
+    const { searchTerm } = this.state;
     let filterOverlay;
     if (showFilter) {
       filterOverlay = (
@@ -229,7 +213,7 @@ class SearchResultPage extends Component {
           <button className="closebtn" onClick={() => closeNav()}>
             &times;
           </button>
-
+          ''
           {/* <!-- Overlay content --> */}
           <div className="overlay-content">
             {/* <a href="#">About</a>
@@ -247,7 +231,7 @@ class SearchResultPage extends Component {
     }
     return (
       <div>
-        {/* <Navbar cityValue={id} /> */}
+        <Navbar />
         {/* <Banner /> */}
         <InstantSearch
           apiKey="7ef488caf95aaa89b58e0f99e6b1d8e8"
@@ -258,12 +242,11 @@ class SearchResultPage extends Component {
             {/* <img src='instant_search'></img> */}
             <div className="ml-auto mr-auto border border-secondary search-box-swaptr">
               <SearchBox
-                // defaultRefinement={"mum"}
+                defaultRefinement={searchTerm}
                 translations={{ placeholder: "Search For Product" }}
                 showLoadingIndicator={true}
                 autoFocus={true}
               />
-            
             </div>
             {/* <Banner/> */}
           </header>
@@ -280,7 +263,7 @@ class SearchResultPage extends Component {
                 filter location
               </button>
               <Stats />
-
+              <CustomStateResults></CustomStateResults>
               <CustomHits></CustomHits>
 
               <div className="mt-2 mb-xs-1">

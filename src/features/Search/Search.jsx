@@ -6,7 +6,8 @@ import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { isRequired, combineValidators } from "revalidate";
 import { withRouter } from "react-router-dom";
-
+import AutoCompleteText from "./AutoCompleteText";
+import keywords from "./SearchKeywords";
 const mapState = state => {
   let searchInputs = {};
 
@@ -38,12 +39,18 @@ class Search extends Component {
     this.props.history.push(`/search/${value}`);
   };
 
+  searchSuggestion = value => {
+    // console.log("selected");
+
+    this.props.history.push(`/search/${value}`);
+  };
+
   render() {
+    const { searchSuggestion } = this;
     return (
       <div className="row no-gutters">
-        {/* <div className="col-3">
+        <div className="col-3">
           <form className="form ml-3-md mr-1">
-            
             <Field
               name="city"
               type="text"
@@ -61,8 +68,8 @@ class Search extends Component {
           <div className="location-input-marker rounded-0 bg-light">
             <i className="fa fa-map-marker-alt fa-2x text-danger" />
           </div>
-        </div> */}
-        <div className="col-12 mr-4 w-100">
+        </div>
+        <div className="col-8 ">
           {/* <form className="form">
             <Field
               name="product"
@@ -71,6 +78,10 @@ class Search extends Component {
               placeholder="Find Stuff To Swap"
             />
           </form> */}
+          <AutoCompleteText
+            keywords={keywords}
+            searchSuggestion={searchSuggestion}
+          />
         </div>
       </div>
     );
