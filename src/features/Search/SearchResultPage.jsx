@@ -14,17 +14,16 @@ import { Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 import {
   InstantSearch,
-  SearchBox,
   Highlight,
   connectRefinementList,
   connectHits,
   Stats,
   Pagination,
   connectCurrentRefinements,
-  connectStateResults
+  connectStateResults,
+  connectSearchBox
 } from "react-instantsearch-dom";
 
-import { Link } from "react-router-dom";
 import "./Search.css";
 
 const mapState = state => ({
@@ -47,13 +46,29 @@ const Hits = ({ hits, searchResults }) => (
 
 const CustomHits = connectHits(Hits);
 
+const SearchBox = ({ currentRefinement, isSearchStalled, refine }) => (
+  <form noValidate action="" role="search" className="algolia-search-box">
+    <input
+      type="search"
+      value={currentRefinement}
+      onChange={event => refine(event.currentTarget.value)}
+    />
+    <button onClick={() => refine("")}>Reset query</button>
+    {isSearchStalled ? "My search is stalled" : ""}
+  </form>
+);
+
+const CustomSearchBox = connectSearchBox(SearchBox);
+
 const StateResults = ({ searchResults }) => {
   const hasResults = searchResults && searchResults.nbHits !== 0;
-  const nbHits = searchResults && searchResults.nbHits;
-
+  // const nbHits = searchResults && searchResults.nbHits;
+  const query = searchResults && searchResults.query;
   return (
     <div>
-      {/* <div hidden={!hasResults}>There are {nbHits} results</div> */}
+      <div hidden={!hasResults} className="lead">
+        Showing Results For <i>"{query}"</i>
+      </div>
       <div hidden={hasResults}>No Listing Found !</div>
     </div>
   );
@@ -140,6 +155,7 @@ class SearchResultPage extends Component {
     showFilter: false,
     searchTerm: ""
   };
+
   componentWillReceiveProps = nextProps => {
     if (nextProps.match.params.id !== this.props.match.params.id) {
       this.setState({
@@ -148,6 +164,12 @@ class SearchResultPage extends Component {
     }
     // console.log("nextprops", nextProps.match.params.id);
     // console.log(this.props.match.params.id);
+  };
+
+  componentDidMount = () => {
+    this.setState({
+      searchTerm: this.props.match.params.id
+    });
   };
 
   openNav = () => {
@@ -240,8 +262,8 @@ class SearchResultPage extends Component {
         >
           <header className="header margin-top-search">
             {/* <img src='instant_search'></img> */}
-            <div className="ml-auto mr-auto border border-secondary search-box-swaptr">
-              <SearchBox
+            <div className="">
+              <CustomSearchBox
                 defaultRefinement={searchTerm}
                 translations={{ placeholder: "Search For Product" }}
                 showLoadingIndicator={true}

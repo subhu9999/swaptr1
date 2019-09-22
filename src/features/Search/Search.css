@@ -5,6 +5,9 @@
 .search-box-swaptr {
   /* height: 0px; */
 }
+.algolia-search-box {
+  display: none;
+}
 
 .filters-div {
   /* position: fixed; */

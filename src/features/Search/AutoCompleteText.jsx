@@ -5,7 +5,33 @@ import { Link } from "react-router-dom";
 export default class AutoCompleteText extends Component {
   state = {
     suggestions: [],
-    text: ""
+    text: "",
+    suggestionsVisible: true
+  };
+
+  componentWillMount = () => {
+    document.addEventListener("mousedown", this.handleClick, false);
+  };
+
+  componentWillUnmount = () => {
+    document.removeEventListener("mousedown", this.handleClick, false);
+  };
+
+  handleClick = e => {
+    if (this.node.contains(e.target)) {
+      // this.suggestionSelected(value)
+      this.setState({
+        suggestionsVisible: true
+      });
+      return;
+    }
+    this.handleClickOutside();
+  };
+
+  handleClickOutside = () => {
+    this.setState({
+      suggestionsVisible: false
+    });
   };
 
   onTextChanged = e => {
@@ -32,9 +58,20 @@ export default class AutoCompleteText extends Component {
     this.props.searchSuggestion(value);
   };
 
+  enterPressed = event => {
+    var code = event.keyCode || event.which;
+    if (code === 13) {
+      //13 is the enter keycode
+      //Do stuff in here
+      // console.log("pressed");
+      const value = this.state.text;
+      this.props.searchSuggestion(value);
+    }
+  };
+
   renderSuggestions = () => {
-    const { suggestions } = this.state;
-    if (suggestions.length === 0) {
+    const { suggestions, suggestionsVisible } = this.state;
+    if (suggestions.length === 0 || !suggestionsVisible) {
       return null;
     }
     return (
@@ -54,13 +91,17 @@ export default class AutoCompleteText extends Component {
   render() {
     const { text } = this.state;
     return (
-      <div className="auto-complete-text dropdown search-width">
+      <div
+        className="auto-complete-text dropdown search-width"
+        ref={node => (this.node = node)}
+      >
         <input
           className="dropdown-toggle w-100 h-100 auto-complete-input"
           value={text}
           onChange={e => this.onTextChanged(e)}
           type="text"
           placeholder="search products,brands,location..."
+          onKeyUp={event => this.enterPressed(event)}
         />
         <div className="search-icon">
           <Link to={`/search/${text}`} className="btn btn-light rounded-0">
