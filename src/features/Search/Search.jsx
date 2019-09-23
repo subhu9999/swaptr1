@@ -49,7 +49,7 @@ class Search extends Component {
     const { searchSuggestion } = this;
     return (
       <div className="row no-gutters">
-        <div className="col-3">
+        <div className="col-3 col-md-3 location-search">
           <form className="form ml-3-md mr-1">
             <Field
               name="city"
@@ -64,20 +64,12 @@ class Search extends Component {
             />
           </form>
         </div>
-        <div className="col-1">
+        <div className="col-1 col-md-1">
           <div className="location-input-marker rounded-0 bg-light">
             <i className="fa fa-map-marker-alt fa-2x text-danger" />
           </div>
         </div>
-        <div className="col-8 ">
-          {/* <form className="form">
-            <Field
-              name="product"
-              type="text"
-              component={ProductInputSearch}
-              placeholder="Find Stuff To Swap"
-            />
-          </form> */}
+        <div className="col-12 col-md-8">
           <AutoCompleteText
             keywords={keywords}
             searchSuggestion={searchSuggestion}

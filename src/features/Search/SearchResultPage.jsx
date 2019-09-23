@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Navbar from "../../app/layout/nav/Navbar/Navbar";
 import format from "date-fns/format";
-
+import cities from "./PopularCities";
 import { connect } from "react-redux";
 
 // import { firestoreConnect } from "react-redux-firebase";
 import Listing from "../listing/Listing/Listing";
 import Banner from "../../app/layout/Banner/Banner";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import ListingAd from "../listing/Listing/ListingAd";
+import ListingAdSearch from "../listing/Listing/ListingAdSearch";
 import { getListingsForSearch } from "../listing/listingActions";
 import { Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
@@ -23,7 +23,7 @@ import {
   connectStateResults,
   connectSearchBox
 } from "react-instantsearch-dom";
-
+import { Link } from "react-router-dom";
 import "./Search.css";
 
 const mapState = state => ({
@@ -69,33 +69,57 @@ const StateResults = ({ searchResults }) => {
       <div hidden={!hasResults} className="lead">
         Showing Results For <i>"{query}"</i>
       </div>
-      <div hidden={hasResults}>No Listing Found !</div>
+      <div hidden={hasResults} className="lead">
+        <p>Oops... we didn't find anything that matches this search :( </p>Try
+        searching for Ads by selecting a location near you,{" "}
+        <div className="row mt-2">
+          {cities &&
+            cities.map(city => (
+              <div
+                key={city}
+                className="col-6 col-md-3 font-weight-bold text-primary"
+              >
+                <Link to={`/search/${city}`}>
+                  <i className="fas fa-map-marker-alt mr-1"></i>
+                  {city}
+                </Link>
+              </div>
+            ))}
+        </div>
+        <div className="row mt-4">
+          <ListingAdSearch />
+        </div>
+      </div>
     </div>
   );
 };
 
 const CustomStateResults = connectStateResults(StateResults);
 
-const ClearRefinements = ({ items, refine, isMobile, closeNav }) => (
-  <button
-    onClick={() => {
-      refine(items);
-      if (isMobile) {
-        closeNav();
-      }
-    }}
-    disabled={!items.length}
-    className="btn btn-info ml-auto mr-auto rounded-0"
-  >
-    <span className="">Clear Filters</span>
-  </button>
-);
+const ClearRefinements = ({ items, refine, isMobile, closeNav }) => {
+  if (items.length === 0) {
+    return <div style={{ display: "none" }}></div>;
+  }
+  return (
+    <button
+      onClick={() => {
+        refine(items);
+        if (isMobile) {
+          closeNav();
+        }
+      }}
+      disabled={!items.length}
+      className="btn btn-info ml-auto mr-auto rounded-0"
+    >
+      <span className="">Clear Filters</span>
+    </button>
+  );
+};
 
 const CustomClearRefinements = connectCurrentRefinements(ClearRefinements);
 
 const Sidebar = () => (
   <div className="mt-2 mt-md-4 col-md-3 swaptr-refinements">
-    <h5>Location</h5>
     <CustomRefinementList attribute="filterCity" isMobile={false} />
     <CustomClearRefinements isMobile={false} />
   </div>
@@ -111,6 +135,8 @@ const RefinementList = ({
   isMobile
 }) => (
   <ul className="refinements-list-ul">
+    {items && items.length > 0 && <h5>Location</h5>}
+
     {/* <li>
       <input
         type="search"

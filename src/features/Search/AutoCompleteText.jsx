@@ -47,7 +47,11 @@ export default class AutoCompleteText extends Component {
         .filter(v => regex.test(v))
         .slice(0, 5);
     }
-    this.setState(() => ({ suggestions, text: value }));
+    this.setState(() => ({
+      suggestions,
+      text: value,
+      suggestionsVisible: true
+    }));
   };
 
   suggestionSelected = value => {
@@ -66,6 +70,7 @@ export default class AutoCompleteText extends Component {
       // console.log("pressed");
       const value = this.state.text;
       this.props.searchSuggestion(value);
+      this.handleClickOutside();
     }
   };
 
@@ -92,11 +97,11 @@ export default class AutoCompleteText extends Component {
     const { text } = this.state;
     return (
       <div
-        className="auto-complete-text dropdown search-width"
+        className="auto-complete-div dropdown"
         ref={node => (this.node = node)}
       >
         <input
-          className="dropdown-toggle w-100 h-100 auto-complete-input"
+          className="dropdown-toggle auto-complete-input"
           value={text}
           onChange={e => this.onTextChanged(e)}
           type="text"
@@ -104,9 +109,13 @@ export default class AutoCompleteText extends Component {
           onKeyUp={event => this.enterPressed(event)}
         />
         <div className="search-icon">
-          <Link to={`/search/${text}`} className="btn btn-light rounded-0">
-            <i className="fas fa-search text-dark mt-2" />
-          </Link>
+          {text ? (
+            <Link to={`/search/${text}`} className="btn rounded-0">
+              <i className="fas fa-search text-dark mt-2" />
+            </Link>
+          ) : (
+            <i className="btn fas fa-search text-dark mt-2" />
+          )}
         </div>
         {this.renderSuggestions()}
       </div>
