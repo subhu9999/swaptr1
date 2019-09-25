@@ -105,7 +105,7 @@ export default class AutoCompleteText extends Component {
           value={text}
           onChange={e => this.onTextChanged(e)}
           type="text"
-          placeholder="search products,brands,location..."
+          placeholder="Search Products,Brands,Location..."
           onKeyUp={event => this.enterPressed(event)}
         />
         <div className="search-icon">

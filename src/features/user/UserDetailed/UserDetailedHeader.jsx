@@ -1,9 +1,13 @@
 import { Row, Col, Card, Button } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 import React from "react";
 import format from "date-fns/format";
 
-export default function UserDetailedHeader({ userProfile }) {
+export default function UserDetailedHeader({
+  userProfile,
+  auth,
+  handleSignIn
+}) {
   let joiningDate = "NAN";
   if (userProfile) {
     joiningDate = format(userProfile.createdAt.toDate(), "MMM YYYY");
@@ -23,9 +27,23 @@ export default function UserDetailedHeader({ userProfile }) {
             />
             <Card.Title>{userProfile.displayName}</Card.Title>
             <Card.Text>Joined On {joiningDate}</Card.Text>
-            <Button variant="primary" className="rounded-0">
-              Send Message
-            </Button>
+            {/* {auth.uid ? (
+              <Link
+                to={`/chats/${auth.uid}`}
+                className="btn btn-primary rounded-0"
+                onClick={() => addUserChat(chatDetails)}
+              >
+                Send Message
+              </Link>
+            ) : (
+              <Button
+                onClick={handleSignIn}
+                variant="primary"
+                className="rounded-0"
+              >
+                Send Message
+              </Button>
+            )} */}
           </Card.Body>
           <Card.Footer className="text-muted">Seller Post's</Card.Footer>
         </Card>

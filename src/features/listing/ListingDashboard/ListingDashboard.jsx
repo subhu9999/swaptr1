@@ -10,15 +10,18 @@ import { getListingsForDashboard } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 import SearchResultPage from "../../search/SearchResultPage";
+import { openModal } from "../../modals/modalActions";
 
 const mapState = state => ({
   listings: state.listings,
   // listings: state.firestore.ordered.listings,
-  loading: state.async.loading
+  loading: state.async.loading,
+  auth: state.firebase.auth
 });
 
 const actions = {
-  getListingsForDashboard
+  getListingsForDashboard,
+  openModal
 };
 
 class ListingDashboard extends Component {
@@ -60,9 +63,18 @@ class ListingDashboard extends Component {
     }
   };
 
+  handleSignIn = () => {
+    this.props.openModal("LoginModal");
+  };
+
+  handleRegister = () => {
+    this.props.openModal("RegisterModal");
+  };
+
   render() {
-    const { loading } = this.props;
+    const { loading, auth } = this.props;
     const { loadingInitial, loadedListings, moreListings } = this.state;
+    const authenticated = auth.isLoaded && !auth.isEmpty;
     let loadingComponent;
     if (loadingInitial) {
       loadingComponent = (
@@ -86,7 +98,11 @@ class ListingDashboard extends Component {
           initialLoad={false}
         >
           <div className="row  ml-auto mr-auto">
-            <ListingAd />
+            <ListingAd
+              authenticated={authenticated}
+              signIn={this.handleSignIn}
+              register={this.handleRegister}
+            />
             {loadingComponent}
             {loadedListings &&
               loadedListings.length !== 0 &&

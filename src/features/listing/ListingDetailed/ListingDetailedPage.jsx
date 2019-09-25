@@ -9,6 +9,7 @@ import ListingDetailedBody from "./ListingDetailedBody";
 import { openModal } from "../../modals/modalActions";
 import { withFirestore } from "react-redux-firebase";
 import { toastr } from "react-redux-toastr";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 const mapState = state => {
   // let listing = {};
@@ -52,14 +53,32 @@ class ListingDetailedPage extends Component {
     });
   }
 
+  isEmpty = obj => {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  };
   render() {
     const { auth, openModal } = this.props;
+    const { isEmpty } = this;
     const { listing } = this.state;
+    let loadingComponent;
+    if (isEmpty(listing)) {
+      // Object is empty ()
+      console.log("empty");
+      loadingComponent = <LoadingComponent />;
+    } else {
+      // Object is NOT empty
+      console.log("listing ready");
+      loadingComponent = "";
+    }
     return (
       <div>
         <Navbar />
         <div className="row listing-detailed listing-detailed-margin">
           <div className="col-md-8 col-xs-12">
+            {loadingComponent}
             <ListingDetailedPhotos listing={listing} />
             <ListingDetailedBody listing={listing} auth={auth} />
           </div>

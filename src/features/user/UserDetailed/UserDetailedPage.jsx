@@ -10,6 +10,7 @@ import { userDetailedQuery } from "../userQueries";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { getUserListings, resetListing } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
+import { openModal } from "../../modals/modalActions";
 // import LazyLoad from 'react-lazyload';
 
 //TODO: add infinite scroller
@@ -62,9 +63,19 @@ class UserDetailedPage extends Component {
       console.log("get request");
     }
   };
+  handleSignIn = () => {
+    this.props.openModal("LoginModal");
+  };
 
   render() {
-    const { profile, requesting, listingLoading, userListings } = this.props;
+    const {
+      profile,
+      requesting,
+      listingLoading,
+      userListings,
+      auth
+    } = this.props;
+
     let loadingComponent;
     const loading = Object.values(requesting).some(a => a === true);
     if (loading) {
@@ -84,7 +95,11 @@ class UserDetailedPage extends Component {
           loadingComponent
         ) : (
           <div>
-            <UserDetailedHeader userProfile={profile} />
+            <UserDetailedHeader
+              handleSignIn={this.handleSignIn}
+              auth={auth}
+              userProfile={profile}
+            />
           </div>
         )}
         <div className="row  ml-auto mr-auto">
