@@ -8,6 +8,7 @@ import ResetLinkSuccessModal from "./ResetLinkSuccessModal";
 import EmailModal from "./EmailModal";
 import PhoneNumberModal from "./PhoneNumberModal";
 import CancelListingModal from "./CancelListingModal";
+import UnauthModal from "../modals/UnauthModal";
 
 const modalLookup = {
   TestModal,
@@ -17,7 +18,8 @@ const modalLookup = {
   ResetLinkSuccessModal,
   EmailModal,
   PhoneNumberModal,
-  CancelListingModal
+  CancelListingModal,
+  UnauthModal
 };
 const mapState = state => ({
   currentModal: state.modals

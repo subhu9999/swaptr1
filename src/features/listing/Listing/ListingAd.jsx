@@ -14,6 +14,12 @@ export default function ListingAd({ authenticated, signIn, register }) {
             <Card.Text className="hide-sm">
               Post your free ad in less than a minute
             </Card.Text>
+            {/* <Link
+              to="/createListing"
+              className="btn listing-ad-btn mb-3 rounded-0"
+            >
+              <span className="font-weight-bold text-white">Post Free Ad</span>
+            </Link> */}
             {authenticated ? (
               <Link
                 to="/createListing"

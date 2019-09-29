@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import SocialLogin from "../../features/auth/SocialLogin/SocialLogin";
 import { socialLogin } from "../auth/authActions";
-
+import { withRouter } from "react-router-dom";
 const actions = {
   closeModal,
   openModal,
@@ -17,12 +17,17 @@ class LoginModal extends Component {
     this.props.openModal("EmailModal");
   };
 
+  handleCloseModal = () => {
+    // this.props.history.goBack();
+    this.props.closeModal();
+  };
+
   render() {
-    const { closeModal, socialLogin } = this.props;
+    const { socialLogin } = this.props;
     return (
       <Modal
         show={true}
-        onHide={closeModal}
+        onHide={this.handleCloseModal}
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -50,7 +55,9 @@ class LoginModal extends Component {
   }
 }
 
-export default connect(
-  null,
-  actions
-)(LoginModal);
+export default withRouter(
+  connect(
+    null,
+    actions
+  )(LoginModal)
+);

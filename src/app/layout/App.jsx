@@ -12,6 +12,7 @@ import UserChatsPage from "../../features/user/UserChatsPage/UserChatsPage";
 import UserChatFormMobile from "../../features/user/UserChatsPage/UserChatFormMobile";
 import SearchResultPage from "../../features/search/SearchResultPage";
 import AlgoliaListings from "../../features/algolia/AlgoliaListings";
+import { UserIsAuthenticated } from "../../features/auth/authWrapper";
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
   render() {
@@ -22,18 +23,32 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={ListingDashboard} />
 
-            <Route path="/createListing" component={ListingForm} />
-            {/* TODO: Hide Route */}
-            <Route path="/settings" component={SettingsDashboard} />
+            <Route
+              path="/createListing"
+              component={UserIsAuthenticated(ListingForm)}
+            />
+            <Route
+              path="/settings"
+              component={UserIsAuthenticated(SettingsDashboard)}
+            />
             <Route path="/listing/:id" component={ListingDetailedPage} />
 
-            <Route path="/manage/:id" component={ListingForm} />
+            <Route
+              path="/manage/:id"
+              component={UserIsAuthenticated(ListingForm)}
+            />
 
             <Route path="/profile/:id" component={UserDetailedPage} />
             {/* TODO: Hide Route */}
-            <Route path="/chats/sm/:chatId" component={UserChatFormMobile} />
+            <Route
+              path="/chats/sm/:chatId"
+              component={UserIsAuthenticated(UserChatFormMobile)}
+            />
 
-            <Route path="/chats/:userId" component={UserChatsPage} />
+            <Route
+              path="/chats/:userId"
+              component={UserIsAuthenticated(UserChatsPage)}
+            />
 
             <Route path="/search/:id" component={SearchResultPage} />
 

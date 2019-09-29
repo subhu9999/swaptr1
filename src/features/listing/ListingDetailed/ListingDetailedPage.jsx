@@ -63,22 +63,22 @@ class ListingDetailedPage extends Component {
     const { auth, openModal } = this.props;
     const { isEmpty } = this;
     const { listing } = this.state;
-    let loadingComponent;
+    let listingRender;
     if (isEmpty(listing)) {
       // Object is empty ()
-      console.log("empty");
-      loadingComponent = <LoadingComponent />;
+      // console.log("empty");
+      listingRender = (
+        <div className="listing-detailed-margin">
+          <LoadingComponent />
+        </div>
+      );
     } else {
       // Object is NOT empty
-      console.log("listing ready");
-      loadingComponent = "";
-    }
-    return (
-      <div>
-        <Navbar />
+      // console.log("listing ready");
+
+      listingRender = (
         <div className="row listing-detailed listing-detailed-margin">
           <div className="col-md-8 col-xs-12">
-            {loadingComponent}
             <ListingDetailedPhotos listing={listing} />
             <ListingDetailedBody listing={listing} auth={auth} />
           </div>
@@ -92,6 +92,12 @@ class ListingDetailedPage extends Component {
             {/* To Do : add Nearby Location ads Recommendations */}
           </div>
         </div>
+      );
+    }
+    return (
+      <div>
+        <Navbar />
+        {listingRender}
       </div>
     );
   }
