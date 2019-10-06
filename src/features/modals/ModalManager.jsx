@@ -9,6 +9,7 @@ import EmailModal from "./EmailModal";
 import PhoneNumberModal from "./PhoneNumberModal";
 import CancelListingModal from "./CancelListingModal";
 import UnauthModal from "../modals/UnauthModal";
+import SwapModal from "./SwapModal";
 
 const modalLookup = {
   TestModal,
@@ -19,7 +20,8 @@ const modalLookup = {
   EmailModal,
   PhoneNumberModal,
   CancelListingModal,
-  UnauthModal
+  UnauthModal,
+  SwapModal
 };
 const mapState = state => ({
   currentModal: state.modals

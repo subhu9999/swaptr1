@@ -12,6 +12,9 @@ import InfiniteScroll from "react-infinite-scroller";
 import SearchResultPage from "../../search/SearchResultPage";
 import { openModal } from "../../modals/modalActions";
 
+import { Offline, Online } from "react-detect-offline";
+import OfflineModal from "../../modals/OfflineModal";
+
 const mapState = state => ({
   listings: state.listings,
   // listings: state.firestore.ordered.listings,
@@ -40,6 +43,15 @@ class ListingDashboard extends Component {
         loadingInitial: false
       });
     }
+    const { loadedListings } = this.state;
+
+    // //check if listings are loaded if not reload page
+    // window.setTimeout(function() {
+    //   if (loadedListings.length === 0) {
+    //     // console.log("00000");
+    //     window.location.reload();
+    //   }
+    // }, 9000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,9 +100,15 @@ class ListingDashboard extends Component {
     return (
       <div>
         <Navbar />
+
         {/* <Banner /> */}
         {/* <SearchResultPage /> */}
         <Banner />
+        <div className="margin-top-app">
+          <Offline>
+            <OfflineModal />
+          </Offline>
+        </div>
         <InfiniteScroll
           pageStart={0}
           loadMore={this.getNextListings}

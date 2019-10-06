@@ -84,13 +84,25 @@ class ListingDetailedSidebar extends Component {
       );
     } else {
       chatOrEdit = (
-        <Link
-          to={`/chats/${auth.uid}`}
-          className="btn btn-primary text-uppercase font-weight-bold d-block mb-2 rounded-0"
-          onClick={() => addUserChat(chatDetails)}
-        >
-          Chat With Seller
-        </Link>
+        <div>
+          <Link
+            to={`/chats/${auth.uid}`}
+            className="btn btn-primary text-uppercase font-weight-bold d-block mb-2 rounded-0"
+            onClick={() => addUserChat(chatDetails)}
+          >
+            <i className="far fa-comment-alt fa-lg mr-2"></i>
+            Chat With Seller
+          </Link>
+          <button
+            // to={`/chats/${auth.uid}`}
+            className="btn btn-primary text-uppercase font-weight-bold btn-block mb-2 rounded-0"
+            // onClick={() => addUserChat(chatDetails)}
+            onClick={() => openModal("SwapModal")}
+          >
+            <i className="fas fa-exchange-alt fa-lg mr-2"></i>
+            Swap Item
+          </button>
+        </div>
       );
     }
     // console.log(listing);

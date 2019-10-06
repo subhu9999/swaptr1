@@ -13,12 +13,14 @@ import UserChatFormMobile from "../../features/user/UserChatsPage/UserChatFormMo
 import SearchResultPage from "../../features/search/SearchResultPage";
 import AlgoliaListings from "../../features/algolia/AlgoliaListings";
 import { UserIsAuthenticated } from "../../features/auth/authWrapper";
+
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
   render() {
     return (
       <div>
         <ModalManager />
+
         <div className=" container-fluid">
           <Switch>
             <Route path="/" exact component={ListingDashboard} />
