@@ -45,13 +45,13 @@ class ListingDashboard extends Component {
     }
     const { loadedListings } = this.state;
 
-    // //check if listings are loaded if not reload page
-    // window.setTimeout(function() {
-    //   if (loadedListings.length === 0) {
-    //     // console.log("00000");
-    //     window.location.reload();
-    //   }
-    // }, 9000);
+    //check if listings are loaded if not reload page
+    window.setTimeout(function() {
+      if (loadedListings.length === 0) {
+        // console.log("00000");
+        window.location.reload();
+      }
+    }, 9000);
   }
 
   componentWillReceiveProps(nextProps) {

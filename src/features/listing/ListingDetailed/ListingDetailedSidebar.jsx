@@ -132,12 +132,22 @@ class ListingDetailedSidebar extends Component {
           </div>
           <div className="card-footer text-muted ">
             {auth.isEmpty ? (
-              <button
-                className="btn btn-primary text-uppercase font-weight-bold btn-block mb-2 rounded-0"
-                onClick={() => openModal("LoginModal")}
-              >
-                Chat With Seller
-              </button>
+              <div>
+                <button
+                  className="btn btn-primary text-uppercase font-weight-bold btn-block mb-2 rounded-0"
+                  onClick={() => openModal("LoginModal")}
+                >
+                  <i className="far fa-comment-alt fa-lg mr-2"></i>
+                  Chat With Seller
+                </button>
+                <button
+                  className="btn btn-primary text-uppercase font-weight-bold btn-block mb-2 rounded-0"
+                  onClick={() => openModal("LoginModal")}
+                >
+                  <i className="fas fa-exchange-alt fa-lg mr-2"></i>
+                  Swap Item
+                </button>
+              </div>
             ) : (
               chatOrEdit
             )}

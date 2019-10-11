@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { closeModal, openModal } from "./modalActions";
 import { connect } from "react-redux";
 import { Modal, Spinner } from "react-bootstrap";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import Listing from "../listing/Listing/Listing";
 import { getUserListings } from "../listing/listingActions";
+import SwapListing from "../listing/Listing/SwapListing";
 
 const mapState = (state, ownProps) => {
   return {
@@ -42,14 +43,19 @@ class SwapModal extends Component {
       listingsComponent = (
         <div className="">
           <p className="lead">Post a Free Ad to Start Swaping !</p>
-          <button className="btn btn-primary btn-block rounded-0">
+          <Link
+            to={`/createListing`}
+            className="btn btn-primary btn-block rounded-0"
+            onClick={this.handleCloseModal}
+          >
             Click Here To Post Ad
-          </button>
+          </Link>
         </div>
       );
     } else {
       listingsComponent = userListings.map(listing => (
-        <Listing key={listing.id} listing={listing} />
+        // <Listing key={listing.id} listing={listing} />
+        <SwapListing key={listing.id} listing={listing} />
       ));
     }
     return (

@@ -1,0 +1,21 @@
+.swap-item-img {
+  /* width: 90%; */
+  height: 100px;
+  object-fit: cover;
+  padding: 0px;
+}
+
+.swap-item-title {
+  font-size: 22px;
+}
+
+.swap-listing-btn {
+  /* width: 90%; */
+  height: 100px;
+}
+
+@media (min-width: 768px) {
+  .swap-item-title {
+    font-size: 18px;
+  }
+}
