@@ -1,0 +1,9 @@
+.swap-modal-body {
+  height: 440px;
+}
+
+@media (min-width: 768px) {
+  .swap-modal-body {
+    height: 540px;
+  }
+}

@@ -24,8 +24,9 @@ class UserChatForm extends Component {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
   handleChatSubmit = values => {
-    const { addChatComment, reset, userChat, userId } = this.props;
-    addChatComment(userChat, values, userId);
+    const { addChatComment, reset, userChat } = this.props;
+    console.log(values);
+    addChatComment(userChat, values);
     reset();
   };
 
@@ -131,6 +132,16 @@ class UserChatForm extends Component {
                       className="margin-left-chat  text-white p-2 lead pr-4 mr-2 speech-bubble-right"
                     >
                       {comment.text}
+                      {comment.swapListing && (
+                        <img
+                          className="img-thumbnail"
+                          src={
+                            comment.swapListing.image.imageURL ||
+                            "/assets/swaptr-listing.jpg"
+                          }
+                          alt="swap_photo"
+                        />
+                      )}
                       <small className="p-2 float-right text-white">
                         {comment &&
                           comment.date &&

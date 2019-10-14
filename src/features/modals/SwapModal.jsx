@@ -7,28 +7,36 @@ import LoadingComponent from "../../app/layout/LoadingComponent";
 import Listing from "../listing/Listing/Listing";
 import { getUserListings } from "../listing/listingActions";
 import SwapListing from "../listing/Listing/SwapListing";
+import "./SwapModal.css";
+import { addUserChat, addChatComment } from "../user/userActions";
 
 const mapState = (state, ownProps) => {
   return {
     auth: state.firebase.auth,
     requesting: state.firestore.status.requesting,
     userListings: state.listings,
-    listingLoading: state.async.loading
+    listingLoading: state.async.loading,
+    currentListing: state.firestore.ordered.listings[0]
   };
 };
 
 const actions = {
   closeModal,
   openModal,
-  getUserListings
+  getUserListings,
+  addUserChat,
+  addChatComment
 };
 
 class SwapModal extends Component {
-  componentDidMount = () => {
+  async componentDidMount() {
     let userUid;
     userUid = this.props.auth.uid;
     this.props.getUserListings(userUid);
-  };
+
+    // const {currentListing } = this.props;
+    // console.log(currentListing)
+  }
 
   handleCloseModal = () => {
     // this.props.history.goBack();
@@ -36,7 +44,33 @@ class SwapModal extends Component {
   };
 
   render() {
-    const { requesting, listingLoading, userListings, auth } = this.props;
+    const {
+      auth,
+      listingLoading,
+      userListings,
+      currentListing,
+      addUserChat,
+      addChatComment
+    } = this.props;
+
+    let listingMainImage;
+    if (
+      currentListing &&
+      currentListing.images &&
+      currentListing.images[0].imageURL
+    ) {
+      listingMainImage = currentListing.images[0].imageURL;
+    }
+
+    let chatDetails = {
+      listingId: currentListing.id,
+      listingTitle: currentListing.title,
+      listingPhoto: listingMainImage || "/assets/swaptr-listing.jpg",
+      receiverName: currentListing.sellerName,
+      sellerPhoneNumber: currentListing.sellerPhoneNumber,
+      receiverPic: currentListing.sellerProfilePic,
+      receiverUid: currentListing.sellerUid
+    };
 
     let listingsComponent;
     if (userListings && userListings.length === 0) {
@@ -54,8 +88,16 @@ class SwapModal extends Component {
       );
     } else {
       listingsComponent = userListings.map(listing => (
-        // <Listing key={listing.id} listing={listing} />
-        <SwapListing key={listing.id} listing={listing} />
+        <SwapListing
+          key={listing.id}
+          auth={auth}
+          listing={listing}
+          currentListing={currentListing}
+          addUserChat={addUserChat}
+          addChatComment={addChatComment}
+          chatDetails={chatDetails}
+          handleCloseModal={this.handleCloseModal}
+        />
       ));
     }
     return (
@@ -75,7 +117,7 @@ class SwapModal extends Component {
             )}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="justify-content-center">
+        <Modal.Body className="overflow-auto swap-modal-body justify-content-center">
           {listingLoading ? (
             <div>
               <Spinner animation="grow" variant="primary" />

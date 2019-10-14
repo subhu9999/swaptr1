@@ -226,7 +226,7 @@ export const addUserChat = (chatDetails, values) => async (
 ) => {
   console.log("addUserChat");
   const firebase = getFirebase();
-
+  let resUserChat;
   const user = firebase.auth().currentUser;
   let newChat = {
     ...chatDetails,
@@ -235,7 +235,14 @@ export const addUserChat = (chatDetails, values) => async (
   };
 
   try {
-    await firebase.push(`user_chat/${user.uid}`, newChat);
+    await firebase.push(`user_chat/${user.uid}`, newChat).then(res => {
+      resUserChat = {
+        ...newChat,
+        id: res.key
+      };
+    });
+    // .then(res => console.log(res));
+    return resUserChat;
   } catch (error) {
     console.log(error);
     toastr.error("Oops", "Please Try Again Later !");
@@ -277,7 +284,7 @@ export const addUserChatReceiver = (chatDetails, values) => async (
   }
 };
 
-export const addChatComment = (chat, values) => async (
+export const addChatComment = (chat, values, swapListing) => async (
   dispatch,
   getState,
   { getFirebase }
@@ -297,12 +304,29 @@ export const addChatComment = (chat, values) => async (
   } else {
     dispatch(addUserChatReceiver(chat, values));
   }
+  let newComment;
+  if (swapListing) {
+    console.log(swapListing);
+    newComment = {
+      text: values.comment,
+      swapListing: {
+        title: swapListing.title,
+        id: swapListing.id,
+        image: swapListing.images[0],
+        city: swapListing.city,
+        description: swapListing.description
+      },
+      date: Date.now(),
+      authorId: user.uid
+    };
+  } else {
+    newComment = {
+      text: values.comment,
+      date: Date.now(),
+      authorId: user.uid
+    };
+  }
 
-  let newComment = {
-    text: values.comment,
-    date: Date.now(),
-    authorId: user.uid
-  };
   comments.push(newComment);
 
   try {
