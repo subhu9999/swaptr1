@@ -19,8 +19,9 @@ export default class SwapListing extends Component {
     // console.log(userChat);
     //add swap item link in add chat comment
     const values = {
-      comment: "i would like to swap with my item"
+      comment: "i would like to swap this item. please check and reply !"
     };
+    // console.log(userChat.id.length);
     await addChatComment(userChat, values, listing);
   };
 

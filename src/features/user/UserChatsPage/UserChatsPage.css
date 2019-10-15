@@ -3,6 +3,12 @@
   margin-top: 90px;
 }
 
+.swap-image-chat {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
 .chat-list-header {
   padding: 20px 20px 20px 10px;
   border: 1px solid #ebeeef;

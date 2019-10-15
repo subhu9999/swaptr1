@@ -184,17 +184,41 @@ class userChatFormMobile extends Component {
                 chat.comments.map(comment => {
                   if (comment.authorId === auth.uid) {
                     return (
-                      <p
+                      <Card.Text
                         key={comment.date + cuid()}
                         className="margin-left-chat  text-white p-2 lead pr-4 mr-2 speech-bubble-right"
                       >
                         {comment.text}
+                        {comment.swapListing && (
+                          <Link to={`/listing/${comment.swapListing.id}`}>
+                            <img
+                              className="swap-image-chat d-block img-thumbnail"
+                              src={
+                                comment.swapListing.image.imageURL ||
+                                "/assets/swaptr-listing.jpg"
+                              }
+                              alt="swap_photo"
+                            />
+                            <span className="d-block lead text-white text-capitalize font-weight-bold">
+                              {comment.swapListing.title}
+                            </span>
+                            <button className="btn btn-dark btn-block rounded-0">
+                              View this Ad
+                            </button>
+                            <span className="text-white font-weight-bold">
+                              Location:
+                            </span>
+                            <span className="ml-1 text-white font-weight-light font-italic">
+                              {comment.swapListing.city}
+                            </span>
+                          </Link>
+                        )}
                         <small className="p-2 float-right text-white">
                           {comment &&
                             comment.date &&
                             format(comment.date, "HH:mm")}
                         </small>
-                      </p>
+                      </Card.Text>
                     );
                   }
 
@@ -204,6 +228,30 @@ class userChatFormMobile extends Component {
                       className="ml-2 mr-4 w-50 text-white lead p-2 pl-4 speech-bubble-left"
                     >
                       {comment.text}
+                      {comment.swapListing && (
+                        <Link to={`/listing/${comment.swapListing.id}`}>
+                          <img
+                            className="swap-image-chat d-block img-thumbnail"
+                            src={
+                              comment.swapListing.image.imageURL ||
+                              "/assets/swaptr-listing.jpg"
+                            }
+                            alt="swap_photo"
+                          />
+                          <span className="d-block lead text-white text-capitalize font-weight-bold">
+                            {comment.swapListing.title}
+                          </span>
+                          <button className="btn btn-dark btn-block rounded-0">
+                            View this Ad
+                          </button>
+                          <span className="text-white font-weight-bold">
+                            Location:
+                          </span>
+                          <span className="ml-1 text-white font-weight-light font-italic">
+                            {comment.swapListing.city}
+                          </span>
+                        </Link>
+                      )}
 
                       <small className="p-2 float-right text-white">
                         {comment &&
