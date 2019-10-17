@@ -313,8 +313,7 @@ export const addChatComment = (chat, values, swapListing) => async (
         title: swapListing.title,
         id: swapListing.id,
         image: swapListing.images[0],
-        city: swapListing.city,
-        description: swapListing.description
+        city: swapListing.city
       },
       date: Date.now(),
       authorId: user.uid

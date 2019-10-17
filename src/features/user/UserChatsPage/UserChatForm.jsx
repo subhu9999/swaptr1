@@ -133,7 +133,10 @@ class UserChatForm extends Component {
                     >
                       {comment.text}
                       {comment.swapListing && (
-                        <Link to={`/listing/${comment.swapListing.id}`}>
+                        <Link
+                          className="swap-item-chat"
+                          to={`/listing/${comment.swapListing.id}`}
+                        >
                           <img
                             className="swap-image-chat d-block img-thumbnail"
                             src={
@@ -145,7 +148,7 @@ class UserChatForm extends Component {
                           <span className="d-block lead text-white text-capitalize font-weight-bold">
                             {comment.swapListing.title}
                           </span>
-                          <button className="btn btn-dark btn-block rounded-0">
+                          <button className="btn btn-primary btn-block rounded-0">
                             View this Ad
                           </button>
                           <span className="text-white font-weight-bold">
@@ -172,7 +175,10 @@ class UserChatForm extends Component {
                   >
                     {comment.text}
                     {comment.swapListing && (
-                      <Link to={`/listing/${comment.swapListing.id}`}>
+                      <Link
+                        className="swap-item-chat"
+                        to={`/listing/${comment.swapListing.id}`}
+                      >
                         <img
                           className="swap-image-chat d-block img-thumbnail"
                           src={
@@ -184,7 +190,7 @@ class UserChatForm extends Component {
                         <span className="d-block lead text-white text-capitalize font-weight-bold">
                           {comment.swapListing.title}
                         </span>
-                        <button className="btn btn-dark btn-block rounded-0">
+                        <button className="btn btn-primary btn-block rounded-0">
                           View this Ad
                         </button>
                         <span className="text-white font-weight-bold">

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./SwapListing.css";
 import { Link } from "react-router-dom";
 import format from "date-fns/format";
+import { toastr } from "react-redux-toastr";
 
 export default class SwapListing extends Component {
   handleSwap = async () => {
@@ -23,6 +24,12 @@ export default class SwapListing extends Component {
     };
     // console.log(userChat.id.length);
     await addChatComment(userChat, values, listing);
+
+    //show confirmation toast
+    toastr.success(
+      "Swap Request Sent Successfully !",
+      "please wait for reply !"
+    );
   };
 
   render() {
@@ -34,8 +41,8 @@ export default class SwapListing extends Component {
       chatDetails
     } = this.props;
     var title = "";
-    if (listing.title.length > 14) {
-      title = listing.title.substring(0, 14) + "...";
+    if (listing.title.length > 10) {
+      title = listing.title.substring(0, 10) + "...";
     } else {
       title = listing.title;
     }
@@ -49,8 +56,8 @@ export default class SwapListing extends Component {
     return (
       <div className="row border mt-1 p-1">
         {/* link to chat with data */}
-        <Link
-          to={`/chats/${auth.uid}`}
+        <div
+          // to={`/chats/${auth.uid}`}
           // onClick={() => addUserChat(chatDetails)}
           onClick={() => this.handleSwap()}
         >
@@ -59,13 +66,13 @@ export default class SwapListing extends Component {
             alt="img"
             className="col-3 swap-item-img "
           />
-          <span className="col-5 p-0 pl-1 swap-item-title text-capitalize">
+          <span className="col-5 p-0 pl-1 swap-item-title text-capitalize text-primary">
             {title}
           </span>
           <button className="col-3 btn btn-info rounded-0 swap-listing-btn float-right">
             <i className="fas fa-exchange-alt fa-2x "></i>
           </button>
-        </Link>
+        </div>
       </div>
     );
   }

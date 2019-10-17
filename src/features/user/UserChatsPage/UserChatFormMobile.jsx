@@ -202,8 +202,8 @@ class userChatFormMobile extends Component {
                             <span className="d-block lead text-white text-capitalize font-weight-bold">
                               {comment.swapListing.title}
                             </span>
-                            <button className="btn btn-dark btn-block rounded-0">
-                              View this Ad
+                            <button className="btn btn-primary btn-block rounded-0">
+                              View Ad
                             </button>
                             <span className="text-white font-weight-bold">
                               Location:
@@ -241,8 +241,8 @@ class userChatFormMobile extends Component {
                           <span className="d-block lead text-white text-capitalize font-weight-bold">
                             {comment.swapListing.title}
                           </span>
-                          <button className="btn btn-dark btn-block rounded-0">
-                            View this Ad
+                          <button className="btn btn-primary btn-block rounded-0">
+                            View Ad
                           </button>
                           <span className="text-white font-weight-bold">
                             Location:

@@ -9,6 +9,10 @@
   object-fit: cover;
 }
 
+.swap-item-chat:hover {
+  text-decoration: none;
+}
+
 .chat-list-header {
   padding: 20px 20px 20px 10px;
   border: 1px solid #ebeeef;

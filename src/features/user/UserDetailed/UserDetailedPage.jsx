@@ -11,6 +11,7 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { getUserListings, resetListing } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
 import { openModal } from "../../modals/modalActions";
+import ListingDashboardSkeleton from "../../../app/layout/ListingDashboardSkeleton";
 // import LazyLoad from 'react-lazyload';
 
 //TODO: add infinite scroller
@@ -102,18 +103,13 @@ class UserDetailedPage extends Component {
             />
           </div>
         )}
+        {listingLoading && <ListingDashboardSkeleton />}
         <div className="row  ml-auto mr-auto">
-          {listingLoading ? (
-            <div>
-              <Spinner animation="grow" variant="primary" />
-              <Spinner animation="grow" variant="primary" />
-              <Spinner animation="grow" variant="primary" />
-            </div>
-          ) : (
-            userListings.map(listing => (
-              <Listing key={listing.id} listing={listing} />
-            ))
-          )}
+          {listingLoading
+            ? ""
+            : userListings.map(listing => (
+                <Listing key={listing.id} listing={listing} />
+              ))}
         </div>
       </div>
     );

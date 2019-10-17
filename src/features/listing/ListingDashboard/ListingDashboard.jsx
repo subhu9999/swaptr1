@@ -11,10 +11,7 @@ import { Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 import SearchResultPage from "../../search/SearchResultPage";
 import { openModal } from "../../modals/modalActions";
-
-import { Offline, Online } from "react-detect-offline";
-import OfflineModal from "../../modals/OfflineModal";
-
+import ListingDashboardSkeleton from "../../../app/layout/ListingDashboardSkeleton";
 const mapState = state => ({
   listings: state.listings,
   // listings: state.firestore.ordered.listings,
@@ -88,12 +85,10 @@ class ListingDashboard extends Component {
     const { loadingInitial, loadedListings, moreListings } = this.state;
     const authenticated = auth.isLoaded && !auth.isEmpty;
     let loadingComponent;
+    // let a = 1;
     if (loadingInitial) {
-      loadingComponent = (
-        <div className="col-6 col-sm-6 col-md-4 col-lg-3">
-          <LoadingComponent />
-        </div>
-      );
+      // if (a) {
+      loadingComponent = <ListingDashboardSkeleton />;
     } else {
       loadingComponent = "";
     }
@@ -101,27 +96,25 @@ class ListingDashboard extends Component {
       <div>
         <Navbar />
 
-        {/* <Banner /> */}
         {/* <SearchResultPage /> */}
         <Banner />
-        <div className="margin-top-app">
-          <Offline>
-            <OfflineModal />
-          </Offline>
-        </div>
+        <div className="margin-top-app"></div>
         <InfiniteScroll
           pageStart={0}
           loadMore={this.getNextListings}
           hasMore={!loading && moreListings}
           initialLoad={false}
         >
+          {loadingComponent}
           <div className="row  ml-auto mr-auto">
-            <ListingAd
-              authenticated={authenticated}
-              signIn={this.handleSignIn}
-              register={this.handleRegister}
-            />
-            {loadingComponent}
+            {loadedListings && loadedListings.length !== 0 && (
+              <ListingAd
+                authenticated={authenticated}
+                signIn={this.handleSignIn}
+                register={this.handleRegister}
+              />
+            )}
+
             {loadedListings &&
               loadedListings.length !== 0 &&
               loadedListings.map(listing => (
@@ -130,14 +123,13 @@ class ListingDashboard extends Component {
           </div>
         </InfiniteScroll>
 
-        {/* //TODO: Add FB type loading */}
-        {loading && (
+        {/* {loading && (
           <div>
             <Spinner animation="grow" variant="primary" />
             <Spinner animation="grow" variant="primary" />
             <Spinner animation="grow" variant="primary" />
           </div>
-        )}
+        )} */}
       </div>
     );
   }

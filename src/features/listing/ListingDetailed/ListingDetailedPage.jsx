@@ -10,6 +10,7 @@ import { openModal } from "../../modals/modalActions";
 import { withFirestore } from "react-redux-firebase";
 import { toastr } from "react-redux-toastr";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import Skeleton from "react-loading-skeleton";
 
 const mapState = state => {
   // let listing = {};
@@ -30,7 +31,7 @@ const mapState = state => {
 const actions = {
   openModal
 };
-
+//add more related listing at bottom
 class ListingDetailedPage extends Component {
   state = {
     listing: {}
@@ -69,7 +70,18 @@ class ListingDetailedPage extends Component {
       // console.log("empty");
       listingRender = (
         <div className="listing-detailed-margin">
-          <LoadingComponent />
+          {/* <LoadingComponent /> */}
+          <div className="row">
+            <div className="col-md-8">
+              <Skeleton height="400px" />
+            </div>
+            <div className="col-md-4">
+              <Skeleton height="400px" />
+            </div>
+          </div>
+          <div className="row">
+            <Skeleton height="100px" />
+          </div>
         </div>
       );
     } else {
