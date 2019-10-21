@@ -111,7 +111,11 @@ const SignedInMenu = ({
           </Link>
         </li>
         <li className="nav-item dropdown ">
-          <Link to="/myAds" className=" btn text-light" onClick={resetListing}>
+          <Link
+            to={`/profile/${auth.uid}`}
+            className=" btn text-light"
+            onClick={resetListing}
+          >
             <i className="fas fa-cubes fa-lg" />
             <span style={{ marginLeft: "10px" }}>My Ads</span>
           </Link>

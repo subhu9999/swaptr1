@@ -1,5 +1,9 @@
 .margin-top-search {
-  margin-top: 140px;
+  margin-top: 80px;
+}
+
+.margin-top-skeleton {
+  margin-top: 100px;
 }
 
 .search-box-swaptr {
@@ -178,7 +182,26 @@
   ##Screen = B/w 320px to 479px
 */
 
-@media (min-width: 320px) and (max-width: 480px) {
+/* @media (min-width: 320px) and (max-width: 480px) {
+} */
+@media (min-width: 350px) and (max-width: 380px) {
+  .search-icon {
+    margin-left: 80%;
+    margin-top: -45px;
+  }
+  .auto-complete-input {
+    width: 90%;
+  }
+}
+
+@media (min-width: 310px) and (max-width: 349px) {
+  .search-icon {
+    margin-left: 70%;
+    margin-top: -45px;
+  }
+  .auto-complete-input {
+    width: 80%;
+  }
 }
 
 /* screen overlay */
@@ -230,7 +253,7 @@
   /* padding: 8px; */
   text-decoration: none;
   font-size: 26px;
-  color: white;
+  /* color: white; */
   /* display: block;  */
   transition: 0.3s; /* Transition effects on hover (color) */
 }

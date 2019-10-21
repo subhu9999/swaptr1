@@ -11,6 +11,9 @@ import { withFirestore } from "react-redux-firebase";
 import { toastr } from "react-redux-toastr";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import Skeleton from "react-loading-skeleton";
+import ListingNearby from "../ListingDashboard/ListingNearby";
+import SearchResultPage from "../../search/SearchResultPage";
+import { addUserChat } from "../../user/userActions";
 
 const mapState = state => {
   // let listing = {};
@@ -29,12 +32,14 @@ const mapState = state => {
 };
 
 const actions = {
-  openModal
+  openModal,
+  addUserChat
 };
 //add more related listing at bottom
 class ListingDetailedPage extends Component {
   state = {
-    listing: {}
+    listing: {},
+    loading: false
   };
   async componentDidMount() {
     const { firestore, match, history } = this.props;
@@ -52,7 +57,45 @@ class ListingDetailedPage extends Component {
         ...listing
       }
     });
+
+    //check if listing are loaded if not reload page
+    // const { listingState } = this.state;
+    // window.setTimeout(function() {
+    //   if (listingState.title && listingState.title.length === 0) {
+    //     console.log("00000");
+    //     // window.location.reload();
+    //   }
+    // }, 9000);
   }
+
+  componentWillReceiveProps = async nextProps => {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      // window.location.reload();
+      this.setState({
+        loading: true
+      });
+
+      const { firestore, match, history } = nextProps;
+      let listing_id = match.params.id;
+      let listing = await firestore.get(`listings/${match.params.id}`);
+      if (!listing.exists) {
+        history.push("/");
+        toastr.error("Sorry", "No listing found");
+      }
+      // console.log(listing.data());
+      listing = listing.data();
+      this.setState({
+        listing: {
+          id: listing_id,
+          ...listing
+        }
+      });
+
+      this.setState({
+        loading: false
+      });
+    }
+  };
 
   isEmpty = obj => {
     for (var key in obj) {
@@ -61,11 +104,12 @@ class ListingDetailedPage extends Component {
     return true;
   };
   render() {
-    const { auth, openModal } = this.props;
+    const { auth, openModal, addUserChat } = this.props;
     const { isEmpty } = this;
-    const { listing } = this.state;
+    const { listing, loading } = this.state;
+    // console.log(listing);
     let listingRender;
-    if (isEmpty(listing)) {
+    if (isEmpty(listing) || loading) {
       // Object is empty ()
       // console.log("empty");
       listingRender = (
@@ -92,16 +136,21 @@ class ListingDetailedPage extends Component {
         <div className="row listing-detailed listing-detailed-margin">
           <div className="col-md-8 col-xs-12">
             <ListingDetailedPhotos listing={listing} />
-            <ListingDetailedBody listing={listing} auth={auth} />
+            <ListingDetailedBody
+              listing={listing}
+              auth={auth}
+              addUserChat={addUserChat}
+              openModal={openModal}
+            />
           </div>
           <div className="col-md-4 col-xs-12">
             <ListingDetailedSidebar
               listing={listing}
               auth={auth}
               openModal={openModal}
+              addUserChat={addUserChat}
             />
             <ListingDetailedLocation listing={listing} />
-            {/* To Do : add Nearby Location ads Recommendations */}
           </div>
         </div>
       );
@@ -110,6 +159,10 @@ class ListingDetailedPage extends Component {
       <div>
         <Navbar />
         {listingRender}
+        {/* algolia listings with search listing.filter city */}
+        {listing && listing.filterCity && (
+          <ListingNearby filterCity={listing.filterCity} />
+        )}
       </div>
     );
   }

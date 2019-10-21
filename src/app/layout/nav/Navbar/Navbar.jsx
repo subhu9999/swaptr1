@@ -74,7 +74,7 @@ class Navbar extends Component {
             </span>
           )}
         </button>
-        <a href="/" className="navbar-brand">
+        <a href="/" className="navbar-brand mr-0 mr-md-2">
           <i className="fab fa-sellcast fa-2x text-warning" />
         </a>
 

@@ -2,9 +2,58 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class ListingDetailedBody extends Component {
+  componentDidMount = () => {};
   render() {
-    const { listing, auth } = this.props;
+    const { listing, auth, addUserChat, openModal } = this.props;
+    // console.log(listing);
+    let listingMainImage;
+    if (listing && listing.images && listing.images[0].imageURL) {
+      listingMainImage = listing.images[0].imageURL;
+    }
+    let chatOrEdit;
+    let chatDetails = {
+      listingId: listing.id,
+      listingTitle: listing.title,
+      listingPhoto: listingMainImage || "/assets/swaptr-listing.jpg",
+      receiverName: listing.sellerName,
+      sellerPhoneNumber: listing.sellerPhoneNumber,
+      receiverPic: listing.sellerProfilePic,
+      receiverUid: listing.sellerUid
+    };
 
+    if (auth.uid === listing.sellerUid) {
+      chatOrEdit = (
+        <div id="action-buttons" className="w-100 hide-fixed-buttons">
+          <a
+            href="/"
+            className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-100"
+          >
+            <i className="far fa-comment-alt  mr-1" />
+            Edit Listing
+          </a>
+        </div>
+      );
+    } else {
+      chatOrEdit = (
+        <div id="action-buttons" className="w-100 hide-fixed-buttons">
+          <Link
+            to={`/chats/${auth.uid}`}
+            className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-50"
+            onClick={() => addUserChat(chatDetails)}
+          >
+            <i className="far fa-comment-alt  mr-1" />
+            CHAT
+          </Link>
+          <a
+            href={`tel:${listing.sellerPhoneNumber}`}
+            className="btn btn-lg btn-primary call-button-fixed font-weight-bold w-50"
+          >
+            <i className="fas fa-phone mr-1 fa-flip-horizontal " />
+            CALL
+          </a>
+        </div>
+      );
+    }
     return (
       <div>
         <div className="card">
@@ -51,33 +100,21 @@ class ListingDetailedBody extends Component {
           <div className="card-body ">
             <p>{listing.description}</p>
           </div>
-          {auth.uid === listing.sellerUid ? (
-            <div id="action-buttons" className="w-100 hide-fixed-buttons">
-              <a
-                href="/"
+          {auth.isEmpty ? (
+            <div
+              id="action-buttons-unauth"
+              className="w-100 hide-fixed-buttons"
+            >
+              <button
                 className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-100"
+                onClick={() => openModal("LoginModal")}
               >
-                <i className="far fa-comment-alt  mr-1" />
-                Edit Listing
-              </a>
+                <i className="far fa-comment-alt fa-lg mr-2"></i>
+                Chat With Seller
+              </button>
             </div>
           ) : (
-            <div id="action-buttons" className="w-100 hide-fixed-buttons">
-              <a
-                href="/"
-                className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-50"
-              >
-                <i className="far fa-comment-alt  mr-1" />
-                CHAT
-              </a>
-              <a
-                href="/"
-                className="btn btn-lg btn-primary call-button-fixed font-weight-bold w-50"
-              >
-                <i className="fas fa-phone mr-1 fa-flip-horizontal " />
-                CALL
-              </a>
-            </div>
+            chatOrEdit
           )}
         </div>
       </div>

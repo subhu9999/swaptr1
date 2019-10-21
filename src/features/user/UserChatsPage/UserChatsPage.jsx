@@ -30,7 +30,7 @@ class UserChatsPage extends Component {
     const { userId } = this.props.match.params;
     let emptyChat = "";
     if (userChat === undefined) {
-      console.log(userChat);
+      // console.log(userChat);
       emptyChat = (
         <div className="m-2 font-weight-bold lead">
           <Card.Body>

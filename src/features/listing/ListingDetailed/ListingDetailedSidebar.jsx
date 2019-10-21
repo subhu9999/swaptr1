@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { addUserChat } from "../../user/userActions";
+// import { addUserChat } from "../../user/userActions";
 import { connect } from "react-redux";
 import { deleteListing } from "../listingActions";
 import { deleteImage } from "../../listing/ListingForm/tempImagesActions";
 
 const actions = {
-  addUserChat,
+  // addUserChat,
   deleteListing,
   deleteImage
 };

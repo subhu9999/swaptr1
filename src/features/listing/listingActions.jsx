@@ -195,7 +195,7 @@ export const getListingsForSearch = (searchQuery, lastListing) => async (
           .limit(4))
       : // : (query = listingsRef.orderBy("created", "desc").limit(4));
         (query = listingsRef
-          .where("tags", "array-contains", "199")
+          .where("tags", "array-contains", "kolhapur")
           .orderBy("created", "desc")
           .limit(4));
 

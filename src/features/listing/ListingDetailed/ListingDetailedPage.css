@@ -75,7 +75,12 @@
   z-index: 1;
   left: 0px;
 }
-
+#action-buttons-unauth {
+  position: fixed;
+  bottom: -4px;
+  z-index: 1;
+  left: 0px;
+}
 @media (min-width: 768px) {
   .hide-fixed-buttons {
     display: none !important;

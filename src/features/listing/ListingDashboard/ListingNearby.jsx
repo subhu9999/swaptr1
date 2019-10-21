@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import Navbar from "../../app/layout/nav/Navbar/Navbar";
+// import Navbar from "../../../app/layout/nav/Navbar/Navbar";
 import format from "date-fns/format";
-import cities from "./PopularCities";
+// import cities from "./PopularCities";
 import { connect } from "react-redux";
 
 // import { firestoreConnect } from "react-redux-firebase";
-import Listing from "../listing/Listing/Listing";
-import Banner from "../../app/layout/Banner/Banner";
-import LoadingComponent from "../../app/layout/LoadingComponent";
-import ListingAdSearch from "../listing/Listing/ListingAdSearch";
-import { getListingsForSearch } from "../listing/listingActions";
+import Listing from "../../listing/Listing/Listing";
+import Banner from "../../../app/layout/Banner/Banner";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import ListingAdSearch from "../../listing/Listing/ListingAdSearch";
+import { getListingsForSearch } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 import {
@@ -24,8 +24,7 @@ import {
   connectSearchBox
 } from "react-instantsearch-dom";
 import { Link } from "react-router-dom";
-import "./Search.css";
-import Skeleton from "react-loading-skeleton";
+// import "./Search.css";
 
 const mapState = state => ({
   listings: state.listings,
@@ -74,7 +73,7 @@ const StateResults = ({ searchResults }) => {
         <p>Oops... we didn't find anything that matches this search :( </p>Try
         searching for Ads by selecting a location near you,{" "}
         <div className="row mt-2">
-          {cities &&
+          {/* {cities &&
             cities.map(city => (
               <div
                 key={city}
@@ -85,7 +84,7 @@ const StateResults = ({ searchResults }) => {
                   {city}
                 </Link>
               </div>
-            ))}
+            ))} */}
         </div>
         <div className="row mt-4">
           <ListingAdSearch />
@@ -119,28 +118,12 @@ const ClearRefinements = ({ items, refine, isMobile, closeNav }) => {
 
 const CustomClearRefinements = connectCurrentRefinements(ClearRefinements);
 
-const Sidebar = ({ showFilter, closeNav }) => {
-  // <div className="mt-2 mt-md-4 col-md-3 swaptr-refinements">
-  if (showFilter) {
-    return (
-      <div className="mt-2 mt-md-4 col-md-3 ">
-        <CustomRefinementList
-          attribute="filterCity"
-          isMobile={false}
-          closeNav={closeNav}
-        />
-        <CustomClearRefinements isMobile={false} />
-      </div>
-    );
-  } else {
-    return (
-      <div className="mt-2 mt-md-4 col-md-3 swaptr-refinements">
-        <CustomRefinementList attribute="filterCity" isMobile={false} />
-        <CustomClearRefinements isMobile={false} />
-      </div>
-    );
-  }
-};
+const Sidebar = () => (
+  <div className="mt-2 mt-md-4 col-md-3 swaptr-refinements">
+    <CustomRefinementList attribute="filterCity" isMobile={false} />
+    <CustomClearRefinements isMobile={false} />
+  </div>
+);
 
 const RefinementList = ({
   items,
@@ -170,9 +153,9 @@ const RefinementList = ({
             refine(item.value);
             //close overlay
             //check if screen small then closeNav
-            // if (isMobile) {
-            closeNav(item.value);
-            // }
+            if (isMobile) {
+              closeNav();
+            }
           }}
           className="ml-auto mr-auto refinements-overlay"
         >
@@ -190,35 +173,28 @@ const RefinementList = ({
 
 const CustomRefinementList = connectRefinementList(RefinementList);
 
-class SearchResultPage extends Component {
+class ListingNearby extends Component {
   state = {
     moreListings: false,
     loadingInitial: true,
     loadedListings: [],
     showFilter: false,
-    searchTerm: "",
-    loadingSkeleton: true,
-    defaultRefinement: ""
+    searchTerm: ""
   };
 
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.match.params.id !== this.props.match.params.id) {
-      this.setState({
-        searchTerm: nextProps.match.params.id
-      });
-    }
-    // console.log("nextprops", nextProps.match.params.id);
-    // console.log(this.props.match.params.id);
-  };
+  // componentWillReceiveProps = nextProps => {
+  //   if (nextProps.match.params.id !== this.props.match.params.id) {
+  //     this.setState({
+  //       searchTerm: nextProps.match.params.id
+  //     });
+  //   }
+  //   // console.log("nextprops", nextProps.match.params.id);
+  //   // console.log(this.props.match.params.id);
+  // };
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.setState({
-      searchTerm: this.props.match.params.id
-    });
-    //wait 2.5 seconds then change state
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    this.setState({
-      loadingSkeleton: false
+      searchTerm: this.props.filterCity
     });
   };
 
@@ -227,17 +203,10 @@ class SearchResultPage extends Component {
       showFilter: true
     });
   };
-  closeNav = defaultRefinement => {
-    if (defaultRefinement) {
-      this.setState({
-        showFilter: false,
-        defaultRefinement: defaultRefinement
-      });
-    } else {
-      this.setState({
-        showFilter: false
-      });
-    }
+  closeNav = () => {
+    this.setState({
+      showFilter: false
+    });
   };
 
   render() {
@@ -246,108 +215,79 @@ class SearchResultPage extends Component {
       loadingInitial,
       loadedListings,
       moreListings,
-      showFilter,
-      loadingSkeleton,
-      defaultRefinement
+      showFilter
     } = this.state;
-    // console.log(defaultRefinement);
-
     const { openNav, closeNav } = this;
     let loadingComponent;
-    if (loading || loadingSkeleton) {
+    if (loadingInitial) {
       loadingComponent = (
-        <div className="margin-top-skeleton">
-          {/* <LoadingComponent /> */}
-          <div className="row">
-            <div className="col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-            <div className="col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-            <div className="col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-            <div className="col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-            <div className="mt-2 col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-            <div className="mt-2 col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-            <div className="mt-2 col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-            <div className="mt-2 col-6 col-md-3">
-              <Skeleton height="250px" />
-            </div>
-          </div>
+        <div className="col-6 col-sm-6 col-md-4 col-lg-3">
+          <LoadingComponent />
         </div>
       );
     } else {
       loadingComponent = "";
     }
     const { searchTerm } = this.state;
+    // console.log(searchTerm);
     let filterOverlay;
     if (showFilter) {
       filterOverlay = (
-        // // <!-- The overlay -->
-        // <div className="overlay show-overlay">
-        //   {/* <!-- Button to close the overlay navigation --> */}
-        //   <button
-        //     className="btn text-white closebtn"
-        //     onClick={() => closeNav()}
-        //   >
-        //     &times;
-        //   </button>
+        // <!-- The overlay -->
+        <div className="overlay show-overlay">
+          {/* <!-- Button to close the overlay navigation --> */}
+          <button
+            className="btn text-white closebtn"
+            onClick={() => closeNav()}
+          >
+            &times;
+          </button>
 
-        //   {/* <!-- Overlay content --> */}
-        //   <div className="overlay-content">
-        //     <CustomRefinementList
-        //       attribute="filterCity"
-        //       closeNav={closeNav}
-        //       isMobile={true}
-        //     />
-        //     <CustomClearRefinements closeNav={closeNav} isMobile={true} />
-        //   </div>
-        // </div>
-        <Sidebar showFilter={showFilter} closeNav={closeNav} />
+          {/* <!-- Overlay content --> */}
+          <div className="overlay-content">
+            <CustomRefinementList
+              attribute="filterCity"
+              closeNav={closeNav}
+              isMobile={true}
+            />
+            <CustomClearRefinements closeNav={closeNav} isMobile={true} />
+          </div>
+        </div>
       );
     } else {
       filterOverlay = (
-        // // <!-- The overlay -->
-        // <div className="overlay">
-        //   {/* <!-- Button to close the overlay navigation --> */}
-        //   <button className="closebtn" onClick={() => closeNav()}>
-        //     &times;
-        //   </button>
-        //   ''
-        //   {/* <!-- Overlay content --> */}
-        //   <div className="overlay-content">
-        //     <CustomRefinementList
-        //       attribute="filterCity"
-        //       // defaultRefinement={[`${defaultRefinement}`]}
-        //       closeNav={closeNav}
-        //       isMobile={true}
-        //     />
-        //   </div>
-        // </div>
-        <Sidebar showFilter={showFilter} />
+        // <!-- The overlay -->
+        <div className="overlay">
+          {/* <!-- Button to close the overlay navigation --> */}
+          <button className="closebtn" onClick={() => closeNav()}>
+            &times;
+          </button>
+          ''
+          {/* <!-- Overlay content --> */}
+          <div className="overlay-content">
+            {/* <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a> */}
+            <CustomRefinementList
+              attribute="filterCity"
+              closeNav={closeNav}
+              isMobile={true}
+            />
+          </div>
+        </div>
       );
     }
     return (
       <div>
-        <Navbar />
-        {loadingComponent}
+        {/* <Navbar /> */}
         {/* <Banner /> */}
         <InstantSearch
           apiKey="7ef488caf95aaa89b58e0f99e6b1d8e8"
           appId="GY8Q3VM3Y9"
           indexName="listings"
         >
-          <header className="header margin-top-search">
+          <header className="header ">
             {/* <img src='instant_search'></img> */}
             <div className="">
               <CustomSearchBox
@@ -364,35 +304,27 @@ class SearchResultPage extends Component {
             {/* <Content /> */}
 
             {filterOverlay}
-            <div className="mt-md-4 col-md-9 col-sm-12 search-content">
-              {showFilter ? (
-                <button
-                  className="mt-2 btn btn-primary rounded-0 filter-button"
-                  onClick={() => closeNav()}
-                >
-                  close filter
-                </button>
-              ) : (
-                <button
-                  className="mt-2 btn btn-primary rounded-0 filter-button"
-                  onClick={() => openNav()}
-                >
-                  filter location
-                </button>
-              )}
+            <div className="mt-md-1 col-md-12 col-sm-12 search-content">
+              <h5 className="mt-1 text-secondary">Nearby Ads</h5>
 
-              <Stats />
-              <CustomStateResults></CustomStateResults>
+              {/* <button
+                className="mt-2 btn btn-primary rounded-0 filter-button"
+                onClick={() => openNav()}
+              >
+                filter location
+              </button> */}
+              {/* <Stats /> */}
+              {/* <CustomStateResults></CustomStateResults> */}
               <CustomHits></CustomHits>
 
-              <div className="mt-2 mb-xs-1">
+              {/* <div className="mt-2 mb-xs-1">
                 <Pagination
                   showFirst={false}
                   showPrevious
                   showNext
                   totalPages={10}
                 ></Pagination>
-              </div>
+              </div> */}
             </div>
           </main>
         </InstantSearch>
@@ -413,4 +345,4 @@ class SearchResultPage extends Component {
 export default connect(
   mapState,
   actions
-)(SearchResultPage);
+)(ListingNearby);

@@ -25,7 +25,7 @@ const ListingDetailedLocation = ({ listing }) => {
         <i className="fas fa-exclamation-triangle mr-1 " />
         Report Ad
       </a>
-      <div className="blank-div" />
+      {/* <div className="blank-div" /> */}
     </div>
   );
 };

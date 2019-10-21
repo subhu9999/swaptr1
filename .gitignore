@@ -25,3 +25,6 @@ yarn-error.log*
 
 # api keys
 .env      
+
+
+functions/node_modules/**
