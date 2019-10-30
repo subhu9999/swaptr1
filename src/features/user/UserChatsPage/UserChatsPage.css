@@ -70,6 +70,43 @@
   /* margin-right: 0 !important ; */
 }
 
+@media (max-width: 460px) {
+  .margin-left-chat {
+    margin-left: 90px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 381px) and (max-width: 420px) {
+  .dummy-bottom {
+    height: 5px;
+  }
+}
+@media (min-width: 350px) and (max-width: 380px) {
+  .dummy-bottom {
+    height: 45px;
+  }
+  .chat-form-input {
+    width: 75%;
+  }
+}
+
+@media (min-width: 310px) and (max-width: 349px) {
+  .dummy-bottom {
+    height: 70px;
+  }
+  .chat-form-input {
+    width: 75%;
+  }
+}
+
 left-chat {
   background-color: lightskyblue !important;
   color: blue;
@@ -150,5 +187,5 @@ right-chat {
   margin-bottom: -2px;
   /* height: 74px; */
   margin-top: -58px;
-  margin-left: 1px;
+  margin-left: -10px;
 }

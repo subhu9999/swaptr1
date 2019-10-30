@@ -97,6 +97,10 @@ class ListingDetailedPage extends Component {
     }
   };
 
+  goBack = () => {
+    this.props.history.goBack();
+  };
+
   isEmpty = obj => {
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) return false;
@@ -105,7 +109,7 @@ class ListingDetailedPage extends Component {
   };
   render() {
     const { auth, openModal, addUserChat } = this.props;
-    const { isEmpty } = this;
+    const { isEmpty, goBack } = this;
     const { listing, loading } = this.state;
     // console.log(listing);
     let listingRender;
@@ -134,6 +138,13 @@ class ListingDetailedPage extends Component {
 
       listingRender = (
         <div className="row listing-detailed listing-detailed-margin">
+          <button
+            className="btn btn-secondary btn-block rounded-0 hide-fixed-buttons mb-2"
+            onClick={() => goBack()}
+          >
+            <i className="fas fa-arrow-circle-left fa-lg mr-2 "></i>
+            Go Back
+          </button>
           <div className="col-md-8 col-xs-12">
             <ListingDetailedPhotos listing={listing} />
             <ListingDetailedBody

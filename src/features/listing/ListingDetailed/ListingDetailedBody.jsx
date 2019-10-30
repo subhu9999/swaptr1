@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { WhatsappShareButton, FacebookShareButton } from "react-share";
 
 class ListingDetailedBody extends Component {
   componentDidMount = () => {};
@@ -86,10 +87,15 @@ class ListingDetailedBody extends Component {
                   <i className="fab fa-facebook fa-lg  mt-1 mr-1" />
                   Facebook
                 </a>
-                <a className="dropdown-item" href="/">
+
+                <a
+                  className="dropdown-item"
+                  href={`whatsapp://send?text=https://swaptr1.firebaseapp.com/listing/${listing.id}`}
+                >
                   <i className="fab fa-whatsapp fa-lg  mt-1 mr-1" />
-                  Whatsapp
+                  Whatsapp with link
                 </a>
+
                 <a className="dropdown-item" href="/">
                   <i className="fas fa-link fa-lg  mt-1 mr-1" />
                   Copy Link
@@ -99,6 +105,21 @@ class ListingDetailedBody extends Component {
           </div>
           <div className="card-body ">
             <p>{listing.description}</p>
+            <WhatsappShareButton
+              url={`https://swaptr1.firebaseapp.com/listing/${listing.id}`}
+              title="Would you like to Swap with this item ?"
+              children="<button>share</button>"
+            />
+            <WhatsappShareButton
+              url={listingMainImage}
+              title="image Would you like to Swap with this item ?"
+              children="<button>img share</button>"
+            />
+            <FacebookShareButton
+              url={`https://swaptr1.firebaseapp.com/listing/${listing.id}`}
+              quote="image Would you like to Swap with this item ?"
+              children="<button>fb share</button>"
+            />
           </div>
           {auth.isEmpty ? (
             <div

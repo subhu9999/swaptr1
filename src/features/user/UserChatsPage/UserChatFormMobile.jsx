@@ -52,7 +52,7 @@ class userChatFormMobile extends Component {
         chat => chat.id === match.params.chatId
       );
       chat = filteredChat[0];
-      // console.log(chat);
+      // console.log(values);
       addChatComment(chat, values);
     }
 
@@ -71,9 +71,9 @@ class userChatFormMobile extends Component {
   };
 
   render() {
-    const { invalid, submitting, pristine } = this.props;
+    const { invalid, submitting, pristine, reset } = this.props;
     const { auth, match } = this.props;
-    const { handleDeleteChat } = this;
+    const { handleDeleteChat, handleChatSubmit } = this;
     const { userChat } = this.props;
     // console.log(userChat);
     let chat = "";
@@ -261,7 +261,7 @@ class userChatFormMobile extends Component {
                     </Card.Text>
                   );
                 })}
-              {/* <div className="mt-1" /> */}
+              <div className="mt-1 dummy-bottom" />
               <div
                 style={{ float: "left", clear: "both" }}
                 ref={el => {
@@ -271,7 +271,19 @@ class userChatFormMobile extends Component {
             </Card.Body>
           </Card>
           <div className="chatFormMobileText">
-            <Field name="comment" type="text" component={TextArea} rows={2} />
+            <Field
+              name="comment"
+              type="text"
+              component={TextArea}
+              // props={{
+              //   handleChatSubmit,
+              //   addChatComment,
+              //   reset,
+              //   userChat,
+              //   match
+              // }}
+              rows={2}
+            />
             <button
               type="submit"
               className="btn send-chat-button-mobile rounded-0 text-primary"

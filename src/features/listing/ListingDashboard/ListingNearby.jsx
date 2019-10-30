@@ -1,34 +1,23 @@
 import React, { Component } from "react";
-// import Navbar from "../../../app/layout/nav/Navbar/Navbar";
-import format from "date-fns/format";
-// import cities from "./PopularCities";
 import { connect } from "react-redux";
 
-// import { firestoreConnect } from "react-redux-firebase";
 import Listing from "../../listing/Listing/Listing";
-import Banner from "../../../app/layout/Banner/Banner";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import ListingAdSearch from "../../listing/Listing/ListingAdSearch";
 import { getListingsForSearch } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroller";
 import {
   InstantSearch,
   Highlight,
   connectRefinementList,
   connectHits,
-  Stats,
-  Pagination,
   connectCurrentRefinements,
   connectStateResults,
   connectSearchBox
 } from "react-instantsearch-dom";
-import { Link } from "react-router-dom";
-// import "./Search.css";
 
 const mapState = state => ({
   listings: state.listings,
-  // listings: state.firestore.ordered.listings,
   loading: state.async.loading
 });
 
@@ -62,7 +51,6 @@ const CustomSearchBox = connectSearchBox(SearchBox);
 
 const StateResults = ({ searchResults }) => {
   const hasResults = searchResults && searchResults.nbHits !== 0;
-  // const nbHits = searchResults && searchResults.nbHits;
   const query = searchResults && searchResults.query;
   return (
     <div>
@@ -73,18 +61,6 @@ const StateResults = ({ searchResults }) => {
         <p>Oops... we didn't find anything that matches this search :( </p>Try
         searching for Ads by selecting a location near you,{" "}
         <div className="row mt-2">
-          {/* {cities &&
-            cities.map(city => (
-              <div
-                key={city}
-                className="col-6 col-md-3 font-weight-bold text-primary"
-              >
-                <Link to={`/search/${city}`}>
-                  <i className="fas fa-map-marker-alt mr-1"></i>
-                  {city}
-                </Link>
-              </div>
-            ))} */}
         </div>
         <div className="row mt-4">
           <ListingAdSearch />
@@ -94,7 +70,7 @@ const StateResults = ({ searchResults }) => {
   );
 };
 
-const CustomStateResults = connectStateResults(StateResults);
+// const CustomStateResults = connectStateResults(StateResults);
 
 const ClearRefinements = ({ items, refine, isMobile, closeNav }) => {
   if (items.length === 0) {

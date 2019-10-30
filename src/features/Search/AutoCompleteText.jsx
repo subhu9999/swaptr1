@@ -74,6 +74,12 @@ export default class AutoCompleteText extends Component {
     }
   };
 
+  handleSearch = () => {
+    this.handleClickOutside();
+    // closeNav();
+    // console.log("clicke");
+  };
+
   renderSuggestions = () => {
     const { suggestions, suggestionsVisible } = this.state;
     if (suggestions.length === 0 || !suggestionsVisible) {
@@ -93,8 +99,11 @@ export default class AutoCompleteText extends Component {
       </ul>
     );
   };
+
   render() {
+    const { closeNav } = this.props;
     const { text } = this.state;
+    const { handleSearch } = this;
     return (
       <div
         className="auto-complete-div dropdown"
@@ -110,7 +119,11 @@ export default class AutoCompleteText extends Component {
         />
         <div className="search-icon">
           {text ? (
-            <Link to={`/search/${text}`} className="btn rounded-0">
+            <Link
+              to={`/search/${text}`}
+              className="btn rounded-0"
+              onClick={() => handleSearch()}
+            >
               <i className="fas fa-search text-dark mt-2" />
             </Link>
           ) : (

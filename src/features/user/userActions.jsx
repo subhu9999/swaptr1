@@ -231,7 +231,8 @@ export const addUserChat = (chatDetails, values) => async (
   let newChat = {
     ...chatDetails,
     date: Date.now(),
-    seen: true
+    seen: true,
+    currentSeen: true
   };
 
   try {
@@ -269,6 +270,7 @@ export const addUserChatReceiver = (chatDetails, values) => async (
     ...chatDetails,
     date: Date.now(),
     seen: false,
+    currentSeen: false,
     receiverUid: user.uid,
     receiverName: user.displayName,
     receiverPic: user.photoURL,
@@ -289,7 +291,7 @@ export const addChatComment = (chat, values, swapListing) => async (
   getState,
   { getFirebase }
 ) => {
-  console.log("addChatComment");
+  // console.log("addChatComment");
 
   // console.log(chat);
   // console.log(values);
@@ -333,12 +335,14 @@ export const addChatComment = (chat, values, swapListing) => async (
     await firebase.set(`user_chat/${user.uid}/${chat.id}`, {
       ...chat,
       comments: comments,
-      seen: true
+      seen: true,
+      currentSeen: true
     });
     // //update chat seen to false & receiver last seen date n comment in rceiver -- use user.uid to change receiverUid everytime
     await firebase.set(`user_chat/${chat.receiverUid}/${chat.id}`, {
       ...chat,
       seen: false,
+      currentSeen: false,
       comments: comments,
       receiverUid: user.uid,
       receiverName: user.displayName,
@@ -349,6 +353,33 @@ export const addChatComment = (chat, values, swapListing) => async (
   } catch (error) {
     console.log(error);
     toastr.error("Oops", "Please Try Again Later !");
+  }
+};
+
+export const setCurrentSeenTrue = chat => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  const firebase = getFirebase();
+
+  const user = firebase.auth().currentUser;
+
+  if (chat) {
+    //set seen true for all chats & last seen
+    let newChat = {
+      ...chat,
+      currentSeen: true
+    };
+
+    try {
+      // update comment in current user
+      firebase.set(`user_chat/${user.uid}/${chat.id}`, newChat);
+    } catch (error) {
+      console.log(error);
+      toastr.error("Oops", "Please Try Again Later !");
+    }
+    // console.log(userChat);
   }
 };
 

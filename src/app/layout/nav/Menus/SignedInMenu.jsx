@@ -67,7 +67,8 @@ const SignedInMenu = ({
             </li> */}
             <li>
               <Link to="/settings" className="dropdown-item signedInList">
-                <i className="fa fa-sliders fa-lg" /> Settings
+                <i className="fas fa-cog fa-lg mr-1"></i>
+                Settings
               </Link>
             </li>
             <li className="divider dropdown-divider" />
@@ -157,7 +158,8 @@ const SignedInMenu = ({
         </li> */}
         <li className="nav-item dropdown">
           <Link to="/settings" className=" btn text-light">
-            <i className="fa fa-sliders fa-lg" />
+            <i className="fas fa-cog fa-lg"></i>
+
             <span style={{ marginLeft: "7px" }}>Settings</span>
           </Link>
         </li>
