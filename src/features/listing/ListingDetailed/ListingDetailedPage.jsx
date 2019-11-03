@@ -14,6 +14,7 @@ import Skeleton from "react-loading-skeleton";
 import ListingNearby from "../ListingDashboard/ListingNearby";
 import SearchResultPage from "../../search/SearchResultPage";
 import { addUserChat } from "../../user/userActions";
+import ListingDetailedShare from "./ListingDetailedShare";
 
 const mapState = state => {
   // let listing = {};
@@ -147,6 +148,7 @@ class ListingDetailedPage extends Component {
           </button>
           <div className="col-md-8 col-xs-12">
             <ListingDetailedPhotos listing={listing} />
+            <ListingDetailedShare listing={listing} />
             <ListingDetailedBody
               listing={listing}
               auth={auth}

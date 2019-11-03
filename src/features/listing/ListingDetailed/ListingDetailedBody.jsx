@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { WhatsappShareButton, FacebookShareButton } from "react-share";
+import { Helmet } from "react-helmet";
 
 class ListingDetailedBody extends Component {
   componentDidMount = () => {};
   render() {
     const { listing, auth, addUserChat, openModal } = this.props;
-    // console.log(listing);
     let listingMainImage;
     if (listing && listing.images && listing.images[0].imageURL) {
       listingMainImage = listing.images[0].imageURL;
     }
+    // console.log(listingMainImage);
+
     let chatOrEdit;
     let chatDetails = {
       listingId: listing.id,
@@ -57,6 +58,19 @@ class ListingDetailedBody extends Component {
     }
     return (
       <div>
+        <div className="row">
+          <Helmet>
+            <title>
+              {listing.title}- Swaptr - Buy/Sell Anything Without Money{" "}
+            </title>
+            */}
+            {/* <meta property="og:image" content={listingMainImage} /> */}
+            {/* <meta property="og:url" content={shareLink} /> */}
+            {/* <!-- No need to change anything here --> */}
+            <meta property="og:type" content="website" />
+            <meta property="fb:app_id" content="2197336787243372" />
+          </Helmet>
+        </div>
         <div className="card">
           <div className="card-header font-weight-bold">
             {listing.title}
@@ -105,21 +119,6 @@ class ListingDetailedBody extends Component {
           </div>
           <div className="card-body ">
             <p>{listing.description}</p>
-            <WhatsappShareButton
-              url={`https://swaptr1.firebaseapp.com/listing/${listing.id}`}
-              title="Would you like to Swap with this item ?"
-              children="<button>share</button>"
-            />
-            <WhatsappShareButton
-              url={listingMainImage}
-              title="image Would you like to Swap with this item ?"
-              children="<button>img share</button>"
-            />
-            <FacebookShareButton
-              url={`https://swaptr1.firebaseapp.com/listing/${listing.id}`}
-              quote="image Would you like to Swap with this item ?"
-              children="<button>fb share</button>"
-            />
           </div>
           {auth.isEmpty ? (
             <div

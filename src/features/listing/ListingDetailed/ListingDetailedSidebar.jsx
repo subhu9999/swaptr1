@@ -52,7 +52,7 @@ class ListingDetailedSidebar extends Component {
     if (listing && listing.images && listing.images[0].imageURL) {
       listingMainImage = listing.images[0].imageURL;
     }
-    console.log(listingMainImage);
+    // console.log(listingMainImage);
     let chatOrEdit;
     let chatDetails = {
       listingId: listing.id,
