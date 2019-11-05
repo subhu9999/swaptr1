@@ -146,6 +146,7 @@ class ListingDetailedPage extends Component {
             <i className="fas fa-arrow-circle-left fa-lg mr-2 "></i>
             Go Back
           </button>
+
           <div className="col-md-8 col-xs-12">
             <ListingDetailedPhotos listing={listing} />
             <ListingDetailedShare listing={listing} />

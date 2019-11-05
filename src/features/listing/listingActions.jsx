@@ -1,8 +1,4 @@
-import {
-  DELETE_LISTING,
-  RESET_LISTING,
-  FETCH_LISTING
-} from "./listingConstants";
+import { RESET_LISTING, FETCH_LISTING } from "./listingConstants";
 import {
   asyncActionStart,
   asyncActionError,
@@ -10,7 +6,6 @@ import {
 } from "../async/asyncActions";
 import { toastr } from "react-redux-toastr";
 import { createNewListing } from "../../app/common/util/helpers";
-// import cuid from "cuid";
 import firebase from "../../app/config/firebase";
 
 export const createListing = listing => {
@@ -34,13 +29,16 @@ export const createListing = listing => {
         userUid: user.uid,
         host: true
       });
-      toastr.success(
-        "Success!",
-        "your listing is created & will be active soon !"
-      );
+
+      return createdListing;
+
+      // toastr.success(
+      //   "Success!",
+      //   "your listing is created & will be active soon !"
+      // );
     } catch (error) {
       //TODO: delete images
-      toastr.error("Oops", "Something went wrong");
+      // toastr.error("Oops", "Something went wrong");
     }
   };
 };

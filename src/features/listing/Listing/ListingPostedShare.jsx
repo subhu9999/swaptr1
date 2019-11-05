@@ -1,19 +1,19 @@
 import {
-  TwitterShareButton,
   WhatsappShareButton,
-  FacebookShareButton
+  FacebookShareButton,
+  TwitterShareButton
 } from "react-share";
 
 import React, { Component } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toastr } from "react-redux-toastr";
 
-export default class ListingDetailedShare extends Component {
+export default class ListingPostedShare extends Component {
   copyToClipboard = () => {
     toastr.success("Copied !", "Link copied to clipboard");
   };
   render() {
-    const { listing } = this.props;
+    const { listing, handleCloseModal } = this.props;
     let title;
     if (listing.title.length > 25) {
       title = listing.title.substring(0, 25) + "...";
@@ -23,14 +23,17 @@ export default class ListingDetailedShare extends Component {
     const shareLink = `https://swaptr1.firebaseapp.com/listing/${listing.id}`;
 
     return (
-      <div className="row mt-1 justify-content-center mb-1">
-        <span className="text-muted font-weight-bold mr-1 mt-1">Share</span>
+      <div className="row mt-1 justify-content-center">
+        {/* <span className="text-muted font-weight-bold mr-1 mt-1">Share</span> */}
         <WhatsappShareButton
           url={shareLink}
           title={`Hey guys! You can find my "${title}" absolutely for free on Swaptr! \n `}
           // children={<WhatsappIcon size={35} round={true} />}
           children={
-            <i className="fab fa-whatsapp fa-2x text-success ml-1 mr-1"></i>
+            <i
+              className="fab fa-whatsapp fa-3x text-success mr-3"
+              onClick={() => handleCloseModal()}
+            ></i>
           }
         />
         <FacebookShareButton
@@ -38,23 +41,28 @@ export default class ListingDetailedShare extends Component {
           // quote={`Click Here if you would like to SWAP with my "${title}"`}
           quote={`Hey guys! You can find my "${title}" absolutely for free on Swaptr! \n `}
           children={
-            <i className="fab fa-facebook-square fa-2x facebook-share ml-1 mr-1"></i>
+            <i
+              className="fab fa-facebook-square fa-3x facebook-share mr-3"
+              onClick={() => handleCloseModal()}
+            ></i>
           }
         />
         <TwitterShareButton
           url={shareLink}
           children={
-            <i className="fab fa-twitter fa-2x text-info ml-1 mr-1"></i>
+            <i
+              className="fab fa-twitter fa-3x text-info mr-2"
+              onClick={() => handleCloseModal()}
+            ></i>
           }
           title={title}
         />
-
-        <CopyToClipboard text={shareLink} onCopy={() => this.copyToClipboard()}>
-          <button type="button" className="btn btn-secondary btn-sm ">
-            <i className="fas fa-link fa-lg text-white ml-1 mr-1 p-0" />
-            Copy
+        {/* <CopyToClipboard text={shareLink} onCopy={() => this.copyToClipboard()}>
+          <button type="button" className="btn btn-link btn-sm ">
+            <i className="fas fa-link fa-lg text-dark mr-1 " />
+            Copy Link
           </button>
-        </CopyToClipboard>
+        </CopyToClipboard> */}
       </div>
     );
   }

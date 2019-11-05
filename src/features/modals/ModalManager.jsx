@@ -10,6 +10,7 @@ import PhoneNumberModal from "./PhoneNumberModal";
 import CancelListingModal from "./CancelListingModal";
 import UnauthModal from "../modals/UnauthModal";
 import SwapModal from "./SwapModal";
+import ShareModal from './ShareModal';
 
 const modalLookup = {
   TestModal,
@@ -21,7 +22,8 @@ const modalLookup = {
   PhoneNumberModal,
   CancelListingModal,
   UnauthModal,
-  SwapModal
+  SwapModal,
+  ShareModal
 };
 const mapState = state => ({
   currentModal: state.modals

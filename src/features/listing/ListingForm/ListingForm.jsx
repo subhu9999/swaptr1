@@ -110,7 +110,9 @@ class ListingForm extends Component {
     }
   }
 
-  onFormSubmit = values => {
+  onFormSubmit = async values => {
+    let shareListing;
+    let shareListingId;
     if (this.props.images.length <= 0) {
       toastr.error("No Images", "please add some images !");
       return;
@@ -148,12 +150,18 @@ class ListingForm extends Component {
         images: imagesData,
         showNumber: this.state.showNumber
       };
-      this.props.createListing(newListing);
+      const createdListing = await this.props.createListing(newListing);
       // console.log(newListing);
-
-      this.props.history.push("/");
+      shareListingId = createdListing.id;
+      shareListing = newListing;
+      this.props.history.push(`/listing/${createdListing.id}`);
     }
     this.props.resetImages();
+    this.props.openModal("ShareModal", {
+      id: shareListingId,
+      listingImage: shareListing.images[0].imageURL,
+      title: shareListing.title
+    });
   };
 
   toggleShowNumber = () => {
