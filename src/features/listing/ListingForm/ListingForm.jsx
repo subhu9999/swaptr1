@@ -39,6 +39,7 @@ import {
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { withFirestore } from "react-redux-firebase";
 import { Redirect } from "react-router";
+import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
 
 // const REACT_APP_CLOUDINARY_API_KEY = process.env.REACT_APP_CLOUDINARY_API_KEY;
 const mapState = state => {
@@ -450,6 +451,7 @@ class ListingForm extends Component {
             </form>
           </div>
         </Container>
+         <AuthDashboard/> 
       </div>
     );
   }

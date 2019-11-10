@@ -13,6 +13,8 @@ import { connect } from "react-redux";
 import UserChatForm from "./UserChatForm";
 import { objectToArrayDesc } from "../../../app/common/util/helpers";
 import { NavLink, Link, Switch, Route, Redirect } from "react-router-dom";
+import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
+import UnAuthDashboard from "../../../app/layout/nav/Navbar/UnAuthDashboard";
 const mapState = (state, ownProps) => {
   return {
     auth: state.firebase.auth,
@@ -191,6 +193,7 @@ class UserChatsPage extends Component {
             </Card>
           </Col>
         </Row>
+        {auth.uid ? <AuthDashboard auth={auth} /> : <UnAuthDashboard />}
       </div>
     );
   }

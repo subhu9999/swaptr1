@@ -1,0 +1,27 @@
+#main-buttons-unauth {
+  position: fixed;
+  bottom: -4px;
+  /* bottom: -1px; */
+  z-index: 1;
+  left: 0px;
+  width: 100%;
+  margin-left: 0%;
+}
+@media (min-width: 768px) {
+  .hide-fixed-buttons {
+    display: none !important;
+  }
+}
+
+.dashboard-badge {
+  color: #f44336;
+  /* background: #f44336; */
+  font-size: 11px;
+  border-radius: 20px;
+  position: absolute;
+  min-width: 10px;
+  /* padding: 4px 6px 0; */
+  min-height: 18px;
+  top: 2px !important;
+  margin-left: -10px;
+}

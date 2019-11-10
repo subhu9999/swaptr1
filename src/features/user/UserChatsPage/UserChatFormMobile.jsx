@@ -14,6 +14,7 @@ import "./UserChatsPage.css";
 import { objectToArrayDesc } from "../../../app/common/util/helpers";
 import { isEmpty } from "react-redux-firebase";
 import { addChatComment, deleteChat } from "../userActions";
+import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
 
 const mapState = state => {
   return {
@@ -293,6 +294,8 @@ class userChatFormMobile extends Component {
             </button>
           </div>
         </Form>
+
+        <AuthDashboard />
       </div>
     );
   }

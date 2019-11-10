@@ -2,6 +2,11 @@ import { SubmissionError, reset } from "redux-form";
 import { closeModal, openModal } from "../modals/modalActions";
 // import { history } from "../../index";
 import { toastr } from "react-redux-toastr";
+// import {
+//   asyncActionError,
+//   asyncActionFinish,
+//   asyncActionStart
+// } from "../async/asyncActions";
 
 export const login = creds => {
   return async (dispatch, getState, { getFirebase }) => {
@@ -117,15 +122,22 @@ export const socialLogin = selectedProvider => async (
       provider: selectedProvider,
       type: "popup"
     });
+    //if the user is new
     if (user.additionalUserInfo.isNewUser) {
+      toastr.success(
+        "Welcome To Swaptr !",
+        `logged in as ${user.profile.displayName}`
+      );
       await firestore.set(`users/${user.user.uid}`, {
         displayName: user.profile.displayName,
         photoURL: user.profile.avatarUrl,
         createdAt: firestore.FieldValue.serverTimestamp()
       });
-      //TODO: ask phone number
       dispatch(openModal("PhoneNumberModal"));
+    } else {
+      toastr.info("Welcome Back !", `logged in as ${user.profile.displayName}`);
     }
+
     // console.log(user);
   } catch (error) {
     console.log(error);

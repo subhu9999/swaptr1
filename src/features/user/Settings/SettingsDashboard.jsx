@@ -8,6 +8,7 @@ import Navbar from "../../../app/layout/nav/Navbar/Navbar";
 import { connect } from "react-redux";
 import { updatePassword } from "../../auth/authActions";
 import { updateProfile } from "../../user/userActions";
+import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
 
 const mapState = state => ({
   providerId: state.firebase.auth.providerData[0].providerId,
@@ -67,6 +68,7 @@ const SettingsDashboard = ({
           />
         </Switch>
       </div>
+      <AuthDashboard />
     </div>
   );
 };
