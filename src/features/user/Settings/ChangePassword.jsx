@@ -36,9 +36,9 @@ const AccountPage = ({
 }) => {
   return (
     <div className="col-md-8">
-      <h2>Account</h2>
+      {/* <h2>Account</h2> */}
       {providerId && providerId === "password" && (
-        <div>
+        <div className="mt-4">
           <h4>Change Password</h4>
           <p>Use this form to update your account settings</p>
           <Form onSubmit={handleSubmit(updatePassword)}>
@@ -76,7 +76,7 @@ const AccountPage = ({
       )}
 
       {providerId && providerId === "facebook.com" && (
-        <div>
+        <div className="mt-4">
           <h2>Facebook Account</h2>
           <p>Please visit Facebook to update your account settings</p>
           <Button type="button" variant="primary">
@@ -87,7 +87,7 @@ const AccountPage = ({
       )}
 
       {providerId && providerId === "google.com" && (
-        <div>
+        <div className="mt-4">
           <h2>Google Account</h2>
           <p>Please visit Google to update your account settings</p>
           <Button type="button" variant="primary">

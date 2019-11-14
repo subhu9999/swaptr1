@@ -23,39 +23,39 @@ class ListingDetailedBody extends Component {
       receiverUid: listing.sellerUid
     };
 
-    if (auth.uid === listing.sellerUid) {
-      chatOrEdit = (
-        <div id="action-buttons" className="w-100 hide-fixed-buttons">
-          <a
-            href="/"
-            className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-100"
-          >
-            <i className="far fa-comment-alt  mr-1" />
-            Edit Listing
-          </a>
-        </div>
-      );
-    } else {
-      chatOrEdit = (
-        <div id="action-buttons" className="w-100 hide-fixed-buttons">
-          <Link
-            to={`/chats/${auth.uid}`}
-            className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-50"
-            onClick={() => addUserChat(chatDetails)}
-          >
-            <i className="far fa-comment-alt  mr-1" />
-            CHAT
-          </Link>
-          <a
-            href={`tel:${listing.sellerPhoneNumber}`}
-            className="btn btn-lg btn-primary call-button-fixed font-weight-bold w-50"
-          >
-            <i className="fas fa-phone mr-1 fa-flip-horizontal " />
-            CALL
-          </a>
-        </div>
-      );
-    }
+    // if (auth.uid === listing.sellerUid) {
+    //   chatOrEdit = (
+    //     <div id="action-buttons" className="w-100 hide-fixed-buttons">
+    //       <a
+    //         href="/"
+    //         className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-100"
+    //       >
+    //         <i className="far fa-comment-alt  mr-1" />
+    //         Edit Listing
+    //       </a>
+    //     </div>
+    //   );
+    // } else {
+    //   chatOrEdit = (
+    //     <div id="action-buttons" className="w-100 hide-fixed-buttons">
+    //       <Link
+    //         to={`/chats/${auth.uid}`}
+    //         className="btn btn-lg btn-primary chat-button-fixed font-weight-bold w-50"
+    //         onClick={() => addUserChat(chatDetails)}
+    //       >
+    //         <i className="far fa-comment-alt  mr-1" />
+    //         CHAT
+    //       </Link>
+    //       <a
+    //         href={`tel:${listing.sellerPhoneNumber}`}
+    //         className="btn btn-lg btn-primary call-button-fixed font-weight-bold w-50"
+    //       >
+    //         <i className="fas fa-phone mr-1 fa-flip-horizontal " />
+    //         CALL
+    //       </a>
+    //     </div>
+    //   );
+    // }
     return (
       <div>
         <div className="row">
@@ -85,7 +85,7 @@ class ListingDetailedBody extends Component {
               ""
             )}
 
-            <div className="dropdown float-right mt-1">
+            {/* <div className="dropdown float-right mt-1">
               <i
                 className="fas fa-share-alt fa-lg  "
                 id="dropdownShare"
@@ -115,12 +115,12 @@ class ListingDetailedBody extends Component {
                   Copy Link
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="card-body ">
             <p>{listing.description}</p>
           </div>
-          {auth.isEmpty ? (
+          {/* {auth.isEmpty ? (
             <div
               id="action-buttons-unauth"
               className="w-100 hide-fixed-buttons"
@@ -135,7 +135,7 @@ class ListingDetailedBody extends Component {
             </div>
           ) : (
             chatOrEdit
-          )}
+          )} */}
         </div>
       </div>
     );

@@ -451,7 +451,6 @@ class ListingForm extends Component {
             </form>
           </div>
         </Container>
-         <AuthDashboard/> 
       </div>
     );
   }

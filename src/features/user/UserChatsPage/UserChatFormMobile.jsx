@@ -6,15 +6,13 @@ import cuid from "cuid";
 import { isRequired, combineValidators } from "revalidate";
 import { Link } from "react-router-dom";
 import format from "date-fns/format";
-// import NavbarAlt from "../../../app/layout/nav/Navbar/NavbarAlt";
-import Navbar from "../../../app/layout/nav/Navbar/Navbar";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import "./UserChatsPage.css";
 import { objectToArrayDesc } from "../../../app/common/util/helpers";
 import { isEmpty } from "react-redux-firebase";
 import { addChatComment, deleteChat } from "../userActions";
-import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
+import NavbarAlt from "../../../app/layout/nav/Navbar/NavbarAlt";
 
 const mapState = state => {
   return {
@@ -88,17 +86,8 @@ class userChatFormMobile extends Component {
 
     return (
       <div>
-        <Navbar />
-        <div className="chat-form-mobile">
-          <button
-            onClick={this.goHome}
-            className="btn btn-link btn-block text-white font-weight-bold bg-secondary rounded-0"
-          >
-            <i className="fas fa-arrow-left mr-2" />
-
-            <span className=" ml-1">Chats</span>
-          </button>
-        </div>
+        <NavbarAlt goHome={this.goHome} />
+        <div className="chat-form-mobile"></div>
         <Form onSubmit={this.props.handleSubmit(this.handleChatSubmit)}>
           <Card>
             <Card.Header>
@@ -294,16 +283,11 @@ class userChatFormMobile extends Component {
             </button>
           </div>
         </Form>
-
-        <AuthDashboard />
       </div>
     );
   }
 }
 export default compose(
-  connect(
-    mapState,
-    actions
-  ),
+  connect(mapState, actions),
   reduxForm({ form: "userChatFormMobile", validate })
 )(userChatFormMobile);

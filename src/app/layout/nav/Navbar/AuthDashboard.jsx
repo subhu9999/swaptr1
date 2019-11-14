@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+
 import { Link } from "react-router-dom";
 import "./Dashboard.css";
 
-export default class AuthDashboard extends Component {
+class AuthDashboard extends Component {
   render() {
-    const someFalse = true;
-    const { auth } = this.props;
+    const { auth, profile, setChatSeenTrue, userChat, someFalse } = this.props;
     return (
       <div
         id="main-buttons-unauth"
@@ -17,7 +17,10 @@ export default class AuthDashboard extends Component {
           </Link>
         </div>
         <div className="btn btn-lg">
-          <Link to={`/chats/${auth.uid}`}>
+          <Link
+            to={`/chats/${auth.uid}`}
+            onClick={() => setChatSeenTrue(userChat)}
+          >
             <i className="far fa-comment-alt fa-lg text-dark "></i>
             {someFalse && (
               <span className="dashboard-badge">
@@ -40,11 +43,28 @@ export default class AuthDashboard extends Component {
         </div>
 
         <div className="btn btn-lg">
-          <Link to={"/settings"}>
-            <i className="fas fa-user fa-lg text-dark"></i>
+          <Link to={`/userOptions/${auth.uid}`}>
+            <img
+              src={profile.photoURL || "/assets/default-user.png"}
+              className="rounded-circle img-profile"
+              alt="user"
+            />
           </Link>
         </div>
       </div>
     );
   }
 }
+
+// export default withRouter(
+//   compose(
+//     withFirebase,
+//     connect(
+//       mapState,
+//       actions
+//     ),
+//     firebaseConnect(props => [`user_chat/${props.auth.uid}`])
+//   )(Navbar)
+// );
+
+export default AuthDashboard;

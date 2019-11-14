@@ -32,7 +32,7 @@ const SettingsDashboard = ({
   return (
     <div className="row settingsDashboard">
       <Navbar />
-      <div className="col-4">
+      <div className="mt-4 col-4">
         <NavLink
           to="/settings/editProfile"
           className="btn  btn-primary btn-block"
@@ -68,12 +68,8 @@ const SettingsDashboard = ({
           />
         </Switch>
       </div>
-      <AuthDashboard />
     </div>
   );
 };
 
-export default connect(
-  mapState,
-  actions
-)(SettingsDashboard);
+export default connect(mapState, actions)(SettingsDashboard);

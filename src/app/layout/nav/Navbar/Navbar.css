@@ -35,4 +35,13 @@
   margin-left: -4px;
 }
 
+.navbar-logo {
+  width: 45px;
+  height: 45px;
+}
+
+.navbar-logo-alt {
+  width: 70px;
+  height: 25px;
+}
 /* end of navbar */

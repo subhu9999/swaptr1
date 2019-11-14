@@ -97,7 +97,7 @@ const SignedInMenu = ({
           <img
             src={profile.photoURL || "/assets/default-user.png"}
             className="rounded-circle img-profile"
-            alt="Avatar"
+            alt="user"
           />{" "}
           <span className="text-light">
             Hi, <span className="font-weight-bold">{profile.displayName}</span>

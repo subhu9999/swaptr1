@@ -15,6 +15,7 @@ import AlgoliaListings from "../../features/algolia/AlgoliaListings";
 import { UserIsAuthenticated } from "../../features/auth/authWrapper";
 import { Offline } from "react-detect-offline";
 import OfflineModal from "../../features/modals/OfflineModal";
+import UserOptions from "../../features/user/UserOptions/UserOptions";
 
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
@@ -45,6 +46,7 @@ class App extends Component {
             />
 
             <Route path="/profile/:id" component={UserDetailedPage} />
+            <Route path="/userOptions/:id" component={UserOptions} />
             {/* TODO: Hide Route */}
             <Route
               path="/chats/sm/:chatId"

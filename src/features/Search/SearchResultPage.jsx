@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Navbar from "../../app/layout/nav/Navbar/Navbar";
-import AuthDashboard from "../../app/layout/nav/Navbar/AuthDashboard";
 import format from "date-fns/format";
 import cities from "./PopularCities";
 import { connect } from "react-redux";
@@ -406,8 +405,6 @@ class SearchResultPage extends Component {
             <Spinner animation="grow" variant="primary" />
           </div>
         )}
-
-        <AuthDashboard />
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Navbar.css";
+import AuthDashboard from "./AuthDashboard";
 import Search from "../../../../features/search/Search";
 import { withRouter } from "react-router-dom";
 import SignedOutMenu from "../Menus/SignedOutMenu";
@@ -14,6 +15,7 @@ import {
 } from "../../../common/util/helpers";
 import { setChatSeenTrue } from "../../../../features/user/userActions";
 import { resetListing } from "../../../../features/listing/listingActions";
+import UnAuthDashboard from "./UnAuthDashboard";
 const actions = {
   openModal,
   setChatSeenTrue,
@@ -53,13 +55,19 @@ class Navbar extends Component {
       userChat,
       someFalse,
       setChatSeenTrue,
-      cityValue
+      cityValue,
+      openModal
     } = this.props;
     const authenticated = auth.isLoaded && !auth.isEmpty;
 
     return (
       <nav className="navbar navbar-expand-md navbar-light nav-background fixed-top ">
-        <button
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/swaptr1.appspot.com/o/public%2FSwaptr%20BW%20crop.png?alt=media&token=8a978777-2f40-42ee-a281-78620af43b53"
+          alt=""
+          className="navbar-logo-alt"
+        />
+        {/* <button
           type="button"
           className="navbar-toggler bg-light"
           data-toggle="collapse"
@@ -73,9 +81,14 @@ class Navbar extends Component {
               <i className="fas fa-circle fa-lg text-danger" />
             </span>
           )}
-        </button>
+        </button> */}
         <a href="/" className="navbar-brand mr-0 mr-md-2">
-          <i className="fab fa-sellcast fa-2x text-warning" />
+          {/* <i className="fab fa-sellcast fa-2x text-white" /> */}
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/swaptr1.appspot.com/o/public%2FSwaptr%20BW%20-%20Logo.png?alt=media&token=b46ed008-aec8-47b1-a275-dad1cdfc833f"
+            alt=""
+            className="navbar-logo "
+          />
         </a>
 
         <Search cityValue={cityValue} />
@@ -95,6 +108,18 @@ class Navbar extends Component {
             register={this.handleRegister}
           />
         )}
+        {authenticated ? (
+          <AuthDashboard
+            auth={auth}
+            openModal={openModal}
+            profile={profile}
+            someFalse={someFalse}
+            setChatSeenTrue={setChatSeenTrue}
+            userChat={userChat}
+          />
+        ) : (
+          <UnAuthDashboard openModal={openModal} />
+        )}
       </nav>
     );
   }
@@ -103,10 +128,7 @@ class Navbar extends Component {
 export default withRouter(
   compose(
     withFirebase,
-    connect(
-      mapState,
-      actions
-    ),
+    connect(mapState, actions),
     firebaseConnect(props => [`user_chat/${props.auth.uid}`])
   )(Navbar)
 );

@@ -31,8 +31,8 @@ class EditProfile extends Component {
       updateProfile
     } = this.props;
     return (
-      <div className="col-md-8 text-center ">
-        <h2>Edit Profile</h2>
+      <div className="col-md-8 text-center mt-4">
+        <h2 className="text-secondary mb-4">Edit Profile</h2>
         <Form onSubmit={handleSubmit(updateProfile)}>
           <Field
             name="displayName"

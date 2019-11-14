@@ -13,8 +13,6 @@ import { connect } from "react-redux";
 import UserChatForm from "./UserChatForm";
 import { objectToArrayDesc } from "../../../app/common/util/helpers";
 import { NavLink, Link, Switch, Route, Redirect } from "react-router-dom";
-import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
-import UnAuthDashboard from "../../../app/layout/nav/Navbar/UnAuthDashboard";
 const mapState = (state, ownProps) => {
   return {
     auth: state.firebase.auth,
@@ -39,6 +37,7 @@ class UserChatsPage extends Component {
       setCurrentSeenTrue(chat);
     }
   };
+
   render() {
     const { handleSeen } = this;
     const { addChatComment, userChat, auth, deleteChat } = this.props;
@@ -193,7 +192,6 @@ class UserChatsPage extends Component {
             </Card>
           </Col>
         </Row>
-        {auth.uid ? <AuthDashboard auth={auth} /> : <UnAuthDashboard />}
       </div>
     );
   }
@@ -201,10 +199,7 @@ class UserChatsPage extends Component {
 
 export default compose(
   withFirestore,
-  connect(
-    mapState,
-    actions
-  )
+  connect(mapState, actions)
   // withFirebase
   // firebaseConnect(props => [`user_chat/${props.match.params.userId}`])
 )(UserChatsPage);

@@ -12,8 +12,6 @@ import InfiniteScroll from "react-infinite-scroller";
 import SearchResultPage from "../../search/SearchResultPage";
 import { openModal } from "../../modals/modalActions";
 import ListingDashboardSkeleton from "../../../app/layout/ListingDashboardSkeleton";
-import UnAuthDashboard from "../../../app/layout/nav/Navbar/UnAuthDashboard";
-import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
 
 const mapState = state => ({
   listings: state.listings,
@@ -34,46 +32,46 @@ class ListingDashboard extends Component {
     loadedListings: []
   };
 
-  // async componentDidMount() {
-  //   let next = await this.props.getListingsForDashboard();
-  //   // console.log(next);
-  //   if (next && next.docs.length > 1) {
-  //     this.setState({
-  //       moreListings: true,
-  //       loadingInitial: false
-  //     });
-  //   }
-  //   const { loadedListings } = this.state;
+  async componentDidMount() {
+    let next = await this.props.getListingsForDashboard();
+    // console.log(next);
+    if (next && next.docs.length > 1) {
+      this.setState({
+        moreListings: true,
+        loadingInitial: false
+      });
+    }
+    const { loadedListings } = this.state;
 
-  //   //check if listings are loaded if not reload page
-  //   window.setTimeout(function() {
-  //     if (loadedListings.length === 0) {
-  //       // console.log("00000");
-  //       window.location.reload();
-  //     }
-  //   }, 9000);
-  // }
+    //check if listings are loaded if not reload page
+    window.setTimeout(function() {
+      if (loadedListings.length === 0) {
+        // console.log("00000");
+        window.location.reload();
+      }
+    }, 9000);
+  }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.listings !== nextProps.listings) {
-  //     this.setState({
-  //       loadedListings: [...this.state.loadedListings, ...nextProps.listings]
-  //     });
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.listings !== nextProps.listings) {
+      this.setState({
+        loadedListings: [...this.state.loadedListings, ...nextProps.listings]
+      });
+    }
+  }
 
-  // getNextListings = async () => {
-  //   const { listings } = this.props;
-  //   let lastListing = listings && listings[listings.length - 1];
-  //   // console.log(lastListing);
-  //   let next = await this.props.getListingsForDashboard(lastListing);
-  //   // console.log(next);
-  //   if (next && next.docs && next.docs.length <= 1) {
-  //     this.setState({
-  //       moreListings: false
-  //     });
-  //   }
-  // };
+  getNextListings = async () => {
+    const { listings } = this.props;
+    let lastListing = listings && listings[listings.length - 1];
+    // console.log(lastListing);
+    let next = await this.props.getListingsForDashboard(lastListing);
+    // console.log(next);
+    if (next && next.docs && next.docs.length <= 1) {
+      this.setState({
+        moreListings: false
+      });
+    }
+  };
 
   handleSignIn = () => {
     this.props.openModal("LoginModal");
@@ -107,7 +105,7 @@ class ListingDashboard extends Component {
         {/* <SearchResultPage /> */}
         <Banner />
         <div className="margin-top-app"></div>
-        {/* <InfiniteScroll
+        <InfiniteScroll
           pageStart={0}
           loadMore={this.getNextListings}
           hasMore={!loading && moreListings}
@@ -130,12 +128,6 @@ class ListingDashboard extends Component {
               ))}
           </div>
         </InfiniteScroll>
- */}
-        {authenticated ? (
-          <AuthDashboard auth={auth} openModal={openModal} />
-        ) : (
-          <UnAuthDashboard openModal={openModal} />
-        )}
       </div>
     );
   }
@@ -146,7 +138,4 @@ class ListingDashboard extends Component {
 //   actions
 // )(firestoreConnect([{ collection: "listings" }])(ListingDashboard));
 
-export default connect(
-  mapState,
-  actions
-)(ListingDashboard);
+export default connect(mapState, actions)(ListingDashboard);
