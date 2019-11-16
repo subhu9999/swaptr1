@@ -21,14 +21,12 @@ class UserOptions extends Component {
     this.props.history.push("/");
   };
   render() {
-    const { auth, profile } = this.props;
+    const { profile } = this.props;
     const { signOut } = this;
     return (
       <div>
         <NavbarAlt goHome={this.goBack} />
-        {/* <button className="btn mt-4" onClick={() => this.goBack()}>
-          <i className="fas fa-chevron-left fa-2x"></i>
-        </button> */}
+
         <div className="margin-top-user-options">
           <img
             src={profile.photoURL || "/assets/default-user.png"}
@@ -40,21 +38,13 @@ class UserOptions extends Component {
           </span>
         </div>
         <li className="divider dropdown-divider" />
-        <li className="user-options-mobile dropdown mt-0">
-          <Link to="/notifications" className="mt-0 btn ">
+        <li className="user-options-mobile dropdown mt-0 ">
+          <button to="/notifications" className="mt-0 btn text-muted" disabled>
             <i className="fas fa-bell fa-lg" />
 
             <span style={{ marginLeft: "7px" }}>Notifications</span>
-          </Link>
+          </button>
         </li>
-        {/* <li className="user-options-mobile dropdown">
-            <Link to="/editProfile" className=" btn text-light">
-              <button className="nav-link btn text-light">
-                <i className="far fa-id-card fa-lg" />
-                <span style={{ marginLeft: "7px" }}>Edit Profile</span>
-              </button>
-            </Link>
-          </li> */}
         <li className="user-options-mobile dropdown">
           <Link to="/settings" className=" btn">
             <i className="fas fa-cog fa-lg"></i>
@@ -64,8 +54,14 @@ class UserOptions extends Component {
         </li>
         <li className="user-options-mobile dropdown">
           <Link to="/" className=" btn">
+            <i className="far fa-file-alt fa-lg"></i>
+            <span style={{ marginLeft: "7px" }}>Terms & Conditions</span>
+          </Link>
+        </li>
+        <li className="user-options-mobile dropdown">
+          <Link to="/" className=" btn">
             <i className="far fa-question-circle fa-lg"></i>
-            <span style={{ marginLeft: "7px" }}>Help & Support</span>
+            <span style={{ marginLeft: "7px" }}>Help / Contact us</span>
           </Link>
         </li>
         <li className="divider dropdown-divider" />

@@ -63,7 +63,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-expand-md navbar-light nav-background fixed-top ">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/swaptr1.appspot.com/o/public%2FSwaptr%20BW%20crop.png?alt=media&token=8a978777-2f40-42ee-a281-78620af43b53"
+          src={"/assets/swaptr-logo-alt.png"}
           alt=""
           className="navbar-logo-alt"
         />
@@ -85,7 +85,7 @@ class Navbar extends Component {
         <a href="/" className="navbar-brand mr-0 mr-md-2">
           {/* <i className="fab fa-sellcast fa-2x text-white" /> */}
           <img
-            src="https://firebasestorage.googleapis.com/v0/b/swaptr1.appspot.com/o/public%2FSwaptr%20BW%20-%20Logo.png?alt=media&token=b46ed008-aec8-47b1-a275-dad1cdfc833f"
+            src={"/assets/swaptr-logo.png"}
             alt=""
             className="navbar-logo "
           />

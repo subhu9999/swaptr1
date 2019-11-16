@@ -98,7 +98,9 @@ class UserChatsPage extends Component {
                         )}
                       </Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
-                        Card Subtitle
+                        {chat.comments &&
+                          chat.comments.length > 0 &&
+                          chat.comments[chat.comments.length - 1].text}
                       </Card.Subtitle>
                     </Card.Body>
                   </NavLink>

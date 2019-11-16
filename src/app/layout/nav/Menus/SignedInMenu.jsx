@@ -29,9 +29,9 @@ const SignedInMenu = ({
           </Link>
         </li>
         <li className="nav-item">
-          <button className="nav-link btn messages text-light mt-2">
+          <button className="nav-link btn messages text-light mt-2" disabled>
             <i className="fas fa-bell fa-lg" />
-            <span className="badge">3</span>
+            {/* <span className="badge">3</span> */}
           </button>
         </li>
 
@@ -71,6 +71,21 @@ const SignedInMenu = ({
                 Settings
               </Link>
             </li>
+
+            <li>
+              <Link to="/" className="dropdown-item signedInList">
+                <i className="far fa-file-alt fa-lg mr-1"></i>
+                Terms & Conditions
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/" className="dropdown-item signedInList">
+                <i className="far fa-question-circle fa-lg mr-1"></i>
+                Help / Contact us
+              </Link>
+            </li>
+
             <li className="divider dropdown-divider" />
             <li>
               <button onClick={signOut} className="dropdown-item signedInList">
@@ -138,15 +153,15 @@ const SignedInMenu = ({
           </Link>
         </li>
         <li className="nav-item dropdown mt-0">
-          <Link
-            to="/notifications"
+          <button
             className="mt-0 btn text-light btn messages text-light"
+            disabled
           >
             <i className="fas fa-bell fa-lg" />
-            <span className="badge">3</span>
+            {/* <span className="badge">3</span> */}
 
             <span style={{ marginLeft: "7px" }}>Notifications</span>
-          </Link>
+          </button>
         </li>
         {/* <li className="nav-item dropdown">
           <Link to="/editProfile" className=" btn text-light">

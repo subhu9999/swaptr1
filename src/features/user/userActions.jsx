@@ -336,7 +336,8 @@ export const addChatComment = (chat, values, swapListing) => async (
       ...chat,
       comments: comments,
       seen: true,
-      currentSeen: true
+      currentSeen: true,
+      date: Date.now()
     });
     // //update chat seen to false & receiver last seen date n comment in rceiver -- use user.uid to change receiverUid everytime
     await firebase.set(`user_chat/${chat.receiverUid}/${chat.id}`, {
@@ -347,7 +348,8 @@ export const addChatComment = (chat, values, swapListing) => async (
       receiverUid: user.uid,
       receiverName: user.displayName,
       receiverPic: user.photoURL,
-      receiverLastSeen: Date.now()
+      receiverLastSeen: Date.now(),
+      date: Date.now()
     });
     // dispatch(addChatCommentReceiver(chat, values));
   } catch (error) {

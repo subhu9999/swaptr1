@@ -56,15 +56,4 @@ class AuthDashboard extends Component {
   }
 }
 
-// export default withRouter(
-//   compose(
-//     withFirebase,
-//     connect(
-//       mapState,
-//       actions
-//     ),
-//     firebaseConnect(props => [`user_chat/${props.auth.uid}`])
-//   )(Navbar)
-// );
-
 export default AuthDashboard;
