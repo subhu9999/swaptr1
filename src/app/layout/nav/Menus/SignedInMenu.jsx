@@ -73,9 +73,16 @@ const SignedInMenu = ({
             </li>
 
             <li>
-              <Link to="/" className="dropdown-item signedInList">
+              <Link to="/termsOfService" className="dropdown-item signedInList">
                 <i className="far fa-file-alt fa-lg mr-1"></i>
-                Terms & Conditions
+                Terms Of Service
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/privacyPolicy" className="dropdown-item signedInList">
+                <i className="far fa-file-alt fa-lg mr-1"></i>
+                Privacy Policy
               </Link>
             </li>
 
@@ -190,7 +197,7 @@ const SignedInMenu = ({
             href="/"
             to="/createListing"
           >
-            Swap2
+            Swaptr
           </NavLink>
         </li>
       </ul>

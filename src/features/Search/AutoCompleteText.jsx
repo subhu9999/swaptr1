@@ -59,7 +59,7 @@ export default class AutoCompleteText extends Component {
       text: value,
       suggestions: []
     }));
-    this.props.searchSuggestion(value);
+    // this.props.searchSuggestion(value);
   };
 
   enterPressed = event => {

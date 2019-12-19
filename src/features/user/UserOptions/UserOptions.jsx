@@ -53,9 +53,15 @@ class UserOptions extends Component {
           </Link>
         </li>
         <li className="user-options-mobile dropdown">
-          <Link to="/" className=" btn">
+          <Link to="/termsOfService" className=" btn">
             <i className="far fa-file-alt fa-lg"></i>
-            <span style={{ marginLeft: "7px" }}>Terms & Conditions</span>
+            <span style={{ marginLeft: "7px" }}>Terms Of Service</span>
+          </Link>
+        </li>
+        <li className="user-options-mobile dropdown">
+          <Link to="/privacyPolicy" className=" btn">
+            <i className="far fa-file-alt fa-lg"></i>
+            <span style={{ marginLeft: "7px" }}>Privacy Policy</span>
           </Link>
         </li>
         <li className="user-options-mobile dropdown">

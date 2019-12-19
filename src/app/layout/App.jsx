@@ -16,6 +16,8 @@ import { UserIsAuthenticated } from "../../features/auth/authWrapper";
 import { Offline } from "react-detect-offline";
 import OfflineModal from "../../features/modals/OfflineModal";
 import UserOptions from "../../features/user/UserOptions/UserOptions";
+import PrivacyPolicy from "../../features/terms/PrivacyPolicy";
+import TermsOfService from "../../features/terms/TermsOfService";
 
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
@@ -65,6 +67,8 @@ class App extends Component {
               component={AlgoliaListings}
             />
 
+            <Route path="/termsOfService" component={TermsOfService} />
+            <Route path="/privacyPolicy" component={PrivacyPolicy} />
             <Route path="/test" component={TestComponent} />
           </Switch>
         </div>
