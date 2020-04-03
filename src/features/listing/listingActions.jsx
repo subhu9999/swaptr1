@@ -15,7 +15,7 @@ export const createListing = listing => {
     const user = firebase.auth().currentUser;
     // const sellerProfilePic = getState().firebase.profile.photoURL;
     const sellerDetails = {
-      sellerPhoneNumber: getState().firebase.profile.phoneNumber || "0000",
+      // sellerPhoneNumber: getState().firebase.profile.phoneNumber || "0000",
       sellerProfilePic: getState().firebase.profile.photoURL
     };
     // console.log(user);

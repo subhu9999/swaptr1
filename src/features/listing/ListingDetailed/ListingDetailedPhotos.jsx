@@ -1,6 +1,14 @@
-import React from "react";
+import React,{useState} from "react";
 
 const ListingDetailedPhotos = ({ listing }) => {
+  const [error,setError] = useState(false)
+
+  const onError=() => {
+    if(!error){
+      setError(true)
+    console.log('erro')
+    }
+  }
   return (
     <div>
       <div
@@ -51,8 +59,9 @@ const ListingDetailedPhotos = ({ listing }) => {
                     className="d-block w-100 listing-detailed-img"
                     // src={listingPhoto || "/assets/swaptr-listing.jpg"}
 
-                    src={image.imageURL}
+                    src={error ? "/assets/swaptr-listing.jpg" : image.imageURL}
                     alt={image.imageURL}
+                    onError={onError}
                   />
                 </div>
               );
@@ -116,8 +125,9 @@ const ListingDetailedPhotos = ({ listing }) => {
                 data-slide-to={index}
                 className={classes}
                 // src={listing.listingMainPhoto}
-                src={image.imageURL}
+                src={error ? "/assets/swaptr-listing.jpg" :image.imageURL}
                 alt={image.imageURL}
+                onError={onError}
               />
             );
           })}

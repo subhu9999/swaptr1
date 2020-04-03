@@ -352,7 +352,7 @@ class ListingForm extends Component {
 
                         <i className=" fas fa-camera fa-3x m-2" />
                         <br />
-                        <span className="m-2">Upload Photos</span>
+                        <span className="m-2">Click To Upload Photos</span>
                       </div>
                     </section>
                   )}

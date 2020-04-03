@@ -74,7 +74,7 @@ export const createNewListing = (user, sellerDetails, listing) => {
     filterCity: filterCity,
     sellerUid: user.uid,
     sellerName: user.displayName,
-    sellerPhoneNumber: sellerDetails.sellerPhoneNumber,
+    // sellerPhoneNumber: sellerDetails.sellerPhoneNumber,
     sellerProfilePic:
       sellerDetails.sellerProfilePic || "/assets/default-user.png",
     created: Date.now(),

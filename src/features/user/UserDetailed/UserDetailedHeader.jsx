@@ -9,7 +9,7 @@ export default function UserDetailedHeader({
   // handleSignIn
 }) {
   let joiningDate = "NAN";
-  if (userProfile) {
+  if (userProfile && userProfile.createdAt) {
     joiningDate = format(userProfile.createdAt.toDate(), "MMM YYYY");
   }
   return (

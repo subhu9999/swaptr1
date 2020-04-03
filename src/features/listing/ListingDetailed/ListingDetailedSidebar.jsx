@@ -42,12 +42,12 @@ class ListingDetailedSidebar extends Component {
     const { listing, auth, openModal, addUserChat } = this.props;
     // console.log(auth.uid);
 
-    let phoneNumber;
-    if (listing.showNumber) {
-      phoneNumber = listing.sellerPhoneNumber;
-    } else {
-      phoneNumber = "-----";
-    }
+    // let phoneNumber;
+    // if (listing.showNumber) {
+    //   phoneNumber = listing.sellerPhoneNumber;
+    // } else {
+    //   phoneNumber = "-----";
+    // }
     let listingMainImage;
     if (listing && listing.images && listing.images[0].imageURL) {
       listingMainImage = listing.images[0].imageURL;
@@ -59,7 +59,7 @@ class ListingDetailedSidebar extends Component {
       listingTitle: listing.title,
       listingPhoto: listingMainImage || "/assets/swaptr-listing.jpg",
       receiverName: listing.sellerName,
-      sellerPhoneNumber: listing.sellerPhoneNumber,
+      // sellerPhoneNumber: listing.sellerPhoneNumber,
       receiverPic: listing.sellerProfilePic,
       receiverUid: listing.sellerUid
     };
@@ -151,7 +151,7 @@ class ListingDetailedSidebar extends Component {
             ) : (
               chatOrEdit
             )}
-            <div className="container row justify-content-center">
+            {/* <div className="container row justify-content-center">
               <i className="fas fa-mobile-alt fa-lg mr-2 h4 mt-3" />
 
               {auth.isEmpty ? (
@@ -166,11 +166,10 @@ class ListingDetailedSidebar extends Component {
                 </span>
               ) : (
                 <span className="font-weight-bold h5 mr-2 mt-2">
-                  {/* {listing.sellerPhoneNumber} */}
                   {phoneNumber}
                 </span>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

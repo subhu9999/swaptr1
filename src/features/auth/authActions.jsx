@@ -133,7 +133,7 @@ export const socialLogin = selectedProvider => async (
         photoURL: user.profile.avatarUrl,
         createdAt: firestore.FieldValue.serverTimestamp()
       });
-      dispatch(openModal("PhoneNumberModal"));
+      // dispatch(openModal("PhoneNumberModal"));
     } else {
       toastr.info("Welcome Back !", `logged in as ${user.profile.displayName}`);
     }

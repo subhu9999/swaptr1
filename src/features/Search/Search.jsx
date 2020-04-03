@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import "./Search.css";
-import LocationInputSearch from "./LocationInputSearch";
+import AutoCompleteLocation from './AutoCompleteLocation';
+// import LocationInputSearch from "./LocationInputSearch";
 // import ProductInputSearch from "./ProductInputSearch";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm
+  // , Field 
+} from "redux-form";
 import { connect } from "react-redux";
 // import { isRequired, combineValidators } from "revalidate";
 import { withRouter } from "react-router-dom";
@@ -50,7 +53,11 @@ class Search extends Component {
     return (
       <div className="row no-gutters">
         <div className="col-3 col-md-3 location-search">
-          <form className="form ml-3-md mr-1">
+          <AutoCompleteLocation 
+          keywords={keywords}
+          searchSuggestion={searchSuggestion}
+          />
+          {/* <form className="form ml-3-md mr-1">
             <Field
               name="city"
               type="text"
@@ -62,10 +69,11 @@ class Search extends Component {
               placeholder="Enter Location"
               onSelect={this.onLocationSelect}
             />
-          </form>
+          </form> */}
+          
         </div>
         <div className="col-1 col-md-1">
-          <div className="location-input-marker rounded-0 bg-light">
+          <div className="location-input-marker rounded-0">
             <i className="fa fa-map-marker-alt fa-2x text-danger" />
           </div>
         </div>

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 // TODO : check string remove number before string RegExp
-export default class AutoCompleteText extends Component {
+export default class AutoCompleteLocation extends Component {
   state = {
     suggestions: [],
     text: "",
@@ -59,7 +59,7 @@ export default class AutoCompleteText extends Component {
       text: value,
       suggestions: []
     }));
-    this.props.searchSuggestion(value);
+    // this.props.searchSuggestion(value);
   };
 
   enterPressed = event => {
@@ -74,11 +74,11 @@ export default class AutoCompleteText extends Component {
     }
   };
 
-  handleSearch = () => {
-    this.handleClickOutside();
+  // handleSearch = () => {
+  //   this.handleClickOutside();
     // closeNav();
     // console.log("clicke");
-  };
+  // };
 
   renderSuggestions = () => {
     const { suggestions, suggestionsVisible } = this.state;
@@ -103,7 +103,7 @@ export default class AutoCompleteText extends Component {
   render() {
     // const { closeNav } = this.props;
     const { text } = this.state;
-    const { handleSearch } = this;
+    // const { handleSearch } = this;
     return (
       <div
         className="auto-complete-div dropdown"
@@ -114,10 +114,10 @@ export default class AutoCompleteText extends Component {
           value={text}
           onChange={e => this.onTextChanged(e)}
           type="text"
-          placeholder="Search Products,Brands,Items..."
+          placeholder="Enter Location"
           onKeyUp={event => this.enterPressed(event)}
         />
-        <div className="search-icon">
+        {/* <div className="search-icon">
           {text ? (
             <Link
               to={`/search/${text}`}
@@ -129,7 +129,7 @@ export default class AutoCompleteText extends Component {
           ) : (
             <i className="btn fas fa-search text-dark mt-2" />
           )}
-        </div>
+        </div> */}
         {this.renderSuggestions()}
       </div>
     );

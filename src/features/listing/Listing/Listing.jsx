@@ -1,9 +1,20 @@
-import React from "react";
+import React,{useState} from "react";
 import "./Listing.css";
 import { Link } from "react-router-dom";
 import format from "date-fns/format";
 
 const Listing = ({ listing }) => {
+  const [error,setError] =useState(false);
+  const [src,setSrc] = useState(listing.images[0].imageURL);
+
+  const onError = () => {
+    if (!error) {
+      setSrc(`/assets/swaptr-listing.jpg`);
+      setError(true);
+    
+    }
+  }
+
   var title = "";
   if (listing.title.length > 20) {
     title = listing.title.substring(0, 20) + "...";
@@ -27,9 +38,10 @@ const Listing = ({ listing }) => {
       <div className=" listing">
         <Link to={`/listing/${listing.id}`}>
           <img
-            src={listing.images[0].imageURL || `/assets/swaptr-listing.jpg`}
+            src={src}
             alt="img"
             className="listing-img img-thumbnail"
+            onError={onError}
           />
           <h6 className="ml-1 listing-title">{title}</h6>
 

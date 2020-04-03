@@ -49,3 +49,4 @@ class LocationInputSearch extends Component {
 }
 
 export default LocationInputSearch;
+

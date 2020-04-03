@@ -12,10 +12,10 @@ const actions = {
 };
 
 class LoginModal extends Component {
-  openEmail = () => {
-    this.props.closeModal();
-    this.props.openModal("EmailModal");
-  };
+  // openEmail = () => {
+  //   this.props.closeModal();
+  //   this.props.openModal("EmailModal");
+  // };
 
   handleCloseModal = () => {
     // this.props.history.goBack();
@@ -40,7 +40,7 @@ class LoginModal extends Component {
         <Modal.Body className="justify-content-center">
           <SocialLogin socialLogin={socialLogin} />
 
-          <button
+          {/* <button
             className="btn btn-block btn-info rounded-0 mt-2 "
             onClick={() => this.openEmail()}
           >
@@ -48,7 +48,7 @@ class LoginModal extends Component {
             <span className="text-uppercase  font-weight-bold">
               CONTINUE WITH EMAIL
             </span>
-          </button>
+          </button> */}
         </Modal.Body>
       </Modal>
     );
