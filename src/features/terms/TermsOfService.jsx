@@ -17,7 +17,7 @@ export default class TermsOfService extends Component {
             &quot;our&quot;) and you (&quot;User&quot;, &quot;you&quot; or
             &quot;your&quot;). This Agreement sets forth the general terms and
             conditions of your use of the{" "}
-            <a target="_blank" rel="nofollow" href="https://swaptr.com">
+            <a target="_blank" rel="noopener noreferrer" href="https://swaptr.com">
               swaptr.com
             </a>{" "}
             website and any of its products or services (collectively,

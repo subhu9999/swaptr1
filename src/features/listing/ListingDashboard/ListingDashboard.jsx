@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import Listing from "../Listing/Listing";
 import Banner from "../../../app/layout/Banner/Banner";
 import Navbar from "../../../app/layout/nav/Navbar/Navbar";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
+// import LoadingComponent from "../../../app/layout/LoadingComponent";
 import ListingAd from "../../listing/Listing/ListingAd";
 import { getListingsForDashboard } from "../../listing/listingActions";
-import { Spinner } from "react-bootstrap";
+// import { Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
-import SearchResultPage from "../../search/SearchResultPage";
+// import SearchResultPage from "../../search/SearchResultPage";
 import { openModal } from "../../modals/modalActions";
 import ListingDashboardSkeleton from "../../../app/layout/ListingDashboardSkeleton";
 
@@ -86,7 +86,7 @@ class ListingDashboard extends Component {
   };
 
   render() {
-    const { loading, auth, openModal } = this.props;
+    const { loading, auth } = this.props;
     const { loadingInitial, loadedListings, moreListings } = this.state;
     const authenticated = auth.isLoaded && !auth.isEmpty;
     let loadingComponent;

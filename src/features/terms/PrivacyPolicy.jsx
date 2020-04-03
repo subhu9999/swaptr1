@@ -17,7 +17,7 @@ export default class PrivacyPolicy extends Component {
             personally identifiable information (&quot;Personal
             Information&quot;) you (&quot;User&quot;, &quot;you&quot; or
             &quot;your&quot;) may provide on the{" "}
-            <a target="_blank" rel="nofollow" href="https://swaptr.com">
+            <a target="_blank" rel="noopener noreferrer" href="https://swaptr.com">
               swaptr.com
             </a>{" "}
             website and any of its products or services (collectively,

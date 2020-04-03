@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Listing from "../../listing/Listing/Listing";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
-import ListingAdSearch from "../../listing/Listing/ListingAdSearch";
+// import LoadingComponent from "../../../app/layout/LoadingComponent";
+// import ListingAdSearch from "../../listing/Listing/ListingAdSearch";
 import { getListingsForSearch } from "../../listing/listingActions";
 import { Spinner } from "react-bootstrap";
 import {
@@ -12,7 +12,7 @@ import {
   connectRefinementList,
   connectHits,
   connectCurrentRefinements,
-  connectStateResults,
+  // connectStateResults,
   connectSearchBox
 } from "react-instantsearch-dom";
 
@@ -49,26 +49,26 @@ const SearchBox = ({ currentRefinement, isSearchStalled, refine }) => (
 
 const CustomSearchBox = connectSearchBox(SearchBox);
 
-const StateResults = ({ searchResults }) => {
-  const hasResults = searchResults && searchResults.nbHits !== 0;
-  const query = searchResults && searchResults.query;
-  return (
-    <div>
-      <div hidden={!hasResults} className="lead">
-        Showing Results For <i>"{query}"</i>
-      </div>
-      <div hidden={hasResults} className="lead">
-        <p>Oops... we didn't find anything that matches this search :( </p>Try
-        searching for Ads by selecting a location near you,{" "}
-        <div className="row mt-2">
-        </div>
-        <div className="row mt-4">
-          <ListingAdSearch />
-        </div>
-      </div>
-    </div>
-  );
-};
+// const StateResults = ({ searchResults }) => {
+//   const hasResults = searchResults && searchResults.nbHits !== 0;
+//   const query = searchResults && searchResults.query;
+//   return (
+//     <div>
+//       <div hidden={!hasResults} className="lead">
+//         Showing Results For <i>"{query}"</i>
+//       </div>
+//       <div hidden={hasResults} className="lead">
+//         <p>Oops... we didn't find anything that matches this search :( </p>Try
+//         searching for Ads by selecting a location near you,{" "}
+//         <div className="row mt-2">
+//         </div>
+//         <div className="row mt-4">
+//           <ListingAdSearch />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // const CustomStateResults = connectStateResults(StateResults);
 
@@ -94,12 +94,12 @@ const ClearRefinements = ({ items, refine, isMobile, closeNav }) => {
 
 const CustomClearRefinements = connectCurrentRefinements(ClearRefinements);
 
-const Sidebar = () => (
-  <div className="mt-2 mt-md-4 col-md-3 swaptr-refinements">
-    <CustomRefinementList attribute="filterCity" isMobile={false} />
-    <CustomClearRefinements isMobile={false} />
-  </div>
-);
+// const Sidebar = () => (
+//   <div className="mt-2 mt-md-4 col-md-3 swaptr-refinements">
+//     <CustomRefinementList attribute="filterCity" isMobile={false} />
+//     <CustomClearRefinements isMobile={false} />
+//   </div>
+// );
 
 const RefinementList = ({
   items,
@@ -188,22 +188,22 @@ class ListingNearby extends Component {
   render() {
     const { loading } = this.props;
     const {
-      loadingInitial,
-      loadedListings,
-      moreListings,
+      // loadingInitial,
+      // loadedListings,
+      // moreListings,
       showFilter
     } = this.state;
-    const { openNav, closeNav } = this;
-    let loadingComponent;
-    if (loadingInitial) {
-      loadingComponent = (
-        <div className="col-6 col-sm-6 col-md-4 col-lg-3">
-          <LoadingComponent />
-        </div>
-      );
-    } else {
-      loadingComponent = "";
-    }
+    const {  closeNav } = this;
+    // let loadingComponent;
+    // if (loadingInitial) {
+    //   loadingComponent = (
+    //     <div className="col-6 col-sm-6 col-md-4 col-lg-3">
+    //       <LoadingComponent />
+    //     </div>
+    //   );
+    // } else {
+    //   loadingComponent = "";
+    // }
     const { searchTerm } = this.state;
     // console.log(searchTerm);
     let filterOverlay;

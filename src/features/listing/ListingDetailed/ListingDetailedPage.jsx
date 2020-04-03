@@ -9,10 +9,10 @@ import ListingDetailedBody from "./ListingDetailedBody";
 import { openModal } from "../../modals/modalActions";
 import { withFirestore } from "react-redux-firebase";
 import { toastr } from "react-redux-toastr";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
+// import LoadingComponent from "../../../app/layout/LoadingComponent";
 import Skeleton from "react-loading-skeleton";
 import ListingNearby from "../ListingDashboard/ListingNearby";
-import SearchResultPage from "../../search/SearchResultPage";
+// import SearchResultPage from "../../search/SearchResultPage";
 import { addUserChat } from "../../user/userActions";
 import ListingDetailedShare from "./ListingDetailedShare";
 

@@ -101,7 +101,7 @@ export default class AutoCompleteText extends Component {
   };
 
   render() {
-    const { closeNav } = this.props;
+    // const { closeNav } = this.props;
     const { text } = this.state;
     const { handleSearch } = this;
     return (

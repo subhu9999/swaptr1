@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./SwapListing.css";
-import { Link } from "react-router-dom";
-import format from "date-fns/format";
+// import { Link } from "react-router-dom";
+// import format from "date-fns/format";
 import { toastr } from "react-redux-toastr";
 
 export default class SwapListing extends Component {
@@ -35,10 +35,10 @@ export default class SwapListing extends Component {
   render() {
     const {
       listing,
-      currentListing,
-      auth,
-      addUserChat,
-      chatDetails
+      // currentListing,
+      // auth,
+      // addUserChat,
+      // chatDetails
     } = this.props;
     var title = "";
     if (listing.title.length > 10) {

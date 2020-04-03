@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Script from "react-load-script";
 import Navbar from "../../app/layout/nav/Navbar/Navbar";
-import format from "date-fns/format";
+// import format from "date-fns/format";
 
 import "./TestComponent.css";
 import PlacesAutocomplete, {
@@ -18,14 +18,14 @@ import "cropperjs/dist/cropper.css";
 import { uploadProfileImage } from "../user/userActions";
 import { toastr } from "react-redux-toastr";
 import cuid from "cuid";
-import {
-  InstantSearch,
-  SearchBox,
-  Hits,
-  Highlight
-} from "react-instantsearch-dom";
-import { Link } from "react-router-dom";
-import AutoCompleteText from "../search/AutoCompleteText";
+// import {
+  // InstantSearch,
+  // SearchBox,
+  // Hits,
+  // Highlight
+// } from "react-instantsearch-dom";
+// import { Link } from "react-router-dom";
+import AutoCompleteText from '../search/AutoCompleteText';
 const LOCATION_API_KEY = process.env.REACT_APP_LOCATION_API_KEY;
 
 const scriptUrl =
@@ -39,7 +39,7 @@ const actions = {
   // uploadTest
 };
 
-const Hit = ({ hit }) => (
+// const Hit = ({ hit }) => (
   // <Link to={`/listing/${hit.id}`}>
   //   <div className="hit">
   //     <div className="hit-image">
@@ -53,32 +53,32 @@ const Hit = ({ hit }) => (
   //     </div>
   //   </div>
   // </Link>
-  <Link to={`/listing/${hit.id}`}>
-    <img
-      src={hit.images[0].imageURL || `/assets/swaptr-listing.jpg`}
-      alt="img"
-      className="hit-image"
-    />
-    <h6 className="ml-1 listing-title">{hit.title}</h6>
+//   <Link to={`/listing/${hit.id}`}>
+//     <img
+//       src={hit.images[0].imageURL || `/assets/swaptr-listing.jpg`}
+//       alt="img"
+//       className="hit-image"
+//     />
+//     <h6 className="ml-1 listing-title">{hit.title}</h6>
 
-    <div className="ml-1 text-secondary text-uppercase text-location-date">
-      {hit.city}
-      <span className="text-muted mr-1 display-none" style={{ float: "right" }}>
-        {format(hit.created, "MMM DD")}
-      </span>
-    </div>
-  </Link>
-);
+//     <div className="ml-1 text-secondary text-uppercase text-location-date">
+//       {hit.city}
+//       <span className="text-muted mr-1 display-none" style={{ float: "right" }}>
+//         {format(hit.created, "MMM DD")}
+//       </span>
+//     </div>
+//   </Link>
+// );
 
-const Sidebar = () => <div id="left-column"></div>;
+// const Sidebar = () => <div id="left-column"></div>;
 
-const Content = () => (
-  <div id="right-column" className="">
-    <div className="mt-4 ">
-      <Hits hitComponent={Hit}></Hits>
-    </div>
-  </div>
-);
+// const Content = () => (
+//   <div id="right-column" className="">
+//     <div className="mt-4 ">
+//       <Hits hitComponent={Hit}></Hits>
+//     </div>
+//   </div>
+// );
 class TestComponent extends Component {
   state = {
     address: "",

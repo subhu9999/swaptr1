@@ -9,8 +9,8 @@ import { connect } from "react-redux";
 import { userDetailedQuery } from "../userQueries";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { getUserListings, resetListing } from "../../listing/listingActions";
-import { Spinner } from "react-bootstrap";
-import { openModal } from "../../modals/modalActions";
+// import { Spinner } from "react-bootstrap";
+// import { openModal } from "../../modals/modalActions";
 import ListingDashboardSkeleton from "../../../app/layout/ListingDashboardSkeleton";
 // import LazyLoad from 'react-lazyload';
 

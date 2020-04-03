@@ -5,23 +5,23 @@ import { Helmet } from "react-helmet";
 class ListingDetailedBody extends Component {
   componentDidMount = () => {};
   render() {
-    const { listing, auth, addUserChat, openModal } = this.props;
-    let listingMainImage;
-    if (listing && listing.images && listing.images[0].imageURL) {
-      listingMainImage = listing.images[0].imageURL;
-    }
+    const { listing, auth} = this.props;
+    // let listingMainImage;
+    // if (listing && listing.images && listing.images[0].imageURL) {
+    //   listingMainImage = listing.images[0].imageURL;
+    // }
     // console.log(listingMainImage);
 
-    let chatOrEdit;
-    let chatDetails = {
-      listingId: listing.id,
-      listingTitle: listing.title,
-      listingPhoto: listingMainImage || "/assets/swaptr-listing.jpg",
-      receiverName: listing.sellerName,
-      sellerPhoneNumber: listing.sellerPhoneNumber,
-      receiverPic: listing.sellerProfilePic,
-      receiverUid: listing.sellerUid
-    };
+    // let chatOrEdit;
+    // let chatDetails = {
+    //   listingId: listing.id,
+    //   listingTitle: listing.title,
+    //   listingPhoto: listingMainImage || "/assets/swaptr-listing.jpg",
+    //   receiverName: listing.sellerName,
+    //   sellerPhoneNumber: listing.sellerPhoneNumber,
+    //   receiverPic: listing.sellerProfilePic,
+    //   receiverUid: listing.sellerUid
+    // };
 
     // if (auth.uid === listing.sellerUid) {
     //   chatOrEdit = (

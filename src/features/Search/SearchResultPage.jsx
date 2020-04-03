@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import Navbar from "../../app/layout/nav/Navbar/Navbar";
-import format from "date-fns/format";
+// import format from "date-fns/format";
 import cities from "./PopularCities";
 import { connect } from "react-redux";
 
 // import { firestoreConnect } from "react-redux-firebase";
 import Listing from "../listing/Listing/Listing";
-import Banner from "../../app/layout/Banner/Banner";
-import LoadingComponent from "../../app/layout/LoadingComponent";
+// import Banner from "../../app/layout/Banner/Banner";
+// import LoadingComponent from "../../app/layout/LoadingComponent";
 import ListingAdSearch from "../listing/Listing/ListingAdSearch";
 import { getListingsForSearch } from "../listing/listingActions";
 import { Spinner } from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroller";
+// import InfiniteScroll from "react-infinite-scroller";
 import {
   InstantSearch,
   Highlight,
@@ -243,12 +243,12 @@ class SearchResultPage extends Component {
   render() {
     const { loading } = this.props;
     const {
-      loadingInitial,
-      loadedListings,
-      moreListings,
+      // loadingInitial,
+      // loadedListings,
+      // moreListings,
       showFilter,
       loadingSkeleton,
-      defaultRefinement
+      // defaultRefinement
     } = this.state;
     // console.log(defaultRefinement);
 

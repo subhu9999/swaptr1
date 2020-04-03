@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./Search.css";
 import LocationInputSearch from "./LocationInputSearch";
-import ProductInputSearch from "./ProductInputSearch";
+// import ProductInputSearch from "./ProductInputSearch";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
-import { isRequired, combineValidators } from "revalidate";
+// import { isRequired, combineValidators } from "revalidate";
 import { withRouter } from "react-router-dom";
 import AutoCompleteText from "./AutoCompleteText";
 import keywords from "./SearchKeywords";

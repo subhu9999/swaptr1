@@ -1,12 +1,12 @@
-import { Row, Col, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Row, Col, Card } from "react-bootstrap";
+// import { Link } from "react-router-dom";
 import React from "react";
 import format from "date-fns/format";
 
 export default function UserDetailedHeader({
   userProfile,
-  auth,
-  handleSignIn
+  // auth,
+  // handleSignIn
 }) {
   let joiningDate = "NAN";
   if (userProfile) {

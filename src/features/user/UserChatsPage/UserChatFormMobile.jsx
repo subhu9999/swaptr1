@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Card, Row } from "react-bootstrap";
+import { Form, Card } from "react-bootstrap";
 import { Field, reduxForm } from "redux-form";
 import TextArea from "./TextArea";
 import cuid from "cuid";
@@ -70,9 +70,9 @@ class userChatFormMobile extends Component {
   };
 
   render() {
-    const { invalid, submitting, pristine, reset } = this.props;
+    const { invalid, submitting, pristine } = this.props;
     const { auth, match } = this.props;
-    const { handleDeleteChat, handleChatSubmit } = this;
+    const { handleDeleteChat } = this;
     const { userChat } = this.props;
     // console.log(userChat);
     let chat = "";

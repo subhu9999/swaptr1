@@ -1,6 +1,6 @@
 import React from "react";
 import "./LoadingComponent.css";
-import { Spinner } from "react-bootstrap";
+// import { Spinner } from "react-bootstrap";
 const LoadingComponent = () => {
   // return (
   //   <div className="d-flex justify-content-center loading-div">
