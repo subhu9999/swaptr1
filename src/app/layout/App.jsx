@@ -18,6 +18,7 @@ import OfflineModal from "../../features/modals/OfflineModal";
 import UserOptions from "../../features/user/UserOptions/UserOptions";
 import PrivacyPolicy from "../../features/terms/PrivacyPolicy";
 import TermsOfService from "../../features/terms/TermsOfService";
+// import assetlinks from '../../features/.well-known/assetlinks';
 
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
@@ -69,6 +70,7 @@ class App extends Component {
 
             <Route path="/termsOfService" component={TermsOfService} />
             <Route path="/privacyPolicy" component={PrivacyPolicy} />
+            {/* <Route path="/.well-known/assetlinks.json" component={assetlinks} /> */}
             <Route path="/test" component={TestComponent} />
           </Switch>
         </div>

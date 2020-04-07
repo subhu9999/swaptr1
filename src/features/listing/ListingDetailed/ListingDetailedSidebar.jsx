@@ -123,11 +123,11 @@ class ListingDetailedSidebar extends Component {
               <i className="fas fa-angle-right fa-2x float-right mt-4" />
               <p>View Profile</p>
 
-              <span className="fa fa-star checked" />
+              {/* <span className="fa fa-star checked" />
               <span className="fa fa-star checked" />
               <span className="fa fa-star checked" />
               <span className="fa fa-star" />
-              <span className="fa fa-star" />
+              <span className="fa fa-star" /> */}
             </Link>
           </div>
           <div className="card-footer text-muted ">

@@ -86,11 +86,11 @@ export default class AutoCompleteLocation extends Component {
       return null;
     }
     return (
-      <ul className=" dropdown-menu display-suggestions w-100">
+      <ul className=" dropdown-menu display-suggestions">
         {suggestions.map(suggestion => (
           <li
             key={suggestion}
-            className="dropdown-item auto-complete-suggestion"
+            className="dropdown-item location-suggestion p-2"
             onClick={() => this.suggestionSelected(suggestion)}
           >
             {suggestion}

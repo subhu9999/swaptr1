@@ -61,6 +61,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint-plugin-promise": "^4.2.1",
     "source-map-explorer": "^2.1.0"
   }
 }

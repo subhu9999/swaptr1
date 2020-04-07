@@ -77,6 +77,11 @@
 .auto-complete-suggestion {
   /* border-bottom: 1px solid grey; */
 }
+
+.location-suggestion {
+  /* border-bottom: 1px solid grey; */
+  font-size: small;
+}
 .auto-complete-suggestion:hover {
   cursor: pointer;
   background: #d7e1f5;

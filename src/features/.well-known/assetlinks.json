@@ -1,0 +1,9 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "Swaptr",
+      "package_name": "com.firebaseapp.swaptr1",
+      "sha256_cert_fingerprints":
+      ["CB:E3:92:EF:14:CD:65:D3:3A:82:8E:D0:95:67:18:09:4C:88:D3:22:B9:DA:57:C5:39:A9:9F:74:9C:5D:EB:E7"]
+    }
+  }]

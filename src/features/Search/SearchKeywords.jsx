@@ -1,220 +1,412 @@
-export default `Furniture
-Sofa & Dining
-Beds & Wardrobes
-Home Decor & Garden
-Kids Furniture
-Other Household Items
-beds
-cradle
-trundle bed
-cabinets
-cellarette
-court cupboard
-cupboard
-sideboard
-vargueno
-chairs and seating
-Barcelona chair
-basket chair
-bath chair
-bench
-Brewster chair
-Carver chair
-cathedra
-chaise longue
-cockfighting chair
-confidante
-couch
-Cromwellian chair
-curule chair
-faldstool
-farthingale chair
-Gainsborough chair
-inglenook
-klismos
-ladder-back chair
-love seat
-Morris chair
-ottoman
-pew
-platform rocker
-scissors chair
-settee
-settle
-stool
-taboret
-throne
-wainscot chair
-Windsor chair
-wing chair
-chests
-armoire
-bureau
-cassone
-chest of drawers
-coffer
-commode
-dresser
-wardrobe
-clocks
-Act of Parliament clock
-banjo clock
-bracket clock
-grandfather clock
-ogee clock
-pillar and scroll shelf clock
-desks
-bonheur du jour
-carrel
-davenport
-lectern
-prie-dieu
-rolltop desk
-secretary
-other
-bookcase
-whatnot
-tables
-cabriole leg (table part)
-candlestand
-Carlton House table
-console
-dressing table
-drop-leaf table
-drum table
-gateleg table
-gueridon
-highboy
-lowboy
-Parsons table
-Pembroke table
-tilt-top table
-tripod
-washstand
-Plates
-Bowls
-Serving platters
-Glasses
-Coffee mugs
-Wine glasses
-Utensils
-Tongs
-Spatulas
-Ladles and Skimmer
-Whisks
-Toaster oven
-Microwave
-Coffee Maker
-Coffee Grinder
-Kettle
-Blender
-Colander
-Salad spinner
-Trash can & bags
-Step stool
-Magnetic hooks – great for hanging things off the side of the refrigerator.
-Sponges
-Dish soap
-Drying rack
-Dish towels
-Napkins
-Paper Towels
-Aluminum foil, wax paper, plastic wrap, and parchment paper
-Plastic bags
-Ice cube trays
-Can opener
-Oven mits
-Mattress
-Bed frame
-Pillows
-Mattress pad
-Sheet sets
-Comforter + duvet cover
-Full length mirror
-Night stand
-Lamp
-Laundry hamper
-Trash can + bags
-Curtains
-Alarm clock – wake up light
-Under bed storage
-Fan + Space heater
-Hangers
-Door hooks
-Shoe rack
-Hanging shelves
-Shelf organizers
-Storage bins
-Door mirror
-Drawer organizers
-Large bins
-Shower curtain
-Curtain rod + hanging rings
-Shower caddy
-Hand soap
-Toothbrush holder
-Toilet paper
-Toilet brush
-Plunger
-Bath mats
-Bathroom scale
-Air freshener or candles
-Tissues
-Wash cloths
-Extension cords
-Surge protectors
-Tools
-Screwdrivers
-Hammer
-Box cutter
-Pliers
-Socket wrench set
-Drill
-Duct tape
-WD-40
-Office chair
-Desk
-Filing cabinet
-Bookshelf
-Table lamp
-Coat closet/Coat rack
-Air conditioning
-Air ioniser
-Appliance plug
-Aroma lamp
-Attic fan
-Bachelor griller
-Back boiler
-Beverage opener
-Box mangle
-Ceiling fan
-Central vacuum cleaner
-Clothes dryer
-Combo washer dryer
-Dish draining closet
-Dishwasher
-Domestic robot
-Comparison of domestic robots
-Drawer dishwasher
-EcoCute
-Electric water boiler
-Fan heater
-Flame supervision device
-Forced-air
-Futon dryer
-Garbage disposal unit
-Gas appliance
-Go-to-bed matchbox
-Hair dryer
-Hair iron
-Hob (hearth)
-Humidifier
-HVAC
-Icebox
-Internet refrigerator
-Clothes iron
-Kimatsu
-Kimchi refrigerator
-Mangle (machine)
-Manual vacuum cleaner
-Micathermic heater`.split("\n");
+const Keywords =[
+    'Antiques',
+    "Appliances",
+    "Arts",
+    "Auto",
+    "Baby",
+    "Bags",
+    "Bicycles",
+    "Books",
+    "Car",
+    "Electronics",
+    "Garden Accessories",
+    "Health & beauty",
+    "Household",
+    "Jewellery",
+    "Men's clothing & shoes",
+    "Mobile",
+    "Musical Instruments",
+    "Others",
+    "Pet supplies",
+    "Sport & outdoors",
+    "Tools",
+    "Toys",
+    "Vehicles",
+    "Women's clothing & shoes",
+    'Furniture',
+    'Sofa & Dining',
+    'Beds & Wardrobes',
+    'Home Decor & Garden',
+    'Kids Furniture',
+    'Other Household Items',
+    'beds',
+    'cradle',
+    'cabinets',
+    'cupboard',
+    'sideboard',
+    'chairs and seating',
+    'chair',
+    'bench',
+    'couch',
+    'commode',
+    'dresser',
+    'wardrobe',
+    'clocks',
+    'desks',
+    'other',
+    'bookcase',
+    'tables',
+    'candlestand',
+    'console',
+    'dressing table',
+    'drop-leaf table',
+    'tripod',
+    'washstand',
+    'Plates',
+    'Bowls',
+    'Serving platters',
+    'Glasses',
+    'Coffee mugs',
+    'Wine glasses',
+    'Utensils',
+    'Tongs',
+    'Toaster oven',
+    'Microwave',
+    'Coffee Maker',
+    'Coffee Grinder',
+    'Kettle',
+    'Blender',
+    'Salad spinner',
+    'Trash can & bags',
+    'Sponges',
+    'Drying rack',
+    'Dish towels',
+    'Napkins',
+    'Paper Towels',
+    'Plastic bags',
+    'Ice cube trays',
+    'Can opener',
+    'Oven mits',
+    'Mattress',
+    'Bed frame',
+    'Pillows',
+    'Mattress pad',
+    'Sheet sets',
+    'Full length mirror',
+    'Night stand',
+    'Lamp',
+    'Laundry hamper',
+    'Curtains',
+    'Alarm clock ',
+    'Fan',
+    'Hangers',
+    'Door hooks',
+    'Shoe rack',
+    'Hanging shelves',
+    'Shelf organizers',
+    'Storage bins',
+    'Door mirror',
+    'Drawer organizers',
+    'Large bins',
+    'Shower curtain',
+    'Shower caddy',
+    'Hand soap',
+    'Bath mats',
+    'Bathroom scale',
+    'Trash can + bags',
+    'Air freshener or candles',
+    'Tissues',
+    'Wash cloths',
+    'Extension cords',
+    'Surge protectors',
+    'Tools',
+    'Screwdrivers',
+    'Hammer',
+    'Box cutter',
+    'Socket wrench set',
+    'Drill',
+    'Duct tape',
+    'Office chair',
+    'Desk',
+    'Filing cabinet',
+    'Bookshelf',
+    'Table lamp',
+    'Coat closet/Coat rack',
+    'Air conditioning',
+    'Appliance plug',
+    'Aroma lamp',
+    'Attic fan',
+    'Griller',
+    'Beverage opener',
+    'Ceiling fan',
+    'Central vacuum cleaner',
+    'Clothes dryer',
+    'Combo washer dryer',
+    'Dishwasher',
+    'Fan heater',
+    'Gas appliance',
+    'Hair dryer',
+    'Hair iron',
+    'refrigerator',
+    ' iron box',
+    'vacuum cleaner',
+    'Ball Sports',
+    'baseball',
+    'basketball',
+    'tennis',
+    'badminton',
+    'bowling',
+    'cricket',
+    'dodgeball',
+    'football',
+    'golf',
+    'handball',
+    'hockey',
+    'horseball',
+    'ice hockey',
+    'kickball',
+    'paddle',
+    'polo',
+    'racquetball',
+    'rinkball',
+    'rounders',
+    'rugby',
+    'soccer',
+    'softball',
+    'squash',
+    'table tennis',
+    'volleyball',
+    'hiking',
+    'checkers',
+    'chess',
+    'mahjong',
+    'skates',
+    'skateboard',
+    'Air conditioner',
+    'Air purifier',
+    'Bachelor griller',
+    'Bed side lamp',
+    'Back boiler',
+    'Box mangle',
+    'Camcorder',
+    'Clothes iron',
+    'Computer',
+    'DVD player',
+    'Electric water boiler',
+    'Oven',
+    'Telephone',
+    'Television',
+    'Toaster and toaster ovens',
+    'Washing machine',
+    'Water cooker',
+    'Water purifier',
+    'Water heater',
+    'Solar water heater',
+    'Window fan',
+    'Waffle iron',
+    'All Furniture',
+    'Used Furniture',
+    'Refurbished Furniture',
+    'Brand New Furniture',
+    'Unboxed Furniture',
+    'Bed Room',
+    'Bed Sets',
+    'Mattresses',
+    'Bedside Tables',
+    'Dressing Tables',
+    'Wardrobes & Showcases',
+    'Almirahs',
+    'Living Room',
+    'Sofa Sets',
+    'Diwans',
+    'TV Units',
+    'Sofa Cum Bed',
+    'Recliners',
+    'Shoe Racks',
+    'Center Tables',
+    'Bean Bags',
+    'Folding Chairs',
+    'Plastic Chairs',
+    'Benches',
+    'Jhula',
+    'Swings',
+    'Dining Room',
+    'Dining Tables',
+    'Dining Chairs',
+    'Office Furniture',
+    'Office Chairs',
+    'Office Tables',
+    'Conference Tables',
+    'Computer Tables',
+    'Kids\' Furniture',
+    'Cradle & Cots',
+    'Chairs',
+    'Bar Furniture',
+    'Bar Units & Cabinets',
+    'Bar Chairs & Stools',
+    'Study Room',
+    'Book Shelves',
+    'Study Table',
+    'All Home & Lifestyle',
+    'Mobiles Phones',
+    'Refurbished Mobile',
+    'Used Mobiles',
+    'Unboxed Mobiles',
+    'Used Iphone 7',
+    'Used Iphone 6',
+    'Earphones',
+    'Memory Cards',
+    'Footwear',
+    'Bags & Luggage',
+    'Washing Machines',
+    'Godrej',
+    'Refrigerators',
+    'Televisions',
+    'Curved TV',
+    'Laptops',
+    'Desktops',
+    '2 In 1 Laptops',
+    'Playstation Consoles',
+    'Sony PS4',
+    'Sony PS3',
+    'XBox',
+    'Sony Playstation',
+    'Camera\'s',
+    'DSLR Camera',
+    'SLR Camera',
+    'Camera Accessories',
+    'Camera Lenses',
+    'Digital Cameras',
+    'Computer Accessories',
+    'Routers',
+    'CPU',
+    'RAM',
+    'Motherboard',
+    'Graphics Card',
+    'Home Theater',
+    'DVD & Blu-Ray Players',
+    'Projectors',
+    'External Hard Drives',
+    'Pen Drives',
+    'Printers & Inks',
+    'Printers',
+    'Scanners',
+    'All Electronics & Appliances',
+    'Single Door',
+    'Double Door',
+    'Multi Door',
+    'Stabilizers',
+    'Small Fridge',
+    'Air Conditioners',
+    'Split ACs',
+    'Window ACs',
+    'Coolers',
+    'Table Fans',
+    'Ceiling Fans',
+    'Kitchen Appliances',
+    'Water Purifiers',
+    'Mixer/Grinder/Juicer',
+    'Dish Washers',
+    'Electric Cookers',
+    'Coffee Makers',
+    'Gas Stoves',
+    'Electric Kettles',
+    'Electric Tandoor',
+    'Microwaves & OTG',
+    'Air Purifiers',
+    'Irons',
+    'Vacuum Cleaners',
+    'Sewing Machines',
+    'Room Heaters',
+    'Baby & Infants',
+    'Prams Walkers And Strollers',
+    'Bedding',
+    'Baby Carriers',
+    'Baby Car Seats',
+    'Baby High Chairs',
+    'Toys & Games',
+    'Games & Puzzles',
+    'Soft Toys',
+    'Toy Vehicles',
+    'Remote Control Toys',
+    'Educational Toys',
+    'Music Toys',
+    'Inflatable Toys',
+    'Lego & Building Blocks',
+    'Kids Learning',
+    'Kids Story Books',
+    'Kids Rhymes',
+    'Binoculars',
+    'Telescopes',
+    'Microscopes',
+    'Abacus',
+    'Kids\' Bicycles',
+    'Tricycles',
+    'Kids Bicycles',
+    'Kids Battery Car',
+    'Baby Products',
+    'Baby Feeding Items',
+    'Diapers And Nappies',
+    'Sports Equipment',
+    'Cricket Bat & Kit',
+    'Camping & Hiking',
+    'Football & Accessories',
+    'Pool & Snooker',
+    'Skating',
+    'Swimming',
+    'Treadmills',
+    'Bicycle & Accessories',
+    'Elliptical & Crosstrainers',
+    'Exercise Bikes',
+    'Dumbbells',
+    'Barbells',
+    'Books & Hobbies',
+    'Books & Magazines',
+    'Clothing',
+    'Watches',
+    'Jewellery',
+    'Fashion Accessories',
+    'Health & Beauty',
+    'Gifts & Stationary',
+    'Musical Instruments',
+    'Drums',
+    'Flute',
+    'Guitar',
+    'Harmonica',
+    'Keyboard & Synthesizers',
+    'Harmonium',
+    'Piano',
+    'Trumpet',
+    'Lamps Lanterns and Lamp Shades.',
+    'Wall Shelves',
+    'Mirrors',
+    'Carpets',
+    'Door Curtains',
+    'Window Curtains',
+    'Cushion Covers',
+    'Cushions',
+    'Chair Pads',
+    'Floor Mats',
+    'Throws',
+    'Towels',
+    'Screens & Dividers',
+    'Key Holders',
+    'Hard Drive (HDD)',
+    'Solid-State Drive (SSD)',
+    'Optical Drive ',
+    'Monitor',
+    'Keyboard',
+    'Mouse',
+    'Flash Drive',
+    'Printer',
+    'Speakers',
+    'External Hard Drive',
+    'Scanner',
+    'Projector',
+    'Webcam',
+    'Microphone',
+    'Router',
+    'Video Games',
+    'Air Pumps & Supplies',
+    'Aquarium Backgrounds',
+    'Aquarium Canopies & Hoods',
+    'Aquarium Chillers',
+    'Aquarium Filters',
+    'Aquarium Lighting & Supplies',
+    'Aquarium Timers',
+    'Aquatic Pest Control',
+    'Audio equipment',
+    'TV and DVD player']
+    
+    export default Keywords;
+    
