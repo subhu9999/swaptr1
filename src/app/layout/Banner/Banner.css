@@ -1,6 +1,23 @@
-.banner {
-  height: 30vh;
-  background: grey;
+.banner-large {
+  height: 190px;
+  /* height: 30vh; */
+  /* background: #2A65EA; */
   margin-top: 100px;
   margin-bottom: 2%;
+  /* object-fit: ; */
+  overflow: hidden;
+ justify-content: center;
+}
+
+.banner-small{
+  /* height: 250px; */
+  width: 350px;
+  background-color: aqua;
+}
+
+@media (max-width: 450px) {
+  .hide-banner{
+    display: none;
+  }
+  
 }

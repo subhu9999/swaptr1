@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 class ListingDetailedBody extends Component {
   componentDidMount = () => {};
   render() {
-    const { listing, auth} = this.props;
+    const { listing, auth } = this.props;
     // let listingMainImage;
     // if (listing && listing.images && listing.images[0].imageURL) {
     //   listingMainImage = listing.images[0].imageURL;
@@ -73,6 +73,10 @@ class ListingDetailedBody extends Component {
         </div>
         <div className="card">
           <div className="card-header font-weight-bold">
+            <div className="float-right font-weight-light">
+              <i className="fa fa-eye mr-1" />
+              <small className="text-secondary">29 views</small>
+            </div>
             {listing.title}
             {auth.uid === listing.sellerUid ? (
               <Link

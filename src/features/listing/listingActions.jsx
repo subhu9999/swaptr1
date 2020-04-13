@@ -24,11 +24,12 @@ export const createListing = listing => {
     console.log(newListing);
     try {
       let createdListing = await firestore.add("listings", newListing);
-      await firestore.set(`user_listings/${createdListing.id}_${user.uid}`, {
-        listingId: createdListing.id,
-        userUid: user.uid,
-        host: true
-      });
+
+      // await firestore.set(`user_listings/${createdListing.id}_${user.uid}`, {
+      //   listingId: createdListing.id,
+      //   userUid: user.uid,
+      //   host: true
+      // });
 
       return createdListing;
 
@@ -71,14 +72,15 @@ export const deleteListing = listingId => {
   return async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firebase = getFirebase();
     const firestore = firebase.firestore();
-    const user = firebase.auth().currentUser;
+    // const user = firebase.auth().currentUser;
     const listingsRef = firestore.collection("listings");
-    const userListingsRef = firestore.collection("user_listings");
+    // const userListingsRef = firestore.collection("user_listings");
 
     try {
       await listingsRef.doc(listingId).delete();
-      await userListingsRef.doc(`${listingId}_${user.uid}`).delete();
-
+      // await userListingsRef.doc(`${listingId}_${user.uid}`).delete();
+      //delete image in component
+      
       toastr.success("Success!", "your listing is DELETED !");
     } catch (error) {
       console.log(error);

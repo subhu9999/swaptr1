@@ -18,8 +18,8 @@ import OfflineModal from "../../features/modals/OfflineModal";
 import UserOptions from "../../features/user/UserOptions/UserOptions";
 import PrivacyPolicy from "../../features/terms/PrivacyPolicy";
 import TermsOfService from "../../features/terms/TermsOfService";
-// import assetlinks from '../../features/.well-known/assetlinks';
-
+// import RedirectToAsset from "../../features/.well-known/RedirectToAsset";
+import Admin from "../../features/admin/Admin";
 // TODO: Cap Firebase Data Query Usage
 class App extends Component {
   render() {
@@ -70,8 +70,17 @@ class App extends Component {
 
             <Route path="/termsOfService" component={TermsOfService} />
             <Route path="/privacyPolicy" component={PrivacyPolicy} />
-            {/* <Route path="/.well-known/assetlinks.json" component={assetlinks} /> */}
-            <Route path="/test" component={TestComponent} />
+            <Route
+              path="/.well-known/assetlinks.json"
+              component={() => {
+                window.location.href = "https://swaptr1.firebaseio.com/assetlinks.json";
+                return null;
+              }}
+              // component={RedirectToAsset}
+            />
+<Route path="/iamadmin" component={Admin} />
+
+<Route path="/test" component={TestComponent} />
           </Switch>
         </div>
       </div>
