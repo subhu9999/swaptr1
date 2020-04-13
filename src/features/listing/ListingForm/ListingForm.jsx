@@ -7,7 +7,7 @@ import {
   composeValidators,
   combineValidators,
   isRequired,
-  hasLengthGreaterThan
+  hasLengthGreaterThan,
 } from "revalidate";
 import { createListing, updateListing } from "../listingActions";
 
@@ -15,7 +15,7 @@ import {
   deleteImage,
   loadImages,
   resetImages,
-  uploadImages
+  uploadImages,
 } from "./tempImagesActions";
 import AdTitleInput from "./AdTitleInput";
 import LocationInput from "./LocationInput";
@@ -34,7 +34,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import {
   asyncActionStart,
   asyncActionError,
-  asyncActionFinish
+  asyncActionFinish,
 } from "../../async/asyncActions";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { withFirestore } from "react-redux-firebase";
@@ -42,7 +42,7 @@ import { Redirect } from "react-router";
 // import AuthDashboard from "../../../app/layout/nav/Navbar/AuthDashboard";
 
 // const REACT_APP_CLOUDINARY_API_KEY = process.env.REACT_APP_CLOUDINARY_API_KEY;
-const mapState = state => {
+const mapState = (state) => {
   let listing = {};
 
   return {
@@ -50,7 +50,7 @@ const mapState = state => {
     async: state.async,
     // TODO: add images reducer
     images: state.tempImages,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
@@ -64,25 +64,25 @@ const actions = {
   asyncActionFinish,
   asyncActionStart,
   loadImages,
-  resetImages
+  resetImages,
 };
 
 const validate = combineValidators({
   title: composeValidators(
     isRequired({ message: "The listing title is required" }),
     hasLengthGreaterThan(7)({
-      message: "Title needs to be atleast 8 characters"
+      message: "Title needs to be atleast 8 characters",
     })
   )(),
   city: isRequired({ message: "Location is important" }),
-  sellerUserName: isRequired({ message: "Lets us confirm your name !" })
+  sellerUserName: isRequired({ message: "Lets us confirm your name !" }),
 });
 
 //TODO: delete image files when browser is closed
 class ListingForm extends Component {
   state = {
     showNumber: true,
-    maxImages: 10
+    maxImages: 10,
     // images: []
   };
 
@@ -111,7 +111,7 @@ class ListingForm extends Component {
     }
   }
 
-  onFormSubmit = async values => {
+  onFormSubmit = async (values) => {
     let shareListing;
     let shareListingId;
     if (this.props.images.length <= 0) {
@@ -123,33 +123,33 @@ class ListingForm extends Component {
     let listingId = this.props.match.params.id;
     if (listingId) {
       const images = this.props.images;
-      const imagesData = images.map(image => {
+      const imagesData = images.map((image) => {
         return {
           imageURL: image.imageURL,
-          imageName: image.imageName
+          imageName: image.imageName,
         };
       });
       const updatedListing = {
         ...values,
         images: imagesData,
-        showNumber: this.state.showNumber
+        showNumber: this.state.showNumber,
       };
       this.props.updateListing(updatedListing, listingId);
       // console.log("updating...");
       this.props.history.goBack();
     } else {
       const images = this.props.images;
-      const imagesData = images.map(image => {
+      const imagesData = images.map((image) => {
         return {
           imageURL: image.imageURL,
-          imageName: image.imageName
+          imageName: image.imageName,
         };
       });
       // console.log(imagesData);
       const newListing = {
         ...values,
         images: imagesData,
-        showNumber: this.state.showNumber
+        showNumber: this.state.showNumber,
       };
       const createdListing = await this.props.createListing(newListing);
       // console.log(newListing);
@@ -161,13 +161,13 @@ class ListingForm extends Component {
     this.props.openModal("ShareModal", {
       id: shareListingId,
       listingImage: shareListing.images[0].imageURL,
-      title: shareListing.title
+      title: shareListing.title,
     });
   };
 
   toggleShowNumber = () => {
     this.setState({
-      showNumber: !this.state.showNumber
+      showNumber: !this.state.showNumber,
     });
   };
 
@@ -175,7 +175,9 @@ class ListingForm extends Component {
     if (this.props.images.length > 0) {
       //delete images if cancel clicked
       let deleteTokenImages;
-      deleteTokenImages = this.props.images.filter(image => image.deleteToken);
+      deleteTokenImages = this.props.images.filter(
+        (image) => image.deleteToken
+      );
       // send only images which have deleteToken
       // console.log(deleteTokenImages);
       this.props.openModal("CancelListingModal", deleteTokenImages);
@@ -219,7 +221,7 @@ class ListingForm extends Component {
   //     });
   // };
 
-  deleteSelection = image => {
+  deleteSelection = (image) => {
     try {
       this.props.deleteImage(image);
     } catch (error) {
@@ -273,11 +275,11 @@ class ListingForm extends Component {
   // });
   // };
 
-  uploadToFirebase = async compressedFile => {
+  uploadToFirebase = async (compressedFile) => {
     return await this.props.uploadImages(compressedFile);
   };
 
-  handleDrop = async rawFiles => {
+  handleDrop = async (rawFiles) => {
     //check current rawFiles Length and total rawFiles length
     //check remaining files length
     this.props.asyncActionStart();
@@ -291,11 +293,11 @@ class ListingForm extends Component {
       return;
     }
     // this.props.asyncActionStart();
-    rawFiles.forEach(async rawFile => {
+    rawFiles.forEach(async (rawFile) => {
       var options = {
         maxSizeMB: 0.3,
         maxWidthOrHeight: 700,
-        useWebWorker: true
+        useWebWorker: true,
       };
       try {
         const compressedFile = await imageCompression(rawFile, options);
@@ -341,7 +343,7 @@ class ListingForm extends Component {
                 </div>
               ) : (
                 <Dropzone
-                  onDrop={files => this.handleDrop(files)}
+                  onDrop={(files) => this.handleDrop(files)}
                   multiple={true}
                   accept="image/jpeg"
                 >
@@ -365,7 +367,7 @@ class ListingForm extends Component {
               <Row>
                 {images &&
                   images.length > 0 &&
-                  images.map(image => (
+                  images.map((image) => (
                     <div
                       className="col-6 col-md-3 margin-custom"
                       key={image.imageURL}
@@ -398,14 +400,21 @@ class ListingForm extends Component {
 
               <Field name="category" type="text" component={SelectInput} />
 
-              <Field
+              {/* <Field
                 name="city"
                 type="text"
                 component={LocationInput}
                 options={{
                   types: ["(regions)"],
-                  componentRestrictions: { country: "in" }
+                  componentRestrictions: { country: "in" },
                 }}
+                placeholder=""
+              /> */}
+
+              <Field
+                name="city"
+                type="text"
+                component={LocationInput}
                 placeholder=""
               />
               <Field
@@ -465,7 +474,7 @@ export default withFirestore(
       form: "listingForm",
       enableReinitialize: true,
       keepDirtyOnReinitialize: true,
-      validate
+      validate,
     })(ListingForm)
   )
 );

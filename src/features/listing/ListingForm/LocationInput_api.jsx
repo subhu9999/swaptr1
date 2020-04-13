@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-// import Script from "react-load-script";
-// import PlacesAutocomplete from "react-places-autocomplete";
+import Script from "react-load-script";
+import PlacesAutocomplete from "react-places-autocomplete";
 
-// const LOCATION_API_KEY = process.env.REACT_APP_LOCATION_API_KEY;
-// const scriptUrl =
-//   "https://maps.googleapis.com/maps/api/js?key=" +
-//   LOCATION_API_KEY +
-//   "&libraries=places";
+const LOCATION_API_KEY = process.env.REACT_APP_LOCATION_API_KEY;
+const scriptUrl =
+  "https://maps.googleapis.com/maps/api/js?key=" +
+  LOCATION_API_KEY +
+  "&libraries=places";
 
 const styles = {
   autocompleteContainer: {
@@ -18,10 +18,10 @@ class LocationInput extends Component {
   state = {
     scriptLoaded: false
   };
-//   handleScriptLoaded = () =>
-//     this.setState({
-//       scriptLoaded: true
-//     });
+  handleScriptLoaded = () =>
+    this.setState({
+      scriptLoaded: true
+    });
   render() {
     const {
       input,
@@ -33,13 +33,12 @@ class LocationInput extends Component {
     } = this.props;
     return (
       <div className="form-group ml-md-4">
-        {/* <Script url={scriptUrl} onLoad={this.handleScriptLoaded} /> */}
+        <Script url={scriptUrl} onLoad={this.handleScriptLoaded} />
         <label className="listing-form-label ">
           <span className="text-muted">
             <i className="fas fa-map-marker-alt fa-lg mr-1" />
             Location*
           </span>
-          
           {this.state.scriptLoaded && (
             <PlacesAutocomplete
               inputProps={{ ...input }}

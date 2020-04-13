@@ -10,7 +10,8 @@ import { connect } from "react-redux";
 // import { isRequired, combineValidators } from "revalidate";
 import { withRouter } from "react-router-dom";
 import AutoCompleteText from "./AutoCompleteText";
-import keywords from "./SearchKeywords";
+import locations from "./LocationKeywords";
+import keywords from './SearchKeywords';
 const mapState = state => {
   let searchInputs = {};
 
@@ -54,7 +55,7 @@ class Search extends Component {
       <div className="row no-gutters">
         <div className="col-3 col-md-3 location-search">
           <AutoCompleteLocation 
-          keywords={keywords}
+          keywords={locations}
           searchSuggestion={searchSuggestion}
           />
           {/* <form className="form ml-3-md mr-1">

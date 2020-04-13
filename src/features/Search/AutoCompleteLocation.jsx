@@ -59,7 +59,12 @@ export default class AutoCompleteLocation extends Component {
       text: value,
       suggestions: []
     }));
-    // this.props.searchSuggestion(value);
+
+  //extract last 2 words i.e town name & state
+  let testing = value.split(",").splice(-2);
+  let filterCity = testing[0] + " " + testing[1];
+// console.log(filterCity)
+    this.props.searchSuggestion(filterCity);
   };
 
   enterPressed = event => {

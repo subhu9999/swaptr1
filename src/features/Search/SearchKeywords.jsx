@@ -354,7 +354,6 @@ const Keywords =[
     'Books & Magazines',
     'Clothing',
     'Watches',
-    'Jewellery',
     'Fashion Accessories',
     'Health & Beauty',
     'Gifts & Stationary',
