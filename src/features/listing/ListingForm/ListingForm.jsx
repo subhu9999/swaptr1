@@ -410,6 +410,7 @@ class ListingForm extends Component {
                 }}
                 placeholder=""
               /> */}
+              {/* <LocationInput/> */}
 
               <Field
                 name="city"

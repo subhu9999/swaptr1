@@ -73,10 +73,12 @@ class ListingDetailedBody extends Component {
         </div>
         <div className="card">
           <div className="card-header font-weight-bold">
+            {listing.views &&
             <div className="float-right font-weight-light">
               <i className="fa fa-eye mr-1" />
-              <small className="text-secondary">29 views</small>
+              <small className="text-secondary">{listing.views} views</small>
             </div>
+  }
             {listing.title}
             {auth.uid === listing.sellerUid ? (
               <Link

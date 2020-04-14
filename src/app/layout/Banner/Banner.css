@@ -12,7 +12,7 @@
 .banner-small{
   /* height: 250px; */
   width: 350px;
-  background-color: aqua;
+  /* background-color: aqua; */
 }
 
 @media (max-width: 450px) {

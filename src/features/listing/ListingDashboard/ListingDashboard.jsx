@@ -52,10 +52,18 @@ class ListingDashboard extends Component {
     }, 9000);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.listings !== nextProps.listings) {
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.listings !== nextProps.listings) {
+  //     this.setState({
+  //       loadedListings: [...this.state.loadedListings, ...nextProps.listings]
+  //     });
+  //   }
+  // }
+
+  componentDidUpdate(prevProps){
+    if (this.props.listings !== prevProps.listings) {
       this.setState({
-        loadedListings: [...this.state.loadedListings, ...nextProps.listings]
+        loadedListings: [...this.state.loadedListings, ...this.props.listings]
       });
     }
   }

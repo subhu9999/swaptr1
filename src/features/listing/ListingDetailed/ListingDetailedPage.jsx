@@ -69,14 +69,14 @@ class ListingDetailedPage extends Component {
     // }, 9000);
   }
 
-  componentWillReceiveProps = async nextProps => {
-    if (this.props.match.params.id !== nextProps.match.params.id) {
+  componentDidUpdate= async prevProps =>{
+    if (this.props.match.params.id !== prevProps.match.params.id) {
       // window.location.reload();
       this.setState({
         loading: true
       });
 
-      const { firestore, match, history } = nextProps;
+      const { firestore, match, history } = this.props;
       let listing_id = match.params.id;
       let listing = await firestore.get(`listings/${match.params.id}`);
       if (!listing.exists) {
@@ -96,7 +96,36 @@ class ListingDetailedPage extends Component {
         loading: false
       });
     }
-  };
+  }
+
+  // componentWillReceiveProps = async nextProps => {
+  //   if (this.props.match.params.id !== nextProps.match.params.id) {
+  //     // window.location.reload();
+  //     this.setState({
+  //       loading: true
+  //     });
+
+  //     const { firestore, match, history } = nextProps;
+  //     let listing_id = match.params.id;
+  //     let listing = await firestore.get(`listings/${match.params.id}`);
+  //     if (!listing.exists) {
+  //       history.push("/");
+  //       toastr.error("Sorry", "No listing found");
+  //     }
+  //     // console.log(listing.data());
+  //     listing = listing.data();
+  //     this.setState({
+  //       listing: {
+  //         id: listing_id,
+  //         ...listing
+  //       }
+  //     });
+
+  //     this.setState({
+  //       loading: false
+  //     });
+  //   }
+  // };
 
   goBack = () => {
     this.props.history.goBack();

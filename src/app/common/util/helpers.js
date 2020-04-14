@@ -61,16 +61,17 @@ export const createNewListing = (user, sellerDetails, listing) => {
 
   let rawCity = listing.city;
   //remove india & space immediately after comma ,
-  let removeIndia = rawCity.replace(/\s*,\s*/g, ",").replace("India", "");
+  // let removeIndia = rawCity.replace(/\s*,\s*/g, ",").replace("India", "");
   // console.log(removeIndia);
 
   //extract last 2 words i.e town name & state
-  let testing = removeIndia.split(",").splice(-3);
+  let testing = rawCity.split(",").splice(-2);
   // console.log(testing);
   let filterCity = testing[0] + " " + testing[1];
   console.log(filterCity);
   return {
     ...listing,
+    views: 0,
     filterCity: filterCity,
     sellerUid: user.uid,
     sellerName: user.displayName,

@@ -9,9 +9,11 @@ export default class AutoCompleteText extends Component {
     suggestionsVisible: true
   };
 
-  componentWillMount = () => {
+  
+
+  componentDidMount = () =>{
     document.addEventListener("mousedown", this.handleClick, false);
-  };
+  }
 
   componentWillUnmount = () => {
     document.removeEventListener("mousedown", this.handleClick, false);
