@@ -15,6 +15,7 @@ import ListingNearby from "../ListingDashboard/ListingNearby";
 // import SearchResultPage from "../../search/SearchResultPage";
 import { addUserChat } from "../../user/userActions";
 import ListingDetailedShare from "./ListingDetailedShare";
+import {isMobile} from 'react-device-detect';
 
 const mapState = state => {
   // let listing = {};
@@ -44,6 +45,12 @@ class ListingDetailedPage extends Component {
   };
   async componentDidMount() {
     const { firestore, match, history } = this.props;
+  
+    //if mobile redirect to playstore
+    if (isMobile) {
+      window.location.assign('https://play.google.com/store/apps/details?id=com.firebaseapp.swaptr1')
+  }
+
     let listing_id = match.params.id;
     let listing = await firestore.get(`listings/${match.params.id}`);
     if (!listing.exists) {
