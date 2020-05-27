@@ -70,14 +70,7 @@ class App extends Component {
 
             <Route path="/termsOfService" component={TermsOfService} />
             <Route path="/privacyPolicy" component={PrivacyPolicy} />
-            <Route
-              path="/.well-known/assetlinks.json"
-              component={() => {
-                window.location.href = "https://swaptr1.firebaseio.com/assetlinks.json";
-                return null;
-              }}
-              // component={RedirectToAsset}
-            />
+           
 <Route path="/iamadmin" component={Admin} />
 
 <Route path="/test" component={TestComponent} />
